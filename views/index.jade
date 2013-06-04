@@ -1,0 +1,45 @@
+extends layout
+
+
+block page
+	div.navbar.navbar-fixed-top
+		div.navbar-inner
+			div.container
+				a.btn.btn-navbar(data-toggle="collapse", data-target=".nav-collapse")
+					span.fg-color-grayDark.icon-list-4
+				a.brand(href="#") Marwael - Cloud Sales Manager
+				div.nav-collapse
+					ul.nav.pull-right
+						li.active
+							a(href="/") Accueil
+						li
+							a(href="#") Contact
+
+						li
+							div.divider-vertical
+						li
+							div.btn-group
+								a.btn(href="#") 
+									i.icon-user-7.icon-white
+									|  #{session.firstname} #{session.lastname}
+								a.btn.dropdown-toggle(data-toggle="dropdown", href="#")
+									span.caret.fg-color-red
+								ul.dropdown-menu
+									li
+										a(href="#")
+											i.icon-pencil
+											|  Mon compte
+									li
+										a(href="#")
+											i.icon-pencil
+											|  Déconnexion
+									
+	block content
+
+
+
+
+
+
+block script	
+	

@@ -1,0 +1,107 @@
+extends ../../../views/index
+
+block content
+	.container(style="margin-top: 15px;")
+		div.header
+			a(href="/sales")
+				img(src="/images/backbutton24x24.png", style="margin-left:1%;")
+			span.section-title   Liste des clients
+		.row-fluid
+			div.well.input-append
+				input.span8(type="text", placeholder="Trouver un client par son nom")
+				button.btn Go
+		div#customers-container.row-fluid
+		br
+		.app-bar.fg-color-white
+			a#homeBtn(href="/").win-command
+				span.win-commandimage.win-commandring &#xe03f;
+				span.win-label Accueil
+			hr.win-command
+			button#addBtn.win-command
+				span.win-commandimage.win-commandring &#xe33c;
+				span.win-label Ajouter
+			button#deleteBtn.win-command.disabled
+				span.win-commandimage.win-commandring &#xe33b;
+				span.win-label Supprimer
+			hr.win-command
+			button#prevBtn.win-command.disabled
+				span.win-commandimage.win-commandring &#xe360;
+				span.win-label Page préc.
+			button#nextBtn.win-command
+				span.win-commandimage.win-commandring &#xe35c;
+				span.win-label Page suiv.
+	
+
+
+block script
+	script(src="http://code.jquery.com/jquery-1.10.1.min.js")
+	script(src="http://underscorejs.org/underscore-min.js") 
+	script(src="http://backbonejs.org/backbone-min.js")
+	//Templates
+	script#customer-template(type="text/template")
+			| <div id="<%=model._id%>" class="card"> 
+			|	<figure class="front">
+			|		<div class="bg-gradient-grayDark">
+			|			<div class="pull-right">
+			|				<span class="flip pull-left" id="flip-<%=model._id%>">Historique</span>
+			|			</div>
+			|			<div class="img"><img src="<%=model.logo%>"/></div>
+			|       </div>
+			|		<div class="text-inner">
+			|			<a  href="/sales/customerDetails/customer=<%=model._id%>" class="text-header"> <%=model.customerCode%> - <%=model.customerName%></a>
+			| 			<h6>suivi par : <%=model.customer_owner.name.first%> <%=model.customer_owner.name.last%></h6>
+			|		</div>
+			|		<div class="LI">
+			|			<div class="esw">
+			|				<span class="sr">
+			|					<span>CA:</span>
+			|					<span>107 €</span>
+			|				</span>
+			|			</div>
+			|			<div class="esw">
+			|				<span class="sr">
+			|					<span>Cible:</span>
+			|					<span>107€</span>
+			|				</span>
+			|			</div>
+			|		</div>
+			|   </figure>
+			|	<figure class="back"> 
+			|		<div class="pull-right close">
+			|			<span id="roll-<%-model._id%>" class="roll icon-x-altx-alt"></span>
+			|		</div>
+			|		<ul class="nav nav-list" style="height:100%; margin-left:10px;">
+			|					
+			|			<li class="nav-header"><i class="icon-docs"></i>Devis : 105</li>
+			|			<li><a href="/sales/quotations/<%-model._id%>/transformed"> Transformés : 50</a></li>
+			|			<li><a href="/sales/quotations/<%-model._id%>/rejected"> Rejetés : 50</a></li>
+			|			<li><a href="/sales/quotations/<%-model._id%>/pending"> En attente : 5</a></li>
+			|			<li class="nav-header"><i class="icon-notebook"></i> Factures : 50</li>
+			|			<li><a href="/sales/quotations/<%-model._id%>/transformed">Réglées : 30</a></li>
+			|			<li><a href="/sales/quotations/<%-model._id%>/transformed">En attente : 20</a></li>
+			|		</ul>
+			| 		
+			|		<!--<ul class="unstyled icon-docs" style="height:100%; margin-left:10px;">
+			|					
+			|			<li >Devis : 105
+			|				<ul>
+			|					<li><a href="/sales/quotations/<%-model._id%>/transformed"> Transformés : 50</a></li>
+			|					<li><a href="/sales/quotations/<%-model._id%>/rejected"> Rejetés : 50</a></li>
+			|					<li><a href="/sales/quotations/<%-model._id%>/pending"> En attente : 5</a></li>
+			|				</ul>
+			|			</li>
+			|			<li > Factures : 50
+			| 				<ul > 
+			|					<li><a href="/sales/quotations/<%-model._id%>/transformed">Réglées : 30</a></li>
+			|					<li><a href="/sales/quotations/<%-model._id%>/transformed">En attente : 20</a></li>
+			|				</ul>
+			|			</li>
+			|		</ul>-->
+			| 		
+			|   </figure>
+			| </div>	
+	script(src="/js/modules/sales/customers.js")
+
+			
+	
+	

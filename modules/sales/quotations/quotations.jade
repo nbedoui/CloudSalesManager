@@ -1,0 +1,55 @@
+extends ../../../views/index
+
+block content
+	#content 
+		header.page-header
+			a#back(href="/sales/customers/")
+				img(src="/images/backbutton24x24.png", style="margin-left:1%;")
+			span.section-title   Liste des devis
+
+		section.sub-content
+			span#customerName(style="display:block; margin-left:100px;") Client : #{customer}
+			.show-grid
+				span Liste des devis en attente
+				.row-fluid
+					.listview-container.grid-layout.bg-gradient-grayDark
+						each quotation, i in model
+							div(id="#{quotation.number}").first.tile.square.text.bg-gradient-blue
+								.text-header #{quotation.number}
+								.text #{quotation.reference}
+								.text Date : #{quotation.date}
+								.text.fg-color-orange #{quotation.amount} €
+								.text Statut : #{quotation.status}
+								.app-count #{i+1}
+		br
+		.app-bar.fg-color-white
+			a#homeBtn(href="/").win-command
+				span.win-commandimage.win-commandring &#xe03f;
+				span.win-label Accueil
+			hr.win-command
+			button#addBtn.win-command
+				span.win-commandimage.win-commandring &#xe33c;
+				span.win-label Ajouter
+			button#deleteBtn.win-command.disabled
+				span.win-commandimage.win-commandring &#xe33b;
+				span.win-label Supprimer
+			button#infosBtn.win-command.disabled
+				span.win-commandimage.win-commandring &#xe055;
+				span.win-label Détails 
+			hr.win-command
+			button#prevBtn.win-command.disabled
+				span.win-commandimage.win-commandring &#xe360;
+				span.win-label Page préc.
+			button#nextBtn.win-command
+				span.win-commandimage.win-commandring &#xe35c;
+				span.win-label Page suiv.
+block script
+	script
+		$(document).ready(function (){
+			//$("#customerName").append(localStorage['customerName']);
+			//var href = $("#back").attr('href') +localStorage['customer_id'];
+			//console.log("href="+href);
+			//$("#back").attr('href', href);
+			})
+		
+

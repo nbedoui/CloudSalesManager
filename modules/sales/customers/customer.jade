@@ -1,0 +1,57 @@
+extends ../../../views/index
+
+block content
+	#content 
+		header.page-header
+			a(href="/sales/customers")
+				img(src="/images/backbutton24x24.png", style="margin-left:1%;")
+			span.section-title   Infos Client : 
+		section.sub-content
+			span(style="display:block; margin-left:100px;") Client : #{model.customerName}
+			.show-grid
+				.row-fluid
+					a(href="/sales/quotations/customer=#{model._id}").tile.wide.imagetext.bg-color-magenta
+						.image-wrapper
+							.icon-documents(style="font-size:48px;")
+						.column-text
+							.text-header3 Liste des Devis
+						.app-label Devis
+						.app-count 1
+					#factures.tile.wide.imagetext.bg-color-purple
+						.image-wrapper
+							.icon-documents(style="font-size:48px;")
+						.column-text
+							.text-header3 Liste des Factures
+						.app-label Factures
+						.app-count 2
+					#finance.tile.wide.imagetext.bg-color-teal
+						.image-wrapper
+							.icon-documents(style="font-size:48px;")
+						.column-text
+							.text-header3 Etat financier
+						.app-label Finances
+						.app-count 3
+					#statistic.tile.wide.imagetext.bg-color-redLight
+						.image-wrapper
+							.icon-documents(style="font-size:48px;")
+						.column-text
+							.text-header3 Statistiques
+						.app-label Statitiques
+						.app-count 4
+					a(href="/sales/customerDetails/customer=#{model._id}").tile.wide.imagetext.bg-color-grayDark
+						.image-wrapper
+							.icon-documents(style="font-size:48px;")
+						.column-text
+							.text-header3 Modifier les informations
+						.app-label Détails
+						.app-count 5
+block script
+	script
+		if (localStorage){
+			localStorage['customer_id'] = '#{model._id}';
+			localStorage['customerName'] = '#{model.customerName}';
+			console.log("localStorage is OK :  "+localStorage['customer_id']+" - "+localStorage['customerName']);
+			} else 
+			{
+			console.log("localStorage is not OK");
+			}

@@ -1,0 +1,355 @@
+extends ../../../views/index
+
+block content
+    .container(style="margin-top: 15px;")
+        div.header
+            a(href="/sales/customers")
+                img(src="/images/backbutton24x24.png")
+            span.section-title   Détails du client 
+                strong.fg-color-red #{model.customerName}
+        .row-fluid
+            div.dialogPanel
+                div.dialogHeader
+                    ul.nav.nav-pills
+                        li.active
+                            a#infos(href="#infos", data-toggle="tab", rel="popover",
+                                data-content="Informations concernant ce client",
+                                data-original-title="Marwael") 
+                                i.icon-vcard
+                                | &nbsp;
+                        li
+                            a(href="#javascript", data-toggle="tab") 
+                                i.icon-location
+                                | &nbsp;
+                        li
+                            a(href="#php", data-toggle="tab") 
+                                i.icon-users-2 
+                                | &nbsp;
+                        li
+                            a(href="#php", data-toggle="tab") 
+                                i.icon-users-2 
+                                | &nbsp;
+                div.tab-content
+                    div.tab-pane#infos.active
+                        form.form-horizontal
+                            fieldset
+                                div.control-group
+                                    label.control-label(for="customerCode") Code client : 
+                                    div.controls
+                                        input#customerCode(type="text", placeholder="Code client", value="#{model.customerCode}")
+                                div.control-group
+                                    label.control-label(for="customerName") Nom du client : 
+                                    div.controls
+                                        input#customerName(type="text", placeholder="Nom du client", value="#{model.customerName}")
+                                div.control-group
+                                    label.control-label(for="website") Site web : 
+                                    div.controls
+                                        input#website(type="text", placeholder="http://xyz.com", value="#{model.website}")
+                                div.control-group
+                                    label.control-label(for="description") Description : 
+                                    div.controls
+                                        input#description(type="text", placeholder="Description", value="#{model.description}")
+                                div.control-group
+                                    label.control-label(for="industryList") Activité : 
+                                    div.controls
+                                        select.btn.btn-mini#industryList
+                                            option(value="Informatique") Informatique
+                                            option(value="Banque") Banque
+                                            option(value="Assurance") Assurance
+                                        span.caret
+                                div.control-group
+                                    label.control-label(for="statusList") Statut : 
+                                    div.controls
+                                        select.btn.btn-mini#statusList
+                                            option(value="Client") Client
+                                            option(value="Prospet") Prospet
+                                            option(value="contact") Contact
+                                        span.caret
+                    div.tab-pane#javascript 
+                        p javascript content
+                    div.tab-pane#php 
+                        p PHP content
+
+
+
+    //#content 
+        header.page-header
+            a(href="/sales/customers") 
+                img(src="/images/backbutton24x24.png", style="margin-left:1%;")
+            span.section-title    Infos client
+        section.sub-content
+            div.show-grid
+                div.U-L.ESSZSb 
+                        div.U-L-x
+                            div
+                                div.aMZejf.UswAIf
+                                        div.J1Yh3e#title Infos Client
+                                        div.Ke7Hld
+                                            button#infosBtn.win-command(role="button", aria-label="Infos" ) 
+                                                span.win-commandimage.win-commandring &#xe000; 
+                                                span.win-label Infos  
+                                            button#addressBtn.win-command(role="button", aria-label="Adresses" ) 
+                                                span.win-commandimage.win-commandring &#xe033; 
+                                                span.win-label Adresses 
+                                            button#managerBtn.win-command(role="button", aria-label="Gestionnaires" ) 
+                                                span.win-commandimage.win-commandring &#xe20b; 
+                                                span.win-label Géré par 
+                                            button#payBtn.win-command(role="button", aria-label="Payement" ) 
+                                                span.win-commandimage.win-commandring &#xe080; 
+                                                span.win-label Banque 
+                                div#infosPanel(style="display:none")
+                                    div.HRLuZ
+                                        div
+                                            div
+                                                div.rDXNQb
+                                                    div.gESgof Code client
+                                                    div.pNYFQd
+                                                        div.yQ
+                                                            input.l-od.ota.g-A-G.ia-G-ia(type="text",
+                                                                label="Code client",
+                                                                title="Code client",
+                                                                placeholder="Code client",
+                                                                value="#{model.customerCode}")
+                                                div.P3mrnd
+                                                div.rDXNQb
+                                                    div.gESgof Nom du client
+                                                    div.pNYFQd
+                                                        div.yQ
+                                                            input.l-od.ota.g-A-G.ia-G-ia(type="text",
+                                                                label="Nom du client",
+                                                                title="Nom du client",
+                                                                placeholder="Nom du client",
+                                                                value="#{model.customerName}")
+                                                div.P3mrnd
+                                                div.rDXNQb
+                                                    div.gESgof Site web
+                                                    div.pNYFQd
+                                                        div.yQ
+                                                            input.l-od.ota.g-A-G.ia-G-ia(type="text",
+                                                                label="Site web",
+                                                                title="Site web",
+                                                                placeholder="http://xyz.com",
+                                                                value="#{model.website}")
+                                                div.P3mrnd
+                                                div.rDXNQb
+                                                    div.gESgof Description
+                                                    div.pNYFQd
+                                                        div.yQ
+                                                            textarea.l-od.ota.g-A-G.ia-G-ia(type="text",
+                                                                label="Site web",
+                                                                title="Site web",
+                                                                placeholder="Description") #{model.description}
+                                                div.P3mrnd
+                                div#addressPanel
+                                    div.HRLuZ
+                                        div
+                                            div
+                                                div.rDXNQb
+                                                    div.gESgof Adresses
+                                                    div.pNYFQd
+                                                        div.yQ
+                                                            div.xJ
+                                                                div.pT.gBa.isa
+                                                                    div.jsa
+                                                                        div.hsa.l-nr
+                                                                            div.fsa
+                                                                                div.l-jU.Fka.mga.a-f-e.a-u-q-b(role="button",
+                                                                                    aria-haspopup="true",
+                                                                                    style="-webkit-user-select:none")
+                                                                                    div.a-f-e.a-u-q-b-W Facturation
+                                                                                    div.a-f-e.a-u-q-b-Ea &nbsp;
+                                                                div.pT.gBa.isa
+                                                            input.l-od.ota.g-A-G.ia-G-ia(type="text",
+                                                                label="Code client",
+                                                                title="Code client",
+                                                                placeholder="Code client",
+                                                                value="#{model.customerCode}")
+                                                div.P3mrnd
+                                                div.rDXNQb
+                                                    div.gESgof Nom du client
+                                                    div.pNYFQd
+                                                        div.yQ
+                                                            input.l-od.ota.g-A-G.ia-G-ia(type="text",
+                                                                label="Nom du client",
+                                                                title="Nom du client",
+                                                                placeholder="Nom du client",
+                                                                value="#{model.customerName}")
+                                                div.P3mrnd
+                                                div.rDXNQb
+                                                    div.gESgof Site web
+                                                    div.pNYFQd
+                                                        div.yQ
+                                                            input.l-od.ota.g-A-G.ia-G-ia(type="text",
+                                                                label="Site web",
+                                                                title="Site web",
+                                                                placeholder="http://xyz.com",
+                                                                value="#{model.website}")
+                                                div.P3mrnd
+                                                div.rDXNQb
+                                                    div.gESgof Description
+                                                    div.pNYFQd
+                                                        div.yQ
+                                                            textarea.l-od.ota.g-A-G.ia-G-ia(type="text",
+                                                                label="Site web",
+                                                                title="Site web",
+                                                                placeholder="Description") #{model.description}
+                                                div.P3mrnd
+
+
+                                                
+                    #infos.bg-gradient-grayLight
+                        div(style="display:block;height:60px;")
+                            img(src="#{model.logo}", style="vertical-align:middle; border:1px solid gray")
+                            span(style="vertical-align:middle; height:44px; margin-left:10px; font-size:20px; width:50%") #{model.customerName}
+                        div.input-format
+                            span.add-on Nom client :
+                            input.m-wrap(style="width:60%; margin-left:2px;", size="16", type="text", placeholder="Code Client",class="m-wrap", name="customerName", value="#{model.customerName}")
+                        div.input-format
+                            span.add-on Description :
+                            textarea.m-wrap(style="width:60%;; margin-left:2px; height:35px;", placeholder="Description", name="description") #{model.description}
+                        div.input-format
+                            span.add-on Site web :
+                            input.m-wrap(style="width:60%;; margin-left:2px;", size="16", type="text", placeholder="www.site.com")
+                        div.input-format
+                            span.add-on Statut :
+                            div.selectBlock
+                                i.downWhite.icon-arrow-8
+                                select.styled-select#statusList
+                                    option(value="Client") Client
+                                    option(value="Prospet") Prospet
+                                    option(value="contact") Contact
+                        div.input-format
+                            span.add-on Activité :
+                            div.selectBlock
+                                i.downWhite.icon-arrow-8
+                                select.styled-select#industryList
+                                    option(value="Client") Informatique
+                                    option(value="Prospet") Banque
+                                    option(value="contact") Assurance
+                        span Adresses
+                        - if (typeof(model.addresses) !== "undefined") 
+                            - each address in model.addresses
+                                div.input-format
+                                    span.add-on  #{address.addressType} :
+                                    textarea.m-wrap(style="width:60%;; margin-left:2px; height:45px;", size="16", type="text", name="city") #{address.street}  #{address.city} #{address.zipCode} #{address.country}  
+                                
+                                .input-format
+                                    .selectBlock
+                                        i.downWhite.icon-arrow-8
+                                        select#addressType.styled-select(name="addressType")
+                                            option(value="Facturation") Facturation
+                                            option(value="Livraison") Livraison
+                                            option(value="Correspondance") Correspondance
+                                    input.m-wrap(style="width:90%; margin-left:1px;", size="16", type="text", placeholder="Type adresse", name="addressType", value="#{address.addressType}")
+                                    
+                        div(style="margin-top:50px; border-top:1px solid #ccc")
+                            a#addresses.m-btn.purple-stripe
+                                | Adresses 
+                                i.icon-mail 
+                            #AddressPanel(style="display:none")
+                                div(style="text-align:right; margin-top:-30px")
+                                    button#addAddress.win-command.fg-color-red 
+                                        span.win-commandimage &#xe12c;
+                                        span.win-label Ajouter 
+                                    button#addAddress.win-command.fg-color-red 
+                                        span.win-commandimage &#x0026;
+                                        span.win-label Modifier 
+                                    button#deleteBtn.win-command.fg-color-red
+                                        span.win-commandimage &#xe12d;
+                                        span.win-label Supprimer
+                                form#addAddressForm.addItem
+                                    input(type="hidden", name="account_id", value="#{model._id}")
+                                    .input-format
+                                        .selectBlock
+                                            i.downWhite.icon-arrow-8
+                                            select#addressType.styled-select(name="addressType")
+                                                option(value="Facturation")
+                                                option(value="Livraison")
+                                                option(value="Correspondance")
+                                    input.m-wrap(style="width:90%; margin-left:1px;", size="16", type="text", name="street", placeholder="Rue")
+                                    input.m-wrap(style="width:20%; margin-left:1px;", size="16", type="text", name="zipCode", placeholder="Code postal")
+                                    input.m-wrap(style="width:67.5%; margin-left:1px;", size="16", type="text", name="city", placeholder="Ville")
+                                    input.m-wrap(style="width:90%; margin-left:1px;", size="16", type="text", name="country", placeholder="Pays")
+                                    button.m-btn(type="reset") Annuler 
+                                        i.fg-color-red.icon-x 
+                                    button#ajouter.m-btn(type="button") Ajouter 
+                                        i.fg-color-green.icon-checkmark-3
+                            .tabbable.tabs-left
+                                ul#navTabs.nav.nav-tabs
+                                #address.tab-content
+                                    - if (typeof(model.addresses) !== "undefined") 
+                                        - each address in model.addresses
+                                            .input-format
+                                                .selectBlock
+                                                    i.downWhite.icon-arrow-8
+                                                    select#addressType.styled-select(name="addressType")
+                                                        option(value="Facturation")
+                                                        option(value="Livraison")
+                                                        option(value="Correspondance")
+                                                    input.m-wrap(style="width:90%; margin-left:1px;", size="16", type="text", placeholder="Type adresse", name="addressType", value="#{address.addressType}")
+                                                    input.m-wrap(style="width:90%; margin-left:1px;", size="16", type="text", placeholder="Rue", name="street",  value="#{address.street}")
+                                                    input.m-wrap(style="width:20%; margin-left:1px;", size="16", type="text", placeholder="Code postal", name="zipCode", value="#{address.zipCode}")
+                                                    input.m-wrap(style="width:67.5%; margin-left:1px;", size="16", type="text", placeholder="Ville", name="city", value="#{address.city}")
+                                                    input.m-wrap(style="width:90%; margin-left:1px;", size="16", type="text", placeholder="Pays", name="country", value="#{address.country}")
+                                                    br
+                                                    a.m-btn(id="saveAddress_#{address._id}")
+                                                        Enregistrer
+                                                        i.icon-arrow-right-7
+                                                        
+
+
+                                            
+                                        
+        br
+        .app-bar.fg-color-white
+            a#homeBtn(href="/").win-command 
+                span.win-commandimage.win-commandring &#xe03f;
+                span.win-label Accueil 
+            hr.win-command 
+            a#customersBtn(href="/sales/customers").win-command
+                span.win-commandimage.win-commandring &#xe00f; 
+                span.win-label Clients 
+            hr.win-command 
+            button#saveBtn.win-command 
+                span.win-commandimage.win-commandring &#xe0c1; 
+                span.win-label Enregistrer  
+            hr.win-command 
+            a#quotationBtn(href="/sales/quotations/#{model._id}/pending").win-command
+                span.win-commandimage.win-commandring &#xe0b7; 
+                span.win-label Devis 
+            a#invoiceBtn(href="/sales/customers").win-command
+                span.win-commandimage.win-commandring &#xe279; 
+                span.win-label Factures
+block script
+    script
+        $(function(){
+            $("#infos").popover();
+            })
+        /*
+        $('#infosBtn').on('click', function(e){
+            e.preventDefault();
+            console.log("clicked toggle");
+            $("#title").text("Infos Client");
+            $("#addressPanel").hide(); 
+            $("#infosPanel").show(); 
+            $(".UswAIf").css("background-color","#4dbfd9");
+            
+        }); 
+        $('#addressBtn').on('click', function(e){
+            e.preventDefault();
+            console.log("clicked toggle");
+            $("#title").text("Adresses");
+            $("#infosPanel").hide();
+            $("#addressPanel").show(); 
+            $(".UswAIf").css("background-color","#bc5679");
+        }); 
+        
+        if (localStorage){
+            localStorage['customer_id'] = '#{model._id}';
+            localStorage['customerName'] = '#{model.customerName}';
+            console.log("localStorage is OK :  "+localStorage['customer_id']+" - "+localStorage['customerName']);
+            } else 
+            {
+            console.log("localStorage is not OK");
+            }
+            */

@@ -1,0 +1,480 @@
+@font-face {
+  font-family: "Segoe UI";
+  src: local("Segoe UI"), url('/fonts/segoeui.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: "Segoe UI Light";
+  src: local("Segoe UI  Light"), url('/fonts/segoeuil.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: "Segoe UI Bold";
+  src: local("Segoe UI Bold"), url('/fonts/segoeuib.ttf') format('truetype');
+}
+/*
+body {
+  background-color: #fff;
+  margin: auto;
+  font-family: "Segoe UI Light";
+  padding-top: 4px;
+  padding-bottom: 8px;
+  display: block;
+  min-width:480px;
+  
+
+}
+
+h1, h2, h3, h4 {
+	font-family: "Segoe UI";
+	color:inherit;
+	text-rending : optimizelegibility;
+}
+
+a {
+	font-family: "Segoe UI Light";
+	color:inherit;
+	text-rending : optimizelegibility;
+	font-size: 0.9em;
+}
+
+*/
+
+
+strong {
+  font-family: "Segoe UI";
+}
+h1, h2, h3, h4, h5, h6,
+.navbar .nav > li {
+	text-transform: none;
+}
+
+.navbar .nav > li {
+	font-size: 1.2em;
+	
+}
+
+.navbar .navbar-inner {
+	padding-bottom: 0;
+}
+
+.navbar .btn, .navbar .btn-group {
+margin-top: 0px;
+background: none;
+}
+/*
+.navbar .nav > li > a {
+	font-size: 0.7em;
+}
+*/
+.navbar .brand {
+	font-size: 1.8em;
+	text-shadow : none;
+}
+
+
+.header {
+	position: relative;
+	font-family: "Segoe UI Light";
+  vertical-align: middle;
+  display : block;
+  padding: 0.3em;
+  height: 10%;
+  margin-top: 2.5em;
+  margin-bottom: 2em;
+}
+
+.header img {
+	margin-left:1%;
+	width: 30px;
+	vertical-align:top;
+}
+
+.section-title {
+  font-size: 1.8em;
+  margin-left: 1em;
+  /*
+  text-shadow: 0 1px 0 rgba(255, 255, 255, .4);
+  */
+}
+
+.row-fluid .tile {
+  
+  font-family: "Segoe UI Light";
+  
+  position: relative;
+  display: block;
+  float: left;
+  margin: 5px;
+  padding: 0;
+  width: 250px;
+  /*
+  height: 180px;
+  */
+  color: #FFF;
+  cursor: pointer;
+  overflow: hidden;
+  text-decoration: none;
+  box-shadow: 0 0 1px #FFFFCC inset;
+  background-color: #c3c3c3;
+  border-radius: 3px;
+}
+
+.row-fluid .tile:hover {
+	/*
+  opacity:0.8;
+  */
+  outline : 2px solid red;
+}
+
+.row-fluid .tile.high {
+	height: 18em;
+}
+
+.row-fluid .tile.wide.imagetext {
+  width: 17em;
+
+  height: 8em;
+  padding-top: 2.5em;
+  padding-left: 2.5em;
+  
+}
+
+
+.row-fluid .tile.wide.imagetext .image-wrapper {
+  display: block;
+  float: left;
+  width: 60px;
+  height: 60px;
+  margin: auto;
+  
+  
+  font-size: 50px;
+}  
+
+
+.row-fluid .tile.wide.imagetext .column-text,
+.row-fluid .tile.wide.text .column-text {
+  display: block;
+  float: left;
+  
+  width: 12em;
+  
+  padding-left: 2px;
+  
+  
+}
+
+
+.row-fluid .tile .text-header3 {
+  font-weight: 300;
+  font-size: 1.2em;
+  height: 40px;
+  text-align: left;
+/*
+  line-height: 36px;
+  max-height: 110px;
+*/
+  overflow: hidden;
+}
+
+.row-fluid .tile .app-label {
+  bottom: 10px;
+  font-size: 12px;
+  left: 20px;
+  position: absolute;
+}
+
+.row-fluid .tile .app-count {
+  bottom: 10px;
+  font-size: 14px;
+  font-weight: bold;
+  right: 20px;
+  position: absolute;
+}
+
+.row-fluid .tile.wcard {
+	width: 220px;
+
+}
+.card {
+  
+  width: 100%;
+  height: 100%;
+  
+  position: absolute;
+  -webkit-transition: -webkit-transform 1s;
+    -moz-transition: -moz-transform 1s;
+      -o-transition: -o-transform 1s;
+        transition: transform 1s;
+  -webkit-transform-style: preserve-3d;
+    -moz-transform-style: preserve-3d;
+      -o-transform-style: preserve-3d;
+        transform-style: preserve-3d;
+}
+
+
+.card .text-inner {
+  width: 90%;
+  height: 110px;
+  padding: 10px;
+  text-align: center;
+  margin: auto;
+}
+
+.card .text-inner .text-header {
+	font-size: 1.2em;
+  text-decoration: none;
+  
+  color: #101010;
+  
+}
+
+.card .text-header:hover {
+  text-decoration: underline;
+
+}
+
+
+.card .img {
+   width: 50px;
+   height: 50px;
+   /*
+   background-color: #00AEDB;
+   */
+   margin: auto;
+   padding: 2px;
+    margin-bottom: 10px;
+   }
+
+.card .img img {
+  
+  width: 50px;
+  height: 50px;
+  
+  margin: auto;
+
+} 
+.card.flipped {
+  -webkit-transform: rotateY( 180deg );
+    -moz-transform: rotateY( 180deg );
+      -o-transform: rotateY( 180deg );
+        transform: rotateY( 180deg );
+}
+
+.card figure {
+  display: block;
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  margin: 0 auto 40px;
+  -webkit-backface-visibility: hidden;
+    -moz-backface-visibility: hidden;
+      -o-backface-visibility: hidden;
+        backface-visibility: hidden;
+}
+
+figure {
+  margin : 0;
+  display: block;
+
+  -webkit-margin-before: 1px;
+  -webkit-margin-after: 1px;
+  -webkit-margin-start: 1px;
+  -webkit-margin-end: 1px;
+
+  -moz-margin-before: 1px;
+  -moz-margin-after: 1px;
+  -moz-margin-start: 1px;
+  -moz-margin-end: 1px;
+  
+}
+
+.card .front {
+  
+}
+
+.card .back {
+  
+  background: #333;
+  -webkit-transform: rotateY( 180deg );
+    -moz-transform: rotateY( 180deg );
+      -o-transform: rotateY( 180deg );
+        transform: rotateY( 180deg );
+}
+
+.flip {
+ /*
+  -webkit-transition: box-shadow .218s ease,background-color .218s ease,max-width .218s step-end;
+  transition: box-shadow .218s ease,background-color .218s ease,max-width .218s step-end;
+  */
+  font-size: 12px;
+  /*
+  margin: 3px 0px 0 0;
+  max-width: 5%;
+  */
+  /*
+  background-color: #ddd;
+  */
+  padding: 2px;
+  /*
+  position: absolute;
+  
+  right: 0;
+  top: 0;
+  */
+}
+
+.flip:hover {
+  /*
+  background-color: #333;
+  */
+  color: #fff;
+  right: 0;
+  top: 0;
+}
+
+.LI {
+  border-top: 1px solid #e5e5e5;
+  height: 30px;
+  margin: 2px 0 0 0;
+  padding: 2px 0 2px 2px;
+}
+
+.esw {
+  /*
+  -webkit-border-radius: 3px;
+  -webkit-box-shadow: 0 1px 0 rgba(0,0,0,.05);
+  -webkit-transition: background-color .218s,border-color .218s,box-shadow .218s;
+  transition: background-color .218s,border-color .218s,box-shadow .218s;
+  -webkit-user-select: none;
+  -webkit-appearance: none;
+  */
+  border-radius: 3px;
+  box-shadow: 0 1px 0 rgba(0,0,0,.05);
+  background-color: #fff;
+  border: 1px solid #d9d9d9;
+  cursor: pointer;
+  float: left;
+  height: 28px;
+  line-height: 28px;
+  margin-left: 8px;
+  padding: 0 10px 0 10px;
+  outline: none;
+  width: auto;
+  
+}
+
+.sr {
+    color: #262626;
+    display: inline-block;
+    font-size: 11px;
+    font-weight: bold;
+    /*
+    opacity: .7;
+    */
+}
+.close {
+  height: 16px;
+  margin: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 16px;
+}
+
+.close:hover {
+	color: white;
+}
+.nav.nav-pills {
+  font-size: 40px;
+  width: 250px;
+  margin: auto;
+  color:white;
+}
+
+
+
+
+.nav-pills, .tab-content, input, button, select, textarea, option {
+	font-family: "Segoe UI Light";
+
+}
+
+.dialogHeader {
+  background-color: #e46f61;
+  height: 80px;
+  padding-top: 20px;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.dialogHeader > span {
+  font-family: "Segoe UI Bold";
+  color: #FFFFFF;
+  font-size: 25px;
+} 
+
+.dialogPanel {
+  width: 640px;
+  margin: auto;
+  -webkit-box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+      box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+
+}
+
+.nav > li > a {
+  color: #FFFFFF;
+  opacity: 0.5;
+}
+
+.nav > li > a:hover {
+text-decoration: none;
+background-color: transparent;
+}
+
+.nav-pills > .active > a, .nav-pills > .active > a:hover {
+color: #ffffff;
+background-color: transparent;
+opacity: 1.0;
+}
+
+select.btn-mini{
+	height: 33px;
+	width: 220px;
+	line-height: 25px;
+	font-size: 14px;
+	padding: 4px 6px;
+}
+
+select.btn {
+    -webkit-appearance: button;
+       -moz-appearance: button;
+            appearance: button;
+    background-color: white;
+    border: 1px solid #ccc;
+}
+
+select.btn-mini + .caret {
+    margin-left: -20px;
+    margin-top: 14px;
+    font-size: 24px;
+}
+
+@media (max-width: 480px) {
+  
+  .dialogPanel {
+    float: none;
+    width: auto;
+    padding-top: 0;
+    text-align: left;
+  }
+
+  .nav.nav-pills {
+    float:none;
+    width: auto;
+    padding-top: 0;
+    text-align: left;
+
+}
+}
