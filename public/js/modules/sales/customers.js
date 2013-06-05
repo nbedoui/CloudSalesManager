@@ -24,28 +24,53 @@
 		tagName : 'div',
 		events : {
 			'click .flip':'flip',
-			'click .roll':'flip'
+			'click .roll':'flip',
+            'click .card':'selectCard',
+            'click .customerDetails':'customerDetails'
+		},
+		customerDetails : function(e){
+			e.preventDefault();
+			var id = e.currentTarget.id;
+			var idCustomer = id.split('-')[1];
+			console.log(" idCustomer:"+idCustomer);
+			window.location.href="/sales/customerDetails/customer="+idCustomer;
+		},
+		selectCard : function(e){
+			e.preventDefault();
+			var _parent = $(e.currentTarget).parent();
+			var idCustomer = _parent.attr('id');
+			//var idCustomer = id.split('-')[1];
+			$(".tile.wcard").removeClass('selected');
+			console.log(" idCustomer:"+idCustomer);
+			$("#"+idCustomer).toggleClass("selected");
 		},
 		flip : function(e){
 			e.preventDefault();
 			var id = e.currentTarget.id;
 			var idCustomer = id.split('-')[1];
 			console.log("id="+id+" idCustomer:"+idCustomer);
-			$("#"+idCustomer).toggleClass("flipped");
+			$("#card-"+idCustomer).toggleClass("flipped");
 		},
 		initialize : function(){
 			this.template = _.template($('#customer-template').html());
 		},
 		render : function(){
+			//var colors = ["#76a7fa", "#e46f61","#4dbfd9", "#fbcb43", "#bc5679", "#8cc474", "#f9b256", "#6f85bf", "#8cc474"] 
+			//var colors = ["#008299", "#2672EC","#8C0095", "#5133AB", "#AC193D", "#D24726", "#008A00", "#094AB2", "#8cc474"] 
+			var colors = ["#F3B200", "#77B900", "#2572EB", "#AD103C", "#632F00", "#B01E00", "#C1004F", "#7200AC", "#4617B4",
+						  "#006AC1", "#008287", "#199900", "#00C13F", "#FF981D", "#FF2E12", "#FF1D77", "#AA40FF", "#1FAEFF",
+						  "#4294DE", "#008E8E", "#7BAD18", "#C69408", "#DE4AAD", "#00A3A3"] 
 			//console.log("render customer view");
 			var data = this.model.toJSON();
 			//console.log("data="+JSON.stringify(data));
 			this.$el.html(this.template({model: data.customer}));
-			//this.$el.attr('id', data._id);
+			this.$el.attr('id', data.customer._id);
             //this.$el.addClass("flip-container");
             this.$el.addClass("tile wcard high");
-            color = Mondrian.init("hex");
-            //console.log("color="+color);
+            //color = Mondrian.init("hex");
+            var index = Math.floor(Math.random()*24);
+            //console.log("index="+index);
+            color = colors[index]; 
             //this.$el.css("background", '#'+Math.floor(Math.random()*16777215).toString(16));
             this.$el.css("background", color);
 			return this;
@@ -65,9 +90,6 @@
             'click #prevBtn':'command',
             'click #nextBtn':'command'
 
-		},
-		test : function(e){
-			console.log('Hello');
 		},
 		flip: function(e){
 			console.log("Hello");

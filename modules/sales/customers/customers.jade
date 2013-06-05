@@ -6,13 +6,7 @@ block content
 			a(href="/sales")
 				img(src="/images/backbutton24x24.png", style="margin-left:1%;")
 			span.section-title   Liste des clients
-		.row-fluid
-			div.well.input-append
-				input.span8(type="text", placeholder="Trouver un client par son nom")
-				button.btn Go
-		div#customers-container.row-fluid
-		br
-		.app-bar.fg-color-white
+		.app-bar.fg-color-white.pull-right
 			a#homeBtn(href="/").win-command
 				span.win-commandimage.win-commandring &#xe03f;
 				span.win-label Accueil
@@ -30,6 +24,13 @@ block content
 			button#nextBtn.win-command
 				span.win-commandimage.win-commandring &#xe35c;
 				span.win-label Page suiv.
+		.row-fluid
+			div.well.input-append
+				input.span5(type="text", placeholder="Trouver un client par son nom")
+				button.btn Go
+		div#customers-container.row-fluid
+		
+		
 	
 
 
@@ -39,17 +40,18 @@ block script
 	script(src="http://backbonejs.org/backbone-min.js")
 	//Templates
 	script#customer-template(type="text/template")
-			| <div id="<%=model._id%>" class="card"> 
+			| <div id="card-<%=model._id%>" class="card"> 
 			|	<figure class="front">
-			|		<div class="bg-gradient-grayDark">
+			|		<div style="background-color:#6E6E6E;">
 			|			<div class="pull-right">
 			|				<span class="flip pull-left" id="flip-<%=model._id%>">Historique</span>
 			|			</div>
 			|			<div class="img"><img src="<%=model.logo%>"/></div>
 			|       </div>
 			|		<div class="text-inner">
-			|			<a  href="/sales/customerDetails/customer=<%=model._id%>" class="text-header"> <%=model.customerCode%> - <%=model.customerName%></a>
-			| 			<h6>suivi par : <%=model.customer_owner.name.first%> <%=model.customer_owner.name.last%></h6>
+			|			<a id="customer-<%=model._id%>"  href="#" class="text-header customerDetails"> <%=model.customerCode%> - <%=model.customerName%></a>
+			| 			<h5>suivi par : <%=model.customer_owner.name.first%> <%=model.customer_owner.name.last%></h6>
+			|			<h5><a href="#" class="fg-color-white"><i class="icon-users"></i> Liste des contacts </a></h6>
 			|		</div>
 			|		<div class="LI">
 			|			<div class="esw">
