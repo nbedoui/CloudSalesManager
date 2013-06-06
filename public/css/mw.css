@@ -217,6 +217,7 @@ background: none;
   -webkit-box-shadow: 0 4px 16px rgba(0,0,0,0.2);
       box-shadow: 0 4px 16px rgba(0,0,0,0.2);
 
+<<<<<<< HEAD
 }
 
 .row-fluid .tile.selected:before {
@@ -230,6 +231,21 @@ background: none;
   display: block;
 }
 
+=======
+}
+
+.row-fluid .tile.selected:before {
+  position: absolute;
+  content: "\e423";
+  color: #fff;
+  left: 4px;
+  top: 0;
+  font-family: 'IcoMoon';
+  z-index: 1002;
+  display: block;
+}
+
+>>>>>>> 41c39e884311efcefcbfe537048e406d45384f72
 .row-fluid .tile.selected:after {
   width: 0;
   height: 0;
@@ -596,6 +612,7 @@ select.btn-mini + .caret {
 }
 }
 
+<<<<<<< HEAD
 .table thead {
   background-color: #6E6E6E;
   color: #fff;
@@ -625,4 +642,6 @@ select.btn-mini + .caret {
   cursor:pointer;
 }
 
+=======
+>>>>>>> 41c39e884311efcefcbfe537048e406d45384f72
 

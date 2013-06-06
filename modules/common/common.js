@@ -11,6 +11,7 @@ exports.params = function(req, res){
 		res.redirect('/login');
 	}
 
+<<<<<<< HEAD
 };
 
 //TVA
@@ -87,4 +88,6 @@ exports.gstUpdate = function(req, res){
 	        res.redirect("/login");
 	    }
 
+=======
+>>>>>>> 41c39e884311efcefcbfe537048e406d45384f72
 };
