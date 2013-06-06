@@ -1,5 +1,6 @@
 var home = require('../modules/home/home');
 var login = require('../modules/login/login');
+var common = require('../modules/common/common');
 var sales = require('../modules/sales/sales');
 
 //app.use(home);
@@ -30,5 +31,14 @@ module.exports = function(app){
 	app.get('/list/customer/customerName=:fieldValue', sales.customersSubList)
 
 	app.get('/custs', sales.custs);
+
+	//Common pages
+	app.get('/params', common.params);
+	app.get('/params/gst', common.gst);
+
+	//Post TVA (GST)
+	app.post('/params/gst/:id/update', common.gstUpdate);
+	app.post('/params/gst/insert', common.gstInsert);
+
 	
 }

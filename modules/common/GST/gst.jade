@@ -1,0 +1,141 @@
+extends ../../../views/index
+
+block content
+	.container(style="margin-top: 15px;")
+		div.header
+			a#back(href="/params")
+				img(src="/images/backbutton24x24.png", style="margin-left:1%;")
+			span.section-title   Liste des TVA
+		.container-fluid
+			.row-fluid
+				div.well
+					button.btn.btn-danger(type="button", data-toggle="collapse", data-target="#inputPanel") 
+						i.icon-plus
+						|  Ajouter un élément
+					span#error.pull-right
+					div#inputPanel.collapse
+						form.form-inline(action="/params/gst/insert", method="POST")
+							input.input-medium(type="text", name="tauxGST", placeholder="Saisir des données")
+							button#submit.btn.btn-small.magenta(type="button", data-toggle="collapse", data-target="#inputPanel")  Enregistrer
+
+			.row-fluid
+				center
+					table.table.table-bordered.table-hover.table-condensed
+						thead
+							tr
+								th
+									center  # 
+								th 
+									center Taux de TVA
+								th 
+									center &nbsp;
+						tbody
+						- each gst, i in model 
+							tr
+								td 
+									center #{i}
+								td 
+									center.list-input 
+										input.edit(id="#{gst._id}", type="text", name="tauxGST", value="#{gst.tauxGST}", entity="gst")
+								td
+									center
+										div.delete
+											i.icon-minus-2
+block script
+	script.
+		$(document).ready(function (){
+			var showMessage = function(msg){
+				//show an error message
+				$('#error').text(msg);
+				$('#error').show('fast');
+				//setTimeout( "jQuery('#error').hide();",3000 );
+				
+				setTimeout(function(){
+					//$('#error').hide('slow');
+					$('#error').text("fini");
+					console.log("Fini");
+				}, 3000);  //The message is displayed for 5 sec
+			
+			}
+
+			var sendData = function(entity, url, data){
+				var entity = entity;
+				$.ajax({
+						type:'POST',
+						url:url,
+						data:data,
+						success: function(data, textStatus, xhr){
+							console.log("update data ok : "+textStatus);
+							$("#error").text(textStatus);
+							//window.location.href="/params/"+entity;
+						},
+						error: function(xhr, textStatus, error){
+							var msg ="Impossible de modifier l'élément sélectionné : ";
+							switch (xhr.status) {
+								case 404: {
+									msg += "Problème de connexion avec le serveur";
+									break;
+								}
+								case 500: {
+									var responseText = $.parseJSON(xhr.responseText);
+									var error = responseText.error;
+									msg += error.name+" : "+error.errmsg;
+									break;
+								}
+							}
+							console.log("Message="+msg);
+							$("#error").text(msg);
+						}
+						});
+
+			}
+
+			$("#submit").on('click', function(e){
+					e.preventDefault();
+					console.log("Enregistrer les données...");
+				})
+			
+
+			$(".edit").on('keypress', function(e) {
+				if (e.keyCode == 13) {
+					var id = e.currentTarget.id;
+					var el = $("#"+id);
+					var entity = el.attr("entity");
+					var name = el.attr("name");
+					var value=el.val();
+					var dataString = name+'='+value;
+					var url = '/params/'+entity+'/'+id+'/update';
+					console.log('entity = '+entity+' - dataString: '+dataString);
+					sendData('gst', url, dataString);
+					/*
+					$.ajax({
+						type:'POST',
+						url:'/params/'+entity+'/'+id+'/update',
+						data:dataString,
+						success: function(data, textStatus, xhr){
+							console.log("update data ok : "+textStatus);
+							window.location.href="/params/"+entity;
+
+						},
+						error: function(xhr, textStatus, error){
+							var msg ="Impossible de modifier l'élément sélectionné : ";
+							switch (xhr.status) {
+								case 404: {
+									msg += "Problème de connexion avec le serveur";
+									break;
+								}
+								case 500: {
+									var responseText = $.parseJSON(xhr.responseText);
+									var error = responseText.error;
+									msg += error.name+" : "+error.errmsg;
+									break;
+								}
+							}
+							console.log("Message="+msg);
+						}
+						});*/
+					//
+					//$("#back").click();
+				}
+			});
+		});

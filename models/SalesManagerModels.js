@@ -510,6 +510,21 @@ getRowById = function(entity, id, callback){
     
 }
 
+//Update entity
+module.exports.updateEntity = function(entity, id, data, callback){
+   
+    console.log("entity="+entity+"  id="+id+"  data="+data.tauxGST);
+    var obj = eval(entity);
+    obj.findByIdAndUpdate(id, {$set:data}, function (err, doc) {
+        if(!err){
+            callback(null, doc);
+        } else {
+            callback(err, null);
+        }
+    });    
+    
+};
+
 module.exports.getCustomer = function(id, callback){
     CustomerModel.findOne({_id:id}, function(err, customer){
         if (err) { callback(err, null)}
