@@ -135,7 +135,7 @@ var moduleAuth = new mwSchemas.ModuleAuth({
   "active":false
 })
 moduleAuth.save(saveCallBack);
-*/
+
 var customer = new mwSchemas.Customer(
 { "account_id" : "5173c6ed96e2cdb3d2155f1d",
   "customer_owner" : "514875d1f4fcecab06000006",
@@ -145,3 +145,10 @@ var customer = new mwSchemas.Customer(
   "addresses":["51794b35a440e5bd0400004d"] }
 )
   customer.save(saveCallBack);
+  */
+
+  var addressType = new mwSchemas.AddressType({
+    addressType : "Facturation"
+  })
+
+  addressType.save(saveCallBack);

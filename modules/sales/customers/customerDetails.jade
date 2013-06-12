@@ -26,11 +26,11 @@ block content
                                     span.win-commandimage.win-commandring &#xe045;
                                     span.win-label Géré par
                         li
-                            a(href="#php", data-toggle="tab").win-command
+                            a(href="#bank", data-toggle="tab").win-command
                                     span.win-commandimage.win-commandring &#xe080;
                                     span.win-label Banque
                         li
-                            a(href="#php", data-toggle="tab").win-command
+                            a(href="#contacts", data-toggle="tab").win-command
                                     span.win-commandimage.win-commandring &#xe001;
                                     span.win-label Contacts
                 div.tab-content
@@ -38,91 +38,103 @@ block content
                         form.form-horizontal
                             fieldset
                                 div.control-group
-                                    label.control-label(for="customerCode") Code client : 
+                                    label.control-label(for="customerCode") Code client :
                                     div.controls
-                                        input#customerCode(type="text", placeholder="Code client", value="#{model.customerCode}")
+                                        input#customerCode(type="text", placeholder="Code client", value="#{model.customer.customerCode}")
+                                        strong.fg-color-red *
                                 div.control-group
                                     label.control-label(for="customerName") Nom du client : 
                                     div.controls
-                                        input#customerName(type="text", placeholder="Nom du client", value="#{model.customerName}")
+                                        input#customerName(type="text", placeholder="Nom du client", value="#{model.customer.customerName}")
                                 div.control-group
                                     label.control-label(for="website") Site web : 
                                     div.controls
-                                        input#website(type="text", placeholder="http://xyz.com", value="#{model.website}")
+                                        input#website(type="url", placeholder="http://xyz.com", value="#{model.customer.website}")
                                 div.control-group
                                     label.control-label(for="description") Description : 
                                     div.controls
-                                        input#description(type="text", placeholder="Description", value="#{model.description}")
+                                        input#description(type="text", placeholder="Description", value="#{model.customer.description}")
                                 div.control-group
-                                    label.control-label(for="industryList") Activité : 
+                                    label.control-label(for="industryList") Activité :
                                     div.controls
                                         select.btn.btn-mini#industryList
-                                            option(value="Informatique") Informatique
-                                            option(value="Banque") Banque
-                                            option(value="Assurance") Assurance
+                                            if (model.industryList)
+                                                - each industry in model.industryList
+                                                    option(value="#{industry.industry}", selected=(industry.industry == model.customer.industry)) #{industry.industry}
                                         span.caret
                                 div.control-group
                                     label.control-label(for="statusList") Statut : 
                                     div.controls
                                         select.btn.btn-mini#statusList
-                                            option(value="Client") Client
-                                            option(value="Prospet") Prospet
-                                            option(value="contact") Contact
+                                            if (model.statusList)
+                                                - each status in model.statusList
+                                                    option(value="#{status.status}", selected=(status.status == model.customer.status)) #{status.status}
                                         span.caret
                                 div.controls
                                     button#save1.btn.btn-small.btn-primary(type="submit") Enregistrer
 
                     div.tab-pane#address 
                         div.span12.offset2
-                            div.row-fluid(style="margin-bottom:0;")
-                                form
-                                    h4 Adresse
-                                    
-                                    div.controls(style="margin-bottom:8px;")
-                                        select.btn.btn-mini#addressList
-                                                    option(value="Facturation") Facturation
-                                                    option(value="Livraison") Livraison
-                                                    option(value="Postale") Postale
+                            if (model.customer.addresses)
+                                - each address, i in model.customer.addresses
+                                    div.row-fluid(style="margin-bottom:0;")
+                                        form
+                                            h4 Adresse
+                                            
+                                            div.controls(style="margin-bottom:8px;")
+                                                select.btn.btn-mini#addressList
+                                                    if (model.addressType)
+                                                        - each addressType in model.addressType
+                                                            option(value="#{addressType.addressType}", selected=(addressType.addressType == address.addressType)) #{addressType.addressType}
                                                 span.caret
-                                    div.controls
-                                        input#street.span6(type="text", placeholder="Rue", value="")
-                                    div.controls.controls-row(style="margin-bottom:8px;")
-                                            input#zipCode.span2(type="zipCode", placeholder="Code postal", value="")
-                                            input#city.span4(type="city", placeholder="Ville", value="")
-                                    div.controls
-                                        input#country.span6(type="text", placeholder="Pays", value="")
-                                    div.controls
-                                        button.btn.btn-small.btn-primary(type="submit") Enregistrer
+                                            div.controls
+                                                input#street.span6(type="text", placeholder="Rue", value="#{address.street}")
+                                            div.controls.controls-row(style="margin-bottom:8px;")
+                                                    input#zipCode.span2(type="zipCode", placeholder="Code postal", value="#{address.zipCode}")
+                                                    input#city.span4(type="city", placeholder="Ville", value="#{address.city}")
+                                            div.controls
+                                                input#country.span6(type="text", placeholder="Pays", value="#{address.country}")
+                                            div.controls
+                                                button.btn.btn-small.btn-primary(type="submit") Enregistrer
 
-                            div.row-fluid
-                                form
-                                    h4 Adresse
-                                    
-                                    div.controls(style="margin-bottom:8px;")
-                                        select.btn.btn-mini#addressList
-                                                    option(value="Facturation") Facturation
-                                                    option(value="Livraison") Livraison
-                                                    option(value="Postale") Postale
-                                                span.caret
-                                    div.controls
-                                        input#street.span6(type="text", placeholder="Rue", value="")
-                                    div.controls.controls-row(style="margin-bottom:8px;")
-                                            input#zipCode.span2(type="zipCode", placeholder="Code postal", value="")
-                                            input#city.span4(type="city", placeholder="Ville", value="")
-                                    div.controls
-                                        input#country.span6(type="text", placeholder="Pays", value="")
-                                    div.controls
-                                        button.btn.btn-small.btn-primary(type="submit") Enregistrer
-
-                                
-
-                                        
-
-                    div.tab-pane#php 
-                        p PHP content
+                    div.tab-pane#bank
+                        form.form-horizontal 
+                            div.control-group
+                                label.control-label(for="bank_name") Domiciliation bancaire :
+                                div.controls
+                                    input#bankName(type="text", placeholder="domiciliation", name="bank.bank_name", value="#{model.customer.bank.bank_name}")
+                                    strong.fg-color-red *
+                            div.control-group
+                                label.control-label(for="accountNumber") Numéro du Compte : 
+                                div.controls
+                                    input#accountNumber(type="text", placeholder="Numéro de compte", value="#{model.customer.bank.account_no}")
+                            div.control-group
+                                label.control-label(for="currency") Devise : 
+                                div.controls
+                                    input#currency(type="text", placeholder="devise", value="#{model.customer.bank.currency}", style="margin-bottom:20px;")
+                                div.controls
+                                    button.btn.btn-small.btn-primary(type="submit") Enregistrer
+                    div.tab-pane#contacts
+                        h4  Liste des contacts
+                            .container-fluid
+                                .row-fluid
+                                    #contacts-list
+                                        if (model.customer.contacts)
+                                            - each contact, i in model.customer.contacts 
+                                                .tile(style="width:190px; height:200px;background-color:#FFF;color:#333")
+                                                    //.card
+                                                        figure.front
+                                                    center 
+                                                        div(style="font-size:30px;padding-top:10px;background-color:#6A6A6A").fg-color-white 
+                                                            i.icon-user-3
+                                                        .text-inner(style="padding:10px;")   
+                                                            .text-header #{contact.name.first} #{contact.name.last}  
+                                                            h5   #{contact.email}
+                                                            - each phone in contact.phones
+                                                                h5   #{phone.phoneType} : #{phone.number}
 
 block script
-    script.
+    script
         $(document).ready(function (){
             $("#test").on('click', function(e) {
                 $('#customerPanel').fadeOut();

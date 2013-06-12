@@ -6,29 +6,31 @@ block content
 			a(href="/sales")
 				img(src="/images/backbutton24x24.png", style="margin-left:1%;")
 			span.section-title   Liste des clients
-		.app-bar.fg-color-white.pull-right
-			a#homeBtn(href="/").win-command
-				span.win-commandimage.win-commandring &#xe03f;
-				span.win-label Accueil
-			hr.win-command
-			button#addBtn.win-command
-				span.win-commandimage.win-commandring &#xe33c;
-				span.win-label Ajouter
-			button#deleteBtn.win-command.disabled
-				span.win-commandimage.win-commandring &#xe33b;
-				span.win-label Supprimer
-			hr.win-command
-			button#prevBtn.win-command.disabled
-				span.win-commandimage.win-commandring &#xe360;
-				span.win-label Page préc.
-			button#nextBtn.win-command
-				span.win-commandimage.win-commandring &#xe35c;
-				span.win-label Page suiv.
-		.row-fluid
-			div.well.input-append
-				input.span5(type="text", placeholder="Trouver un client par son nom")
-				button.btn Go
 		div#customers-container.row-fluid
+			.app-bar.fg-color-white.pull-right
+				button#homeBtn.win-command
+					span.win-commandimage.win-commandring &#xe03f;
+					span.win-label Accueil
+				hr.win-command
+				button#addBtn.win-command
+					span.win-commandimage.win-commandring &#xe33c;
+					span.win-label Ajouter
+				button#deleteBtn.win-command.disabled
+					span.win-commandimage.win-commandring &#xe33b;
+					span.win-label Supprimer
+				hr.win-command
+				button#prevBtn.win-command.disabled
+					span.win-commandimage.win-commandring &#xe360;
+					span.win-label Page préc.
+				button#nextBtn.win-command
+					span.win-commandimage.win-commandring &#xe35c;
+					span.win-label Page suiv.
+			.row-fluid
+				div.well.input-append
+					input.span5(type="search", placeholder="Trouver un client par son nom")
+					button.btn Go
+			#customers-list.row-fluid
+		
 		
 		
 	
@@ -53,56 +55,43 @@ block script
 			| 			<h5>suivi par : <%=model.customer_owner.name.first%> <%=model.customer_owner.name.last%></h6>
 			|			<h5><a href="#" class="fg-color-white"><i class="icon-users"></i> Liste des contacts </a></h6>
 			|		</div>
-			|		<div class="LI">
+			|		<div class="LI" ><div style="width:150px; margin-left:auto; margin-right:auto">
 			|			<div class="esw">
 			|				<span class="sr">
-			|					<span>CA:</span>
-			|					<span>107 €</span>
+			|					<span>Devis</span>
 			|				</span>
 			|			</div>
 			|			<div class="esw">
 			|				<span class="sr">
-			|					<span>Cible:</span>
-			|					<span>107€</span>
+			|					<span>Factures</span>
 			|				</span>
-			|			</div>
+			|			</div></div>
 			|		</div>
 			|   </figure>
 			|	<figure class="back"> 
 			|		<div class="pull-right close">
 			|			<span id="roll-<%-model._id%>" class="roll icon-x-altx-alt"></span>
 			|		</div>
-			|		<ul class="nav nav-list" style="height:100%; margin-left:10px;">
-			|					
-			|			<li class="nav-header"><i class="icon-docs"></i>Devis : 105</li>
-			|			<li><a href="/sales/quotations/<%-model._id%>/transformed"> Transformés : 50</a></li>
-			|			<li><a href="/sales/quotations/<%-model._id%>/rejected"> Rejetés : 50</a></li>
-			|			<li><a href="/sales/quotations/<%-model._id%>/pending"> En attente : 5</a></li>
-			|			<li class="nav-header"><i class="icon-notebook"></i> Factures : 50</li>
-			|			<li><a href="/sales/quotations/<%-model._id%>/transformed">Réglées : 30</a></li>
-			|			<li><a href="/sales/quotations/<%-model._id%>/transformed">En attente : 20</a></li>
-			|		</ul>
-			| 		
-			|		<!--<ul class="unstyled icon-docs" style="height:100%; margin-left:10px;">
-			|					
-			|			<li >Devis : 105
+			|		<ul>
+			|			<li><b><i class="icon-docs"></i> Devis</b>
 			|				<ul>
-			|					<li><a href="/sales/quotations/<%-model._id%>/transformed"> Transformés : 50</a></li>
-			|					<li><a href="/sales/quotations/<%-model._id%>/rejected"> Rejetés : 50</a></li>
-			|					<li><a href="/sales/quotations/<%-model._id%>/pending"> En attente : 5</a></li>
+			|					<li>Transformés : 50</li>
+			|					<li> Rejetés : 50</li>
+			|					<li> En attente : 5</li>
 			|				</ul>
 			|			</li>
-			|			<li > Factures : 50
-			| 				<ul > 
-			|					<li><a href="/sales/quotations/<%-model._id%>/transformed">Réglées : 30</a></li>
-			|					<li><a href="/sales/quotations/<%-model._id%>/transformed">En attente : 20</a></li>
+			|			<li><i class="icon-notebook"></i> Factures
+			|				<ul>
+			|					<li> Réglées : 30</li>
+			|					<li> En attente : 20</li>
 			|				</ul>
 			|			</li>
-			|		</ul>-->
-			| 		
+			|		</ul>
 			|   </figure>
 			| </div>	
 	script(src="/js/modules/sales/customers.js")
+
+
 
 			
 	

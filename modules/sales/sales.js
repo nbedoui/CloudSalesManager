@@ -1,5 +1,6 @@
 var express = require('express');
 var app = express();
+var async = require("async");
 // DB Access
 app.model = require('../../models/SalesManagerModels');
 
@@ -95,18 +96,74 @@ exports.customer= function(req, res){
 
 exports.customerDetails= function(req, res){
     if (req.session.loggedIn){
+        var accountId = req.session.accountId;
         var id = req.params.id;
         console.log("id : "+id);
-        app.model.getCustomer(id, function(err, result){
-            console.log("Customer details="+result);
-            if(!err){
-                //res.render(__dirname+'/customers/customerDetails.jade', {model:JSON.stringify(result)});
-                res.render(__dirname+'/customers/customerDetails.jade', {model:result});
-            } else
-            {
+        
+        var getCustomer = function(callback){
+            //var id = "517e933bb6771658540000032";
+             app.model.getCustomer(id, function(err, customer){
+                if(err){
+                   callback(err, null); 
+                } else
+                {
+                    callback(null, customer);
+                }
+            });
+
+        }
+
+        var getPhoneType = function(callback){
+            app.model.getReferenceList("PhoneTypeModel", accountId, function(err, doc){
+             if (err){
+                callback(err, null)
+             } else {
+                callback(null, doc);
+             }  
+            });
+        }
+
+        var getAddressType = function(callback){
+            app.model.getReferenceList("AddressTypeModel", accountId, function(err, doc){
+             if (err){
+                callback(err, null)
+             } else {
+                callback(null, doc);
+             }  
+            });
+        }
+
+        var getIndustryList = function(callback){
+            app.model.getReferenceList("IndustryModel", accountId, function(err, doc){
+             if (err){
+                callback(err, null)
+             } else {
+                callback(null, doc);
+             }  
+            });
+        }
+
+        var getStatusList = function(callback){
+            app.model.getReferenceList("StatusModel", accountId, function(err, doc){
+             if (err){
+                callback(err, null)
+             } else {
+                callback(null, doc);
+             }  
+            });
+        }
+        console.log("appel de async parallel...");
+        async.parallel({customer:getCustomer, phoneType:getPhoneType, addressType:getAddressType, industryList:getIndustryList, statusList:getStatusList}, function(err, result){
+            if (err){
+                console.log("Erreur:"+err);
                 res.send(500, {error:err});
+            } else {
+                //console.log("Finish : "+JSON.stringify(result));
+                console.log("addressType : "+result.addressType);
+                res.render(__dirname+'/customers/customerDetails.jade', {model:result});
             }
-        });
+        })
+
     } else {
         res.redirect("/login");
     }
@@ -119,6 +176,7 @@ exports.customerQuotations = function(req, res){
         var customer_id = req.params.custId;
         var status = req.params.status;
         console.log("Customer Id = "+customer_id+"  Status:"+status);
+        var promise = app.model.getList('AdressTypeModel')
         app.model.getRowById('CustomerModel', customer_id, function(err, customer){
             if (!err){
                 var customerName = customer.customerName;

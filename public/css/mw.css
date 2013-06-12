@@ -217,7 +217,6 @@ background: none;
   -webkit-box-shadow: 0 4px 16px rgba(0,0,0,0.2);
       box-shadow: 0 4px 16px rgba(0,0,0,0.2);
 
-<<<<<<< HEAD
 }
 
 .row-fluid .tile.selected:before {
@@ -231,21 +230,6 @@ background: none;
   display: block;
 }
 
-=======
-}
-
-.row-fluid .tile.selected:before {
-  position: absolute;
-  content: "\e423";
-  color: #fff;
-  left: 4px;
-  top: 0;
-  font-family: 'IcoMoon';
-  z-index: 1002;
-  display: block;
-}
-
->>>>>>> 41c39e884311efcefcbfe537048e406d45384f72
 .row-fluid .tile.selected:after {
   width: 0;
   height: 0;
@@ -442,11 +426,19 @@ figure {
 
 .card .back {
   
-  background: #333;
+  background: #6E6E6E;
   -webkit-transform: rotateY( 180deg );
     -moz-transform: rotateY( 180deg );
       -o-transform: rotateY( 180deg );
         transform: rotateY( 180deg );
+}
+
+.card .back  > ul {
+  height:100%; 
+  margin-top: 10px;
+  margin-right:35px;
+  list-style-type:none;
+  
 }
 
 .flip {
@@ -464,40 +456,37 @@ figure {
 .LI {
   border-top: 1px solid #e5e5e5;
   height: 30px;
+  
   margin: 2px 0 0 0;
-  padding: 2px 0 2px 2px;
+  padding: 10px 0 2px 2px;
 }
 
 .esw {
-  /*
-  
-  -webkit-box-shadow: 0 1px 0 rgba(0,0,0,.05);
-  -webkit-transition: background-color .218s,border-color .218s,box-shadow .218s;
-  transition: background-color .218s,border-color .218s,box-shadow .218s;
-  -webkit-user-select: none;
-  -webkit-appearance: none;
-  */
-  -webkit-border-radius: 3px;
-    border-radius: 3px;
+  -webkit-border-radius: 1px;
+    border-radius: 1px;
   box-shadow: 0 1px 0 rgba(0,0,0,.05);
   background-color: #fff;
   border: 1px solid #d9d9d9;
   cursor: pointer;
+  
   float: left;
+  
   height: 28px;
   line-height: 28px;
   margin-left: 8px;
   padding: 0 10px 0 10px;
   outline: none;
-  width: auto;
+  width: 40px;
   
 }
 
 .sr {
     color: #262626;
     display: inline-block;
+    /*
     font-size: 11px;
     font-weight: bold;
+    */
 }
 .close {
   height: 16px;
@@ -612,7 +601,6 @@ select.btn-mini + .caret {
 }
 }
 
-<<<<<<< HEAD
 .table thead {
   background-color: #6E6E6E;
   color: #fff;
@@ -629,7 +617,7 @@ select.btn-mini + .caret {
     box-shadow:none; 
   background:transparent;
   cursor: pointer;
-  width: 40px;
+  width: 50px;
 
 }
 
@@ -637,11 +625,15 @@ select.btn-mini + .caret {
   outline : 1px solid #00AEDB;
 }
 
+.delete {
+  vertical-align: middle;
+  font-size: 1.3em;
+  padding-top: 0.5em;
+}
+
 .delete:hover {
   color : red;
   cursor:pointer;
 }
 
-=======
->>>>>>> 41c39e884311efcefcbfe537048e406d45384f72
 

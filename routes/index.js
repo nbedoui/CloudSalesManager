@@ -34,14 +34,12 @@ module.exports = function(app){
 
 	//Common pages
 	app.get('/params', common.params);
-<<<<<<< HEAD
 	app.get('/params/gst', common.gst);
 
-	//Post TVA (GST)
-	app.post('/params/gst/:id/update', common.gstUpdate);
-	app.post('/params/gst/insert', common.gstInsert);
+	//CRUD GST (TVA)
+	app.post('/params/update/:entity/:id', common.updateDocument);
+	app.post('/params/insert/:entity', common.insertDocument);
+	app.delete('/params/delete/:entity', common.deleteDocument);
 
-=======
->>>>>>> 41c39e884311efcefcbfe537048e406d45384f72
 	
 }

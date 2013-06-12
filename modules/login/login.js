@@ -28,6 +28,11 @@ exports.auth = function(req, res){
             res.send(401);
             return;
         }
+        if (! doc.active){
+            console.log("Authentification echouée..");
+            res.send(500);
+            return;
+        }
         console.log('login was successful');
         //console.log()
 

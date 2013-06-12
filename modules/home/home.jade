@@ -1,33 +1,36 @@
 extends ../../views/index
 
 block content
-    .container(style="margin-top: 15px;")
+    -var obj = JSON.parse(local)
+    .container(style="margin-top: 15px;",dir="rtl")
+
         div.header
             //a(href="#")
                 img(src="/images/backbutton24x24.png", style="margin-left:1%;")
-            span.section-title   Page d'accueil
+            span.section-title #{obj["home"]}
         .row-fluid
+                
                 if (moduleList.indexOf('sales') >= 0)
                     a(href="/sales")#sales.tile.wide.imagetext.bg-color-red
                         .image-wrapper
                             .icon-gift-2
                         .column-text
-                            .text-header3 Ventes
-                        .app-label Ventes
+                            .text-header3(dir="rtl") #{obj["sales"]}
+                        .app-label #{obj["sales"]}
                         .app-count 1
                 if (moduleList.indexOf('crm') >= 0)
                     a(href="/crm")#crm.tile.wide.imagetext.bg-color-blue
                             .image-wrapper
                                 .icon-users-2
                             .column-text
-                                .text-header3 CRM: Relation client
+                                .text-header3 #{obj["CRM"]}
                             .app-label CRM
                             .app-count 2
                 a(href="/accountInfos")#accountInfos.tile.wide.imagetext.bg-color-orange
                     .image-wrapper
                         .icon-vcard
                     .column-text
-                        .text-header3 Mon compte
+                        .text-header3 #{obj["Account"]}
                     .app-label Infos société
                     .app-count 3
                 a(href="/params")#params.tile.wide.imagetext.bg-color-green

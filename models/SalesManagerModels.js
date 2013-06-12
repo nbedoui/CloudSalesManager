@@ -9,6 +9,16 @@ var conn = mongoose.connect('mongodb://localhost/SalesManagerDB', {server:{poolS
     }
 });
 
+/**
+ * PhoneType  ['Fixe', 'mobile', ...]
+ */
+var PhoneTypeSchema = new mongoose.Schema({
+    account_id : {type: mongoose.Schema.ObjectId, ref:'Account'},
+    phoneType : {type : String, unique : true, trim: true}
+});
+
+var PhoneTypeModel = mongoose.model('PhoneType', PhoneTypeSchema);
+
 /*
 * AddressType
 */
@@ -19,9 +29,11 @@ var AddressTypeSchema = new mongoose.Schema({
 
 var AddressTypeModel = conn.model('AddressType', AddressTypeSchema);
 
-
+/*
+* Address
+*/
 var AddressSchema = new mongoose.Schema({
-    addressType : {type:String, trim:true},
+    addressType : {type : String, trim: true},
     street : {type : String, trim: true},
     zipCode : {type : String,  trim: true},
     city : {type : String,  trim: true},
@@ -70,17 +82,7 @@ var GSTSchema = new mongoose.Schema({
      tauxGST : {type : Number, unique : true}
  });
 
-var GSTModel = conn.model('GST', GSTSchema);
-
-/**
- * PhoneType  ['Fixe', 'mobile', ...]
- */
-var PhoneTypeSchema = new mongoose.Schema({
-    account_id : {type: mongoose.Schema.ObjectId, ref:'Account'},
-    phoneType : {type : String, unique : true, trim: true}
-});
-
-var PhoneTypeModel = mongoose.model('PhoneType', PhoneTypeSchema);
+var Gst = conn.model('Gst', GSTSchema);
 
 /*
 /*
@@ -127,6 +129,23 @@ var UserSchema = new mongoose.Schema({
 });
 
 var User = conn.model('User', UserSchema);
+/*
+ * Contact
+ */
+var ContactSchema = new mongoose.Schema({
+    name : {
+      first : {type : String, required : true},
+      last : {type : String, required : true}
+    },
+    phones : [{
+        phoneType : {type:String, trim:true},
+        number : {type : String, unique: true, trim: true}
+    }],
+    description : {type : String,  trim: true},
+    email : {type : String, trim : true}
+});
+
+var Contact = conn.model('Contact', ContactSchema);
 
 /*
 * Customers
@@ -136,37 +155,23 @@ var CustomerSchema = new mongoose.Schema({
     customer_owner : {type: mongoose.Schema.ObjectId, ref:'User'},
     customerCode : {type : String, unique : true, trim: true},
     customerName : {type : String, required : true, trim: true},
-    description : {type : String,  trim: true},
-    logo : {type : String,  trim: true},
-    website : {type : String,  trim: true},
-    status : {type:String, trim:true},
-    industry : {type:String, trim:true},
-    gstCode : {type:String, trim:true},
-    iban : {type:String, trim:true},
-    addresses:[{type: mongoose.Schema.ObjectId, ref:'Address'}]
+    description  : {type : String,  trim: true},
+    logo         : {type : String,  trim: true},
+    website      : {type : String,  trim: true},
+    status       : {type:String, trim:true},
+    industry     : {type:String, trim:true},
+    gstCode      : {type:String, trim:true},
+    bank : {
+        account_no : {type:String, trim:true},
+        bank_name  : {type:String, trim:true},
+        currency   : {type:String, trim:true}
+    },
+    addresses:[{type: mongoose.Schema.ObjectId, ref:'Address'}],
+    contacts:[{type: mongoose.Schema.ObjectId, ref:'Contact'}]
 });
 
 var CustomerModel = conn.model('Customer', CustomerSchema);
 
-/*
- * Contact
- */
-var ContactSchema = new mongoose.Schema({
-    name : {
-      first : {type : String, required : true},
-      last : {type : String, required : true}
-    },
-    customer_id : {type: mongoose.Schema.ObjectId, ref:'CustomerModel'},
-    phones : [{
-        phoneType : {type:String, trim:true},
-        number : {type : String, unique: true, trim: true}
-    }],
-    description : {type : String,  trim: true},
-    website : {type : String,  trim: true},
-    email : {type : String, trim : true}
-});
-
-var ContactModel = conn.model('Contact', ContactSchema);
 
 /*
 * InvoiceLine
@@ -176,7 +181,7 @@ var InvoiceLineSchema = new mongoose.Schema({
     price : {type:Number, required : true, default : 0},
     quantity : {type:Number, required : true, default : 0},
     amount : {type:Number, required : true, default : 0},
-    GST_id : {type:Number, required : true},
+    gst_id : {type: mongoose.Schema.ObjectId, ref:'Gst'},
     invoice : [InvoiceSchema]
 });
 
@@ -208,7 +213,7 @@ var QuotationLineSchema = new mongoose.Schema({
     price : {type:Number, required : true, default : 0},
     quantity : {type:Number, required : true, default : 0},
     amount : {type:Number, required : true, default : 0},
-    GST_id : {type:Number, required : true},
+    gst_id : {type: mongoose.Schema.ObjectId, ref:'Gst'},
     quotation : [QuotationSchema]
 });
 
@@ -365,6 +370,20 @@ module.exports.getList = function(entity, accountId, page, count, callback){
     });
 }
 
+module.exports.getReferenceList = function(entity, accountId, callback){
+    console.log("Récupération des informations concernant l'entité :"+entity);
+    var obj = eval(entity);
+    var ins = new obj();
+    var query = obj.find({account_id:accountId}, function(err, doc){
+        if(err){
+            console.log("ici erreur....");
+            callback(err, null);
+        } else {
+            callback(null, doc);
+        }    
+    });
+}
+
 module.exports.getListWithCriteria = function(entity, criteria, callback){
     //console.log("Récupération des informations concernant l'entité :"+entity);
     console.log("entity="+entity+" - criteria="+JSON.stringify(criteria));
@@ -511,9 +530,9 @@ getRowById = function(entity, id, callback){
 }
 
 //Update entity
-module.exports.updateEntity = function(entity, id, data, callback){
+module.exports.updateDocument = function(entity, id, data, callback){
    
-    console.log("entity="+entity+"  id="+id+"  data="+data.tauxGST);
+    console.log("entity="+entity+"  id="+id+"  data="+JSON.stringify(data));
     var obj = eval(entity);
     obj.findByIdAndUpdate(id, {$set:data}, function (err, doc) {
         if(!err){
@@ -523,20 +542,72 @@ module.exports.updateEntity = function(entity, id, data, callback){
         }
     });    
     
-};
+}
+
+//Insert new record
+module.exports.insertDocument = function(entity, data, callback){
+        console.log("entity="+entity+"  data="+JSON.stringify(data));
+        console.log("Add item...");
+        var obj = eval(entity);
+        var ins = new obj(data);
+        ins.save(function(err, ins){
+            if (!err) {
+                callback(null, ins);
+            } else {
+                callback(err, ins);
+            }
+
+        });
+}
+
+//Delete Entity
+module.exports.deleteDocument = function(entity, id, callback){
+        console.log("Delete Document "+entity+"  id="+id);
+        var obj = eval(entity);
+        obj.findByIdAndRemove(id, function (err) {
+            if(!err){
+                callback(null);
+            } else {
+                callback(err);
+            }
+        });
+}
 
 module.exports.getCustomer = function(id, callback){
+    var promise = new mongoose.Promise;
+    if (callback) promise.addBack(callback);
     CustomerModel.findOne({_id:id}, function(err, customer){
-        if (err) { callback(err, null)}
-        console.log("customer="+customer);
-        customer.populate('addresses', function(err, customer){
-            console.log("Adresses="+customer.addresses);
-            callback(null, customer);
+        if (err) { 
+            promise.error(err);
+            return;
+        }
+        //console.log("customer="+customer);
+        customer.populate('addresses').populate('contacts', function(err, customer){
+            //console.log("Adresses="+customer.addresses);
+            //console.log("contacts="+customer.contacts)
+            //callback(null, customer);
+            promise.complete(customer);
         })
         
     })
+    return promise;
 }
 
+/*
+module.exports.getCustomer = function(id, callback){
+    console.log("Je suis ici...");
+    CustomerModel.findOne({_id:id}, function(err, customer){
+        if (err) { callback(err, null)}
+            //console.log("customer="+customer);
+            customer.populate('addresses').populate('contacts', function(err, customer){
+                console.log("customer ="+customer);
+                
+        
+      
+    })
+})
+}
+*/
 module.exports.getCustomers2= function(accountId, fieldName, fieldValue, callback){
     console.log("getCustomers2");
     var customers = new Array();
@@ -611,10 +682,13 @@ module.exports.getRowById = getRowById;
 module.exports.GST                  = GSTModel;
 module.exports.Status               = StatusModel;
 module.exports.Industry             = IndustryModel;
+*/
 module.exports.AddressType          = AddressTypeModel;
+module.exports.PhoneType            = PhoneTypeModel;
+/*
 module.exports.AddressAccount       = AddressAccount;
 module.exports.AddressCustomer      = AddressCustomerModel;
-module.exports.PhoneType            = PhoneTypeModel;
+
 module.exports.Module               = ModuleModel;
 module.exports.ModuleAuth           = ModuleAuthModel;
 module.exports.Account              = Account;

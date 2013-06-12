@@ -11,13 +11,12 @@ exports.params = function(req, res){
 		res.redirect('/login');
 	}
 
-<<<<<<< HEAD
 };
 
 //TVA
 exports.gst = function(req, res){
 	if (req.session.loggedIn){
-		app.model.getList('GSTModel', req.session.accountId, -1, -1, function(err, result){
+		app.model.getList('Gst', req.session.accountId, -1, -1, function(err, result){
             if(!err){
             	console.log("TVA="+result);
                 res.render(__dirname+'/GST/gst.jade', {model:result});
@@ -34,60 +33,74 @@ exports.gst = function(req, res){
 
 };
 
-//Insert TVA
-exports.gstInsert = function(req, res){
-	//Update entity
+//Insert Document
+
+exports.insertDocument = function(req, res){
 	if (req.session.loggedIn){
 		var entity =  req.params.entity;
 	    var data = req.body;
+	    data.account_id=req.session.accountId;
 	    console.log("data="+JSON.stringify(data));
-/*
-	    app.model.updateEntity("GSTModel", id, data, function(err, record){
+	    app.model.insertDocument(entity, data, function(err, record){
 	        if(!err){
-	        		console.log("OKOKOKOK");
-	                if (record){
-	                	console.log("record="+record);
-	                    res.send(record);
-	                } else {
-	                    res.send(404);
-	                }
-	            } else {
-	            	console.log("NOTOK NOTOK NOTOK NOT OK");
-	                res.send(500, {error:err});
-	            }
-	        });
-	    } else {
-	        res.redirect("/login");
-	    }
-*/
-}
+        	    if (record){
+                	console.log("record="+record);
+                    res.send(record);
+                } else {
+                    res.send(404);
+                }
+            } else {
+            	res.send(500, {error:err});
+            }
+	    });
+	} else {
+	    res.redirect("/login");
+	}
 };
+
+
+//Delete Entity
+exports.deleteDocument = function(req, res){
+	if (req.session.loggedIn){
+		var entity =  req.params.entity;
+		console.log("body = "+JSON.stringify(req.body));
+	    var id = req.body._id;
+	    console.log("Delete "+entity+" id="+id);
+        //var obj = eval(entity);
+        app.model.deleteDocument(entity, id, function(err, record){
+	        if(!err){
+        	    res.send(200);
+            } else {
+            	res.send(500, {error:err});
+            }
+	    });
+    } else {
+        res.redirect("/");
+    }
+}
+
 //Update TVA
-exports.gstUpdate = function(req, res){
+exports.updateDocument = function(req, res){
 	//Update entity
 	if (req.session.loggedIn){
 		var entity =  req.params.entity;
 	    var id = req.params.id;
 	    var data = req.body;
 
-	    app.model.updateEntity("GSTModel", id, data, function(err, record){
+	    app.model.updateDocument(entity, id, data, function(err, record){
 	        if(!err){
-	        		console.log("OKOKOKOK");
-	                if (record){
-	                	console.log("record="+record);
+	        		if (record){
 	                    res.send(record);
 	                } else {
 	                    res.send(404);
 	                }
 	            } else {
-	            	console.log("NOTOK NOTOK NOTOK NOT OK");
-	                res.send(500, {error:err});
+	            	res.send(500, {error:err});
 	            }
 	        });
 	    } else {
 	        res.redirect("/login");
 	    }
 
-=======
->>>>>>> 41c39e884311efcefcbfe537048e406d45384f72
+
 };

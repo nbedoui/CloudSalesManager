@@ -63,7 +63,8 @@
 			//console.log("render customer view");
 			var data = this.model.toJSON();
 			//console.log("data="+JSON.stringify(data));
-			this.$el.html(this.template({model: data.customer}));
+			//this.$el.html(this.template({model: data.customer}));
+			this.$el.append(this.template({model: data.customer}));
 			this.$el.attr('id', data.customer._id);
             //this.$el.addClass("flip-container");
             this.$el.addClass("tile wcard high");
@@ -79,25 +80,16 @@
 
 	var CustomersView = Backbone.View.extend({
 		model: customers,
-		el : $('#content'),
-		perPage : 15,
+		el : $('#customers-container'),
+		perPage : 16,
 		events : {
 			'click #search':'searchCustomer',
 			'click #homeBtn':'command',
             'click #addBtn':'command',
             'click #deleteBtn':'command',
-            'click #infosBtn':'command',
             'click #prevBtn':'command',
             'click #nextBtn':'command'
 
-		},
-		flip: function(e){
-			console.log("Hello");
-			e.preventDefault();
-			var id = e.currentTarget.id;
-			var idCustomer = id.split('-')[1];
-			console.log("id="+id+" idCustomer:"+idCustomer);
-			$("#"+idCustomer).toggleClass("flipped");
 		},
 		initialize : function(){
 			var self =this;
@@ -133,11 +125,11 @@
 			var endPos = Math.min(startPos + this.perPage, this.count);
 			//console.log("Render ....startPos="+startPos+"  endPos="+endPos);
 			var self = this;
-			$("#customers-container").html('');
+			$("#customers-list").html('');
 			for (var i = startPos; i < endPos; i++){
 				//console.log("i="+i);
 				var customerView = (new CustomerView({model: customers[i]})).render().el;
-			    $("#customers-container").append(customerView);
+			    $("#customers-list").append(customerView);
 			};
 
 			if (this.options.page == this.maxPages){
@@ -161,7 +153,8 @@
                     
             switch(idBtn) {
                 case "homeBtn" : {
-                    window.location.hash = 'index';
+                	console.log("home page");
+                    window.location.href = '/';
                 }
                 break;
                 case "addBtn" : console.log("Ajouter un client");
@@ -169,10 +162,6 @@
                 case "deleteBtn" : {
                     console.log("Delete customer id="+idCustomer);
                     //window.location.hash = 'customer/'+idCustomer;
-                }
-                break;
-                case "infosBtn" : {
-                    window.location.href = '/sales/customer/'+idCustomer;
                 }
                 break;
                 case "prevBtn" : {
