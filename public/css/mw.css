@@ -16,21 +16,20 @@
 @font-face {
   font-family: 'FontAwesome';
   src: url('/fonts/fontawesome-webfont.eot?v=3.1.0');
-  src: url('/fonts/fontawesome-webfont.eot?#iefix&v=3.1.0') format('embedded-opentype'), url('../font/fontawesome-webfont.woff?v=3.1.0') format('woff'), url('../font/fontawesome-webfont.ttf?v=3.1.0') format('truetype'), url('../font/fontawesome-webfont.svg#fontawesomeregular?v=3.1.0') format('svg');
+  src: url('/fonts/fontawesome-webfont.eot?#iefix&v=3.1.0') format('embedded-opentype'), 
+      url('../font/fontawesome-webfont.woff?v=3.1.0') format('woff'), 
+      url('../font/fontawesome-webfont.ttf?v=3.1.0') format('truetype'), 
+      url('../font/fontawesome-webfont.svg#fontawesomeregular?v=3.1.0') format('svg');
   font-weight: normal;
   font-style: normal;
 }
 
 .app-bar {
-position: relative;
-bottom: 0;
-left: 0;
-right: 0;
-/*
-min-height: 80px;
-background-color: #1d1d1d !important;
-*/
-text-align: center;
+  position: relative;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  text-align: center;
 }
 
 a.win-command, button.win-command {
@@ -39,6 +38,7 @@ a.win-command, button.win-command {
    letter-spacing: 0.02em;
    vertical-align: middle;
 }
+
 a.win-command, button.win-command {
   background: none;
   background-clip: border-box;
@@ -61,7 +61,7 @@ button.win-command .win-label {
    position: relative;
    line-height: 20px;
    display: block;
-   max-width: 88px; /* 100px button, but allow for 2px margins and 4px padding on each side */
+   max-width: 88px;    /* 100px button, but allow for 2px margins and 4px padding on each side */
    padding-left: 4px;  /* 12px between buttons, 6px per side, minus 2px margins */
    padding-right: 4px;
    overflow: hidden;
@@ -76,34 +76,29 @@ a.win-command:hover {
 
 
 hr.win-command {
-display: inline-block;
-padding: 0;
-margin: 14px 29px 34px 30px;
-width: 1px;
-height: 40px;
-border: 0;
-vertical-align: top;
-background-color: #CCC;
+  display: inline-block;
+  padding: 0;
+  margin: 14px 29px 34px 30px;
+  width: 1px;
+  height: 40px;
+  border: 0;
+  vertical-align: top;
+  background-color: #CCC;
 }
 
-.win-command {
-  /*
-  color:#fff;
-  */
-}
 
 .win-commandimage {
-font-family: "IcoMoon";
-letter-spacing: 0;
-vertical-align: middle;
-font-size: 14pt;
-margin: -2px;
-line-height: 40px;
-background-position: 0 0;
-display: inline-block;
-width: 40px;
-height: 40px;
-background-size: 160px 80px;
+  font-family : "IcoMoon";
+  letter-spacing  : 0;
+  vertical-align  : middle;
+  font-size : 14pt;
+  margin : -2px;
+  line-height : 40px;
+  background-position : 0 0;
+  display : inline-block;
+  width : 40px;
+  height : 40px;
+  background-size: 160px 80px;
 }
 
 .win-commandring {
@@ -111,7 +106,8 @@ background-size: 160px 80px;
   border-style: solid;
   -webkit-border-radius : 50%;
     -moz-border-radius : 50%;
-  border-radius: 50%;
+      -o-border-radius : 50%;
+        border-radius: 50%;
   background-clip: border-box;
 }
 
@@ -141,15 +137,9 @@ h1, h2, h3, h4, h5, h6,
 }
 
 .navbar .btn, .navbar .btn-group {
-margin-top: 0px;
-background: none;
+  margin-top: 0px;
+  background: none;
 }
-/*
-.bar-navbar {
-	width: 30px;
-  height: 30px;
-}
-*/
 
 .magenta {
   border-bottom: 2px solid #D80073;
@@ -185,37 +175,25 @@ background: none;
 .section-title {
   font-size: 1.8em;
   margin-left: 1em;
-  /*
-  text-shadow: 0 1px 0 rgba(255, 255, 255, .4);
-  */
 }
 
 .row-fluid .tile {
-  
   font-family: "Segoe UI Light";
-  
   position: relative;
   display: block;
   float: left;
   margin: 5px;
   padding: 0;
   width: 250px;
-  /*
-  height: 180px;
-  */
   color: #FFF;
   cursor: pointer;
   overflow: hidden;
   text-decoration: none;
-  /*
-  box-shadow: 0 0 1px #FFFFCC inset;
-  */
   background-color: #c3c3c3;
-  /*
-  border-radius: 3px;
-  */
   -webkit-box-shadow: 0 4px 16px rgba(0,0,0,0.2);
-      box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+    -moz-box-shadow: 0 0 1px #FFFFCC inset;
+      -o-box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+        /*box-shadow: 0 4px 16px rgba(0,0,0,0.2);*/
 
 }
 
@@ -247,10 +225,8 @@ background: none;
   outline: 3px solid #00AEDB;
 }
 .row-fluid .tile:hover {
-	/*
-  opacity:0.8;
-  */
   outline : 4px solid #26A0DA;
+  -moz-i
 }
 
 .row-fluid .tile.high {
@@ -259,7 +235,6 @@ background: none;
 
 .row-fluid .tile.wide.imagetext {
   width: 17em;
-
   height: 8em;
   padding-top: 2.5em;
   padding-left: 2.5em;
@@ -273,8 +248,6 @@ background: none;
   width: 60px;
   height: 60px;
   margin: auto;
-  
-  
   font-size: 50px;
 }  
 
@@ -283,12 +256,8 @@ background: none;
 .row-fluid .tile.wide.text .column-text {
   display: block;
   float: left;
-  
   width: 12em;
-  
   padding-left: 2px;
-  
-  
 }
 
 
@@ -297,26 +266,22 @@ background: none;
   font-size: 1.2em;
   height: 40px;
   text-align: left;
-/*
-  line-height: 36px;
-  max-height: 110px;
-*/
   overflow: hidden;
 }
 
 .row-fluid .tile .app-label {
-  bottom: 10px;
-  font-size: 12px;
-  left: 20px;
-  position: absolute;
+  bottom    : 10px;
+  font-size : 12px;
+  left      : 20px;
+  position  : absolute;
 }
 
 .row-fluid .tile .app-count {
-  bottom: 10px;
-  font-size: 14px;
+  bottom     : 10px;
+  font-size  : 14px;
   font-weight: bold;
-  right: 20px;
-  position: absolute;
+  right      : 20px;
+  position   : absolute;
 }
 
 .row-fluid .tile.wcard {
@@ -329,34 +294,30 @@ background: none;
   height: 100%;
   
   position: absolute;
-  -webkit-transition: -webkit-transform 1s;
-    -moz-transition: -moz-transform 1s;
-      -o-transition: -o-transform 1s;
-        transition: transform 1s;
-  -webkit-transform-style: preserve-3d;
-    -moz-transform-style: preserve-3d;
-      -o-transform-style: preserve-3d;
-        transform-style: preserve-3d;
+  -webkit-transition : -webkit-transform 1s;
+    -moz-transition  : -moz-transform 1s;
+      -o-transition  : -o-transform 1s;
+        transition   : transform 1s;
+  -webkit-transform-style : preserve-3d;
+    -moz-transform-style  : preserve-3d;
+      -o-transform-style  : preserve-3d;
+        transform-style   : preserve-3d;
 }
 
 
 .card .text-inner {
-  width: 90%;
-  height: 110px;
-  padding: 10px;
-  text-align: center;
-  margin: auto;
+  width      : 90%;
+  height     : 110px;
+  padding    : 10px;
+  text-align : center;
+  margin     : auto;
 }
 
 .card .text-inner .text-header {
-  font-family: "Segoe UI";
-	font-size: 1.2em;
-  text-decoration: none;
-  /*
-  color: #101010;
-  */
+  font-family : "Segoe UI";
+	font-size   : 1.2em;
+  text-decoration : none;
   color:#FFFFFF;
-  
 }
 
 .card .text-header:hover {
@@ -364,31 +325,25 @@ background: none;
 
 }
 
-
 .card .img {
-   width: 50px;
-   height: 50px;
-   /*
-   background-color: #00AEDB;
-   */
-   margin: auto;
-   padding: 2px;
-    margin-bottom: 10px;
-   }
-
-.card .img img {
-  
   width: 50px;
   height: 50px;
-  
   margin: auto;
+  padding: 2px;
+  margin-bottom: 10px;
+}
 
+.card .img img {
+  width: 50px;
+  height: 50px;
+  margin: auto;
 } 
+
 .card.flipped {
   -webkit-transform: rotateY( 180deg );
-    -moz-transform: rotateY( 180deg );
-      -o-transform: rotateY( 180deg );
-        transform: rotateY( 180deg );
+    -moz-transform : rotateY( 180deg );
+      -o-transform : rotateY( 180deg );
+        transform  : rotateY( 180deg );
 }
 
 
@@ -413,11 +368,20 @@ figure {
   -webkit-margin-start: 1px;
   -webkit-margin-end: 1px;
 
-  -moz-margin-before: 1px;
-  -moz-margin-after: 1px;
-  -moz-margin-start: 1px;
-  -moz-margin-end: 1px;
-  
+    -moz-margin-before: 1px;
+    -moz-margin-after: 1px;
+    -moz-margin-start: 1px;
+    -moz-margin-end: 1px;
+
+      -o-margin-before: 1px;
+      -o-margin-after: 1px;
+      -o-margin-start: 1px;
+      -o-margin-end: 1px;
+
+        margin-before: 1px;
+        margin-after: 1px;
+        margin-start: 1px;
+        margin-end: 1px;
 }
 
 .card .front {
@@ -425,7 +389,6 @@ figure {
 }
 
 .card .back {
-  
   background: #6E6E6E;
   -webkit-transform: rotateY( 180deg );
     -moz-transform: rotateY( 180deg );
@@ -442,7 +405,7 @@ figure {
 }
 
 .flip {
- font-size: 12px;
+  font-size: 12px;
   padding: 2px;
   
 }
@@ -456,38 +419,36 @@ figure {
 .LI {
   border-top: 1px solid #e5e5e5;
   height: 30px;
-  
   margin: 2px 0 0 0;
   padding: 10px 0 2px 2px;
 }
 
 .esw {
   -webkit-border-radius: 1px;
-    border-radius: 1px;
-  box-shadow: 0 1px 0 rgba(0,0,0,.05);
+    -moz-border-radius: 1px;
+      border-radius: 1px;
+  
+  -webkit-box-shadow: 0 1px 0 rgba(0,0,0,.05);
+    -moz-box-shadow: 0 1px 0 rgba(0,0,0,.05);
+      box-shadow: 0 1px 0 rgba(0,0,0,.05);
+  
   background-color: #fff;
   border: 1px solid #d9d9d9;
   cursor: pointer;
-  
   float: left;
-  
   height: 28px;
   line-height: 28px;
   margin-left: 8px;
   padding: 0 10px 0 10px;
   outline: none;
   width: 40px;
-  
 }
 
 .sr {
     color: #262626;
     display: inline-block;
-    /*
-    font-size: 11px;
-    font-weight: bold;
-    */
 }
+
 .close {
   height: 16px;
   margin: 0;
@@ -502,19 +463,21 @@ figure {
 }
 .nav.nav-pills {
   font-size: 40px;
-  width: 405px;
+  width: 11em;
   margin: auto;
   color:#FFFFFF;
+  
 }
 
 .dialogPanel {
-  width: 640px;
+  width: 50em;
+  height:40em;
   margin: auto;
+  overflow: auto;
   -webkit-box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+    -moz-box-shadow: 0 4px 16px rgba(0,0,0,0.2);
       box-shadow: 0 4px 16px rgba(0,0,0,0.2);
-
 }
-
 
 .dialogHeader {
   background-color: #e46f61;
@@ -533,10 +496,7 @@ figure {
 
 .nav-pills, .tab-content, input, button, select, textarea, option {
 	font-family: "Segoe UI Light";
-
 }
-
-
 
 .nav > li > a,  .nav > li > a.win-command{
   color: #FFFFFF;
@@ -544,8 +504,8 @@ figure {
 }
 
 .nav > li > a:hover, .nav > li > a.win-command:hover {
-text-decoration: none;
-background-color: transparent;
+  text-decoration: none;
+  background-color: transparent;
 }
 
 .nav-pills > .active > a, 
@@ -557,8 +517,6 @@ background-color: transparent;
   background-color: transparent;
   opacity: 1.0;
 }
-
-
 
 select.btn-mini{
 	height: 33px;
@@ -583,7 +541,6 @@ select.btn-mini + .caret {
 }
 
 @media (max-width: 480px) {
-  
   .dialogPanel {
     float: none;
     width: auto;
@@ -597,8 +554,7 @@ select.btn-mini + .caret {
     width: auto;
     padding-top: 0;
     text-align: left;
-
-}
+  }
 }
 
 .table thead {
@@ -608,17 +564,18 @@ select.btn-mini + .caret {
 
 .table {
   -webkit-box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+    -moz-box-shadow: 0 4px 16px rgba(0,0,0,0.2);
       box-shadow: 0 4px 16px rgba(0,0,0,0.2);
-
 }
+
 .list-input > input {
-  border:none;
   -webkit-box-shadow:none; 
-    box-shadow:none; 
+    -moz-box-shadow:none; 
+      box-shadow:none; 
+  border:none;
   background:transparent;
   cursor: pointer;
   width: 50px;
-
 }
 
 .list-input > input:hover, .list-input > input:focus {

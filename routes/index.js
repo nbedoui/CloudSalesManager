@@ -19,18 +19,25 @@ module.exports = function(app){
 
 
 	app.get('/sales/customers', sales.customers);
+	app.get('/sales/newCustomer', sales.newCustomer);
+	app.post('/sales/insertCustomer', sales.insertCustomer);
+	app.post('/sales/updateCustomer/:id', sales.updateCustomer);
+
+	app.post('/sales/insertAddress/:custId', sales.insertAddress);
+	app.post('/sales/updateAddress/:custId/:id', sales.updateAddress);
+	app.get('/sales/deleteAddress/:custId/:id', sales.deleteAddress);
+	
+	app.get('/sales/customer/address/maps/:lat/:lng', sales.maps);
 
 
 	app.get('/sales/customer/:id', sales.customer);
-	app.get('/sales/customerDetails/customer=:id', sales.customerDetails);
+	app.get('/sales/customerDetails/:id/:active', sales.customerDetails);
 
 	//Quotations
 	app.get('/sales/quotations/:custId/:status', sales.customerQuotations);
 	//api
 	app.get('/list/customers', sales.customersList)
 	app.get('/list/customer/customerName=:fieldValue', sales.customersSubList)
-
-	app.get('/custs', sales.custs);
 
 	//Common pages
 	app.get('/params', common.params);

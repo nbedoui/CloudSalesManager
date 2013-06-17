@@ -1,0 +1,67 @@
+extends ../../../views/index
+
+block content
+    .container(style="margin-top: 15px;")
+        div.header
+            a(href="/sales/customers")
+                img(src="/images/backbutton24x24.png")
+            span.section-title   Nouveau client 
+                strong.fg-color-red #{model.customerName}
+        .row-fluid
+            div.dialogPanel#customerPanel
+                div.dialogHeader
+                    H4.fg-color-white Informations du client    
+                div.tab-content
+                    div.tab-pane#infos.active
+                        form.form-horizontal(method="POST", action="/sales/insertCustomer")
+                            fieldset
+                                div.control-group
+                                    label.control-label(for="customerCode") Code client :
+                                    div.controls
+                                        input#customerCode(type="text", name="customerCode", required, placeholder="Code client")
+                                div.control-group
+                                    label.control-label(for="customerName") Nom du client : 
+                                    div.controls
+                                        input#customerName(type="text", name="customerName", required, placeholder="Nom du client")
+                                div.control-group
+                                    label.control-label(for="website") Site web : 
+                                    div.controls
+                                        input#website(type="url", name="website", placeholder="http://xyz.com")
+                                div.control-group
+                                    label.control-label(for="description") Description : 
+                                    div.controls
+                                        textarea#description(type="text", name="description", placeholder="Description")
+                                div.control-group
+                                    label.control-label(for="industryList") Activité :
+                                    div.controls
+                                        select.btn.btn-mini#industryList(name="industry")
+                                            if (model.industryList)
+                                                - each industry in model.industryList
+                                                    option(value="#{industry.industry}") #{industry.industry}
+                                        span.caret
+                                div.control-group
+                                    label.control-label(for="statusList") Statut : 
+                                    div.controls
+                                        select.btn.btn-mini#statusList(name="status")
+                                            if (model.statusList)
+                                                - each status in model.statusList
+                                                    option(value="#{status.status}") #{status.status}
+                                        span.caret
+                                div.controls
+                                    button.btn.btn-small.btn-primary(type="submit") Enregistrer
+
+                    
+                                        
+
+block script
+    script
+        $(document).ready(function (){
+            $("#test").on('click', function(e) {
+                $('#customerPanel').fadeOut();
+                setTimeout("nav('/login')",1000);
+                return false;
+            });
+        });
+        function nav(href){
+            location.href=href;
+        };

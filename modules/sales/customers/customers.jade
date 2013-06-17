@@ -27,8 +27,8 @@ block content
 					span.win-label Page suiv.
 			.row-fluid
 				div.well.input-append
-					input.span5(type="search", placeholder="Trouver un client par son nom")
-					button.btn Go
+					input#searchCustomerName.span5(type="search", placeholder="Trouver un client par son nom")
+					button.btn#search Go
 			#customers-list.row-fluid
 		
 		
@@ -42,53 +42,47 @@ block script
 	script(src="http://backbonejs.org/backbone-min.js")
 	//Templates
 	script#customer-template(type="text/template")
-			| <div id="card-<%=model._id%>" class="card"> 
-			|	<figure class="front">
-			|		<div style="background-color:#6E6E6E;">
-			|			<div class="pull-right">
-			|				<span class="flip pull-left" id="flip-<%=model._id%>">Historique</span>
-			|			</div>
-			|			<div class="img"><img src="<%=model.logo%>"/></div>
-			|       </div>
-			|		<div class="text-inner">
-			|			<a id="customer-<%=model._id%>"  href="#" class="text-header customerDetails"> <%=model.customerCode%> - <%=model.customerName%></a>
-			| 			<h5>suivi par : <%=model.customer_owner.name.first%> <%=model.customer_owner.name.last%></h6>
-			|			<h5><a href="#" class="fg-color-white"><i class="icon-users"></i> Liste des contacts </a></h6>
-			|		</div>
-			|		<div class="LI" ><div style="width:150px; margin-left:auto; margin-right:auto">
-			|			<div class="esw">
-			|				<span class="sr">
-			|					<span>Devis</span>
-			|				</span>
-			|			</div>
-			|			<div class="esw">
-			|				<span class="sr">
-			|					<span>Factures</span>
-			|				</span>
-			|			</div></div>
-			|		</div>
-			|   </figure>
-			|	<figure class="back"> 
-			|		<div class="pull-right close">
-			|			<span id="roll-<%-model._id%>" class="roll icon-x-altx-alt"></span>
-			|		</div>
-			|		<ul>
-			|			<li><b><i class="icon-docs"></i> Devis</b>
-			|				<ul>
-			|					<li>Transformés : 50</li>
-			|					<li> Rejetés : 50</li>
-			|					<li> En attente : 5</li>
-			|				</ul>
-			|			</li>
-			|			<li><i class="icon-notebook"></i> Factures
-			|				<ul>
-			|					<li> Réglées : 30</li>
-			|					<li> En attente : 20</li>
-			|				</ul>
-			|			</li>
-			|		</ul>
-			|   </figure>
-			| </div>	
+			div(id!="card-<%=model._id%>").card 
+				figure.front
+					div(style="background-color:#6E6E6E;")
+						div.pull-right
+							span.flip.pull-left(id!="flip-<%=model._id%>") Historique
+						div.img
+							img(src!="<%=model.logo%>")
+					div.text-inner
+						a(id!="customer-<%=model._id%>", href="#").text-header.customerDetails <%=model.customerCode%> - <%=model.customerName%>
+						h5 suivi par : <%=model.customer_owner.name.first%> <%=model.customer_owner.name.last%>
+						h5
+							a(href="#").fg-color-white
+								i.icon-users
+								| Liste des contacts
+					div.LI
+						div(style="width:150px; margin-left:auto; margin-right:auto")
+							div.esw
+								span.sr
+									span Devis
+							div.esw
+								span.sr
+									span Factures
+				figure.back 
+					div.pull-right.close
+						span(id!="roll-<%-model._id%>").roll.icon-x-altx-alt
+					ul
+						li
+							b
+								i.icon-docs 
+								| Devis
+							ul
+								li Transformés : 50
+								li Rejetés : 50
+								li En attente : 5
+						li
+							b
+								i.icon-notebook 
+								| Factures
+							ul
+								li Réglées : 30
+								li En attente : 20
 	script(src="/js/modules/sales/customers.js")
 
 

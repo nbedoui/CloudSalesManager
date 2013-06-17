@@ -166,7 +166,7 @@ var CustomerSchema = new mongoose.Schema({
         bank_name  : {type:String, trim:true},
         currency   : {type:String, trim:true}
     },
-    addresses:[{type: mongoose.Schema.ObjectId, ref:'Address'}],
+    addresses:[AddressSchema],
     contacts:[{type: mongoose.Schema.ObjectId, ref:'Contact'}]
 });
 
@@ -277,6 +277,7 @@ var pagesNumber = function(entity, criteria, linePerPage, callback){
         }
     })
 */
+
     getCount(entity, criteria, function(err, count){
         if(err){
             console.log("");
@@ -529,6 +530,26 @@ getRowById = function(entity, id, callback){
     
 }
 
+module.exports.updateSubDocument = function(entity, id, subdoc, idSub, data, callback){
+
+    var criteria = {};
+    criteria["_id"] = id;
+    criteria[subdoc] = idSub;
+    //console.log("criteria="+JSON.stringify(criteria));
+    //console.log("entity="+entity+"  id="+id+"  data="+JSON.stringify(data));
+    var obj = eval(entity);
+    //console.log("Entity : "+obj);
+    obj.update(criteria, {$set:data}, function (err, doc) {
+        if(!err){
+            console.log("doc="+doc);
+            callback(null, doc);
+        } else {
+            console.log("Erreur="+err);
+            callback(err, null);
+        }
+    });
+        
+}
 //Update entity
 module.exports.updateDocument = function(entity, id, data, callback){
    
@@ -581,11 +602,7 @@ module.exports.getCustomer = function(id, callback){
             promise.error(err);
             return;
         }
-        //console.log("customer="+customer);
-        customer.populate('addresses').populate('contacts', function(err, customer){
-            //console.log("Adresses="+customer.addresses);
-            //console.log("contacts="+customer.contacts)
-            //callback(null, customer);
+        customer.populate('contacts', function(err, customer){
             promise.complete(customer);
         })
         
@@ -593,27 +610,13 @@ module.exports.getCustomer = function(id, callback){
     return promise;
 }
 
-/*
-module.exports.getCustomer = function(id, callback){
-    console.log("Je suis ici...");
-    CustomerModel.findOne({_id:id}, function(err, customer){
-        if (err) { callback(err, null)}
-            //console.log("customer="+customer);
-            customer.populate('addresses').populate('contacts', function(err, customer){
-                console.log("customer ="+customer);
-                
-        
-      
-    })
-})
-}
-*/
+
 module.exports.getCustomers2= function(accountId, fieldName, fieldValue, callback){
-    console.log("getCustomers2");
+    //console.log("getCustomers2");
     var customers = new Array();
     if (fieldName && fieldValue){
         var criteria = new RegExp('^'+fieldValue, 'i');
-        console.log("getCustomers2 criteria="+criteria);  
+        //console.log("getCustomers2 criteria="+criteria);  
         var query = CustomerModel.where(fieldName, criteria).where('account_id').equals(accountId);  
     } else {
         var query = CustomerModel.where('account_id').equals(accountId);
@@ -622,7 +625,7 @@ module.exports.getCustomers2= function(accountId, fieldName, fieldValue, callbac
     //query.where('customer_owner').equals(customer_owner);
     
     query.sort('_id');
-    query.select('-addresses -account_id');
+    query.select('_id customerCode customerName logo customer_owner');
     query.populate('customer_owner', 'name');
     query.exec(function (err, docs) {
         // called when the `query.complete` or `query.error` are called
@@ -635,7 +638,7 @@ module.exports.getCustomers2= function(accountId, fieldName, fieldValue, callbac
             })
         callback(null, customers);
         //console.log("docs="+docs);
-        console.log("customers="+JSON.stringify(customers));
+        //console.log("customers="+JSON.stringify(customers));
     });
 
 }

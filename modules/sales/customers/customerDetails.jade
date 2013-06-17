@@ -12,52 +12,50 @@ block content
                 div.dialogHeader
                     ul.nav.nav-pills
                         li.active
-                            a(href="#infos", data-toggle="tab", rel="popover",
-                                data-content="Informations concernant ce client",
-                                data-original-title="Marwael").win-command
+                            a#li-infos(href="#infos", data-toggle="tab").win-command
                                     span.win-commandimage.win-commandring &#xe000;
                                     span.win-label Infos
                         li
-                            a(href="#address", data-toggle="tab").win-command
+                            a#li-address(href="#address", data-toggle="tab").win-command
                                 span.win-commandimage.win-commandring &#xe033;
                                 span.win-label Adresses
                         li
-                            a(href="#php", data-toggle="tab").win-command
+                            a#li-manager(href="#manager", data-toggle="tab").win-command
                                     span.win-commandimage.win-commandring &#xe045;
                                     span.win-label Géré par
                         li
-                            a(href="#bank", data-toggle="tab").win-command
+                            a#li-bank(href="#bank", data-toggle="tab").win-command
                                     span.win-commandimage.win-commandring &#xe080;
                                     span.win-label Banque
                         li
-                            a(href="#contacts", data-toggle="tab").win-command
+                            a#li-contacts(href="#contacts", data-toggle="tab").win-command
                                     span.win-commandimage.win-commandring &#xe001;
                                     span.win-label Contacts
                 div.tab-content
                     div.tab-pane#infos.active
-                        form.form-horizontal
+                        form.form-horizontal(method="POST", action="/sales/updateCustomer/#{model.customer._id}" )
                             fieldset
                                 div.control-group
                                     label.control-label(for="customerCode") Code client :
                                     div.controls
-                                        input#customerCode(type="text", placeholder="Code client", value="#{model.customer.customerCode}")
+                                        input#customerCode(type="text", name="customerCode", required, placeholder="Code client", value="#{model.customer.customerCode}")
                                         strong.fg-color-red *
                                 div.control-group
                                     label.control-label(for="customerName") Nom du client : 
                                     div.controls
-                                        input#customerName(type="text", placeholder="Nom du client", value="#{model.customer.customerName}")
+                                        input#customerName(type="text", name="customerName", required, placeholder="Nom du client", value="#{model.customer.customerName}")
                                 div.control-group
                                     label.control-label(for="website") Site web : 
                                     div.controls
-                                        input#website(type="url", placeholder="http://xyz.com", value="#{model.customer.website}")
+                                        input#website(type="url", name="website", placeholder="http://xyz.com", value="#{model.customer.website}")
                                 div.control-group
                                     label.control-label(for="description") Description : 
                                     div.controls
-                                        input#description(type="text", placeholder="Description", value="#{model.customer.description}")
+                                        textarea#description(type="text", name="description", placeholder="Description") #{model.customer.description}
                                 div.control-group
                                     label.control-label(for="industryList") Activité :
                                     div.controls
-                                        select.btn.btn-mini#industryList
+                                        select.btn.btn-mini#industryList(name="industry")
                                             if (model.industryList)
                                                 - each industry in model.industryList
                                                     option(value="#{industry.industry}", selected=(industry.industry == model.customer.industry)) #{industry.industry}
@@ -65,7 +63,7 @@ block content
                                 div.control-group
                                     label.control-label(for="statusList") Statut : 
                                     div.controls
-                                        select.btn.btn-mini#statusList
+                                        select.btn.btn-mini#statusList(name="status")
                                             if (model.statusList)
                                                 - each status in model.statusList
                                                     option(value="#{status.status}", selected=(status.status == model.customer.status)) #{status.status}
@@ -74,29 +72,66 @@ block content
                                     button#save1.btn.btn-small.btn-primary(type="submit") Enregistrer
 
                     div.tab-pane#address 
-                        div.span12.offset2
+                        div.span9.offset2
+                            div(style="margin-bottom: 2px")
+                                button.pull-right.btn.btn-danger.btn-mini(type="button", data-toggle="collapse", data-target="#inputPanel") 
+                                    i.icon-plus
+                                    |  Ajouter une adresse
+                                span#error.pull-right
+                                div#inputPanel.collapse
+                                    div.well
+                                        form(method="POST", action="/sales/insertAddress/#{model.customer._id}" )
+                                            div.controls(style="margin-bottom:8px;")
+                                                select.btn.btn-mini#addressList(name="addressType", required)
+                                                    if (model.addressType)
+                                                        - each addressType in model.addressType
+                                                            option(value="#{addressType.addressType}") #{addressType.addressType}
+                                                span.caret
+                                            div.controls
+                                                textarea#street.span6(type="text", name="street", required, placeholder="Rue")
+                                            div.controls.controls-row(style="margin-bottom:8px;")
+                                                    input#zipCode.span2(type="zipCode", name="zipCode", required, placeholder="Code postal")
+                                                    input#city.span4(type="city", name="city", required, placeholder="Ville")
+                                            div.controls
+                                                input#country.span6(type="text", name="country", required, placeholder="Pays")
+                                            div.controls
+                                                button.btn.btn-small.btn-primary(type="submit") Enregistrer
                             if (model.customer.addresses)
                                 - each address, i in model.customer.addresses
                                     div.row-fluid(style="margin-bottom:0;")
-                                        form
-                                            h4 Adresse
-                                            
-                                            div.controls(style="margin-bottom:8px;")
-                                                select.btn.btn-mini#addressList
+                                        form(method="POST", action="/sales/updateAddress/#{model.customer._id}/#{address._id}" )
+                                            div.controls(style="margin-bottom:8px;") 
+                                                //- addresses.$. permet d'insérer les données dans les sous-documents addresses du document CustomerModel
+                                                input(id="addr-#{address._id}", type="text", value="#{address.street} #{address.zipCode} #{address.city} #{address.country}")
+                                                select.btn.btn-mini#addressList(name="addresses.$.addressType", required)
                                                     if (model.addressType)
                                                         - each addressType in model.addressType
                                                             option(value="#{addressType.addressType}", selected=(addressType.addressType == address.addressType)) #{addressType.addressType}
                                                 span.caret
                                             div.controls
-                                                input#street.span6(type="text", placeholder="Rue", value="#{address.street}")
+                                                textarea#street.span6(type="text", name="addresses.$.street", required, placeholder="Rue") #{address.street}
                                             div.controls.controls-row(style="margin-bottom:8px;")
-                                                    input#zipCode.span2(type="zipCode", placeholder="Code postal", value="#{address.zipCode}")
-                                                    input#city.span4(type="city", placeholder="Ville", value="#{address.city}")
+                                                    input#zipCode.span2(type="zipCode", name="addresses.$.zipCode", required, placeholder="Code postal", value="#{address.zipCode}")
+                                                    input#city.span4(type="city", name="addresses.$.city", required, placeholder="Ville", value="#{address.city}")
                                             div.controls
-                                                input#country.span6(type="text", placeholder="Pays", value="#{address.country}")
-                                            div.controls
+                                                input#country.span6(type="text", name="addresses.$.country", required, placeholder="Pays", value="#{address.country}")
+                                            div.controls.btn-toolbar
                                                 button.btn.btn-small.btn-primary(type="submit") Enregistrer
+                                                button.deleteAddress.btn.btn-small.btn-danger(id="#{address._id}", type="button")  Supprimer
+                                                button.maps.btn(id="#{address._id}", type="button") Localiser sur google Maps
 
+                    div.tab-pane#manager
+                        span Manager
+                        span#error2.pull-right
+                        div.control-group(style)
+                            label.control-label(for="customerCode") Adresse :
+                            div.controls
+                                input#geoAddress(type="text", name="geoAddress", required, placeholder="Adress")
+                            div.controls
+                                button#geoBtn.btn Geo code 
+
+                        div#map-canvas.border-color-red(style="width:auto; height:320px;margin:auto;padding:0;") 
+                         
                     div.tab-pane#bank
                         form.form-horizontal 
                             div.control-group
@@ -114,6 +149,7 @@ block content
                                     input#currency(type="text", placeholder="devise", value="#{model.customer.bank.currency}", style="margin-bottom:20px;")
                                 div.controls
                                     button.btn.btn-small.btn-primary(type="submit") Enregistrer
+                    
                     div.tab-pane#contacts
                         h4  Liste des contacts
                             .container-fluid
@@ -121,7 +157,7 @@ block content
                                     #contacts-list
                                         if (model.customer.contacts)
                                             - each contact, i in model.customer.contacts 
-                                                .tile(style="width:190px; height:200px;background-color:#FFF;color:#333")
+                                                .tile(style="width:190px; height:200px;background-color:#FFF;color:#333;border:1px solid #ccc")
                                                     //.card
                                                         figure.front
                                                     center 
@@ -134,14 +170,56 @@ block content
                                                                 h5   #{phone.phoneType} : #{phone.number}
 
 block script
+    
     script
+        
+        function codeAddress(address, geocoder, callback) {
+            console.log("codeAddress...");
+              console.log('address='+address);
+              geocoder.geocode( { 'address': address}, function(results, status) {
+                //$("#error2").text('Status='+status);
+                console.log("position ="+results[0].geometry.location);
+                if (status == google.maps.GeocoderStatus.OK) {
+                  var position = results[0].geometry.location;
+                  
+                  callback(position);
+                } else {
+                  $("#error2").text('Geocode was not successful for the following reason: ' + status);
+                  callback(null);
+                }
+              });
+            }
+
         $(document).ready(function (){
-            $("#test").on('click', function(e) {
-                $('#customerPanel').fadeOut();
-                setTimeout("nav('/login')",1000);
+            //Show the right panel
+            $("#li-#{active}").trigger('click');
+            var geocoder = new google.maps.Geocoder();
+            
+            $(".maps").on('click', function(e){
+                console.log("maps ...");
+                var id = e.currentTarget.id;
+                console.log("#addr-"+id);
+                var addressStrId = $("#addr-"+id);
+                var addressStr = addressStrId.val();
+                var position = codeAddress(addressStr, geocoder, function(position){
+                    console.log("position:"+position);
+                    var lat = position.lat();
+                    var lng = position.lng();
+                    window.location.href="/sales/customer/address/maps/"+lat+"/"+lng;
+                });
+                console.log("address ="+addressStr);
+                
+                
+                
+            })
+            
+            
+            $(".deleteAddress").on('click', function(e) {
+                e.preventDefault();
+                var idAddress = e.currentTarget.id;
+                console.log("idAddress="+idAddress);
+                window.location.href="/sales/deleteAddress/#{model.customer._id}/"+idAddress;
                 return false;
             });
         });
-        function nav(href){
-            location.href=href;
-        };
+        

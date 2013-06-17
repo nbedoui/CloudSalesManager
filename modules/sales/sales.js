@@ -61,7 +61,7 @@ exports.customersSubList = function(req, res){
         var fieldValue = req.params.fieldValue;
         console.log("  - fieldValue="+fieldValue);
         console.log("accountid="+req.session.accountId);
-       app.model.getListWithTextCriteria('CustomerModel', req.session.accountId, 'customerName', fieldValue, function(err, result){
+       app.model.getCustomers2(req.session.accountId, 'customerName', fieldValue, function(err, result){
             if (!err){
                 res.send(result);
             } else {
@@ -79,7 +79,7 @@ exports.customer= function(req, res){
   console.log("Call of get('/:entity/:id'");
     if (req.session.loggedIn){
         var id = req.params.id;
-        console.log("id : "+id);
+        //console.log("id : "+id);
         req.session.selectedCustomer = id; 
         app.model.getCustomer(id, function(err, result){
             if(!err){
@@ -94,12 +94,13 @@ exports.customer= function(req, res){
     }
 }
 
+
 exports.customerDetails= function(req, res){
     if (req.session.loggedIn){
         var accountId = req.session.accountId;
         var id = req.params.id;
+        var active = req.params.active;
         console.log("id : "+id);
-        
         var getCustomer = function(callback){
             //var id = "517e933bb6771658540000032";
              app.model.getCustomer(id, function(err, customer){
@@ -110,7 +111,6 @@ exports.customerDetails= function(req, res){
                     callback(null, customer);
                 }
             });
-
         }
 
         var getPhoneType = function(callback){
@@ -152,21 +152,182 @@ exports.customerDetails= function(req, res){
              }  
             });
         }
-        console.log("appel de async parallel...");
-        async.parallel({customer:getCustomer, phoneType:getPhoneType, addressType:getAddressType, industryList:getIndustryList, statusList:getStatusList}, function(err, result){
+        var criteria = {customer:getCustomer, phoneType:getPhoneType, addressType:getAddressType, industryList:getIndustryList, statusList:getStatusList};
+        async.parallel(criteria, function(err, result){
+            if (err){
+                //console.log("Erreur:"+err);
+                res.send(500, {error:err});
+            } else {
+                //console.log("Finish : "+JSON.stringify(result));
+                //console.log("addressType : "+result.addressType);
+                res.render(__dirname+'/customers/customerDetails.jade', {model:result, active:active});
+            }
+        })
+    } else {
+        res.redirect("/login");
+    }
+}
+
+exports.newCustomer = function(req, res){
+    if (req.session.loggedIn){
+        var accountId = req.session.accountId;
+        var getIndustryList = function(callback){
+            app.model.getReferenceList("IndustryModel", accountId, function(err, doc){
+             if (err){
+                callback(err, null)
+             } else {
+                callback(null, doc);
+             }  
+            });
+        }
+
+        var getStatusList = function(callback){
+            app.model.getReferenceList("StatusModel", accountId, function(err, doc){
+             if (err){
+                callback(err, null)
+             } else {
+                callback(null, doc);
+             }  
+            });
+        }
+        var criteria = {industryList:getIndustryList, statusList:getStatusList};
+        async.parallel(criteria, function(err, result){
             if (err){
                 console.log("Erreur:"+err);
                 res.send(500, {error:err});
             } else {
                 //console.log("Finish : "+JSON.stringify(result));
                 console.log("addressType : "+result.addressType);
-                res.render(__dirname+'/customers/customerDetails.jade', {model:result});
+                res.render(__dirname+'/customers/newCustomer.jade', {model:result});
             }
         })
-
     } else {
         res.redirect("/login");
     }
+
+}
+
+exports.insertCustomer = function(req, res){
+    var data = req.body;
+    console.log("data="+JSON.stringify(data));
+    data.account_id=req.session.accountId;
+    data.customer_owner=req.session.userId;
+    app.model.insertDocument("CustomerModel", data, function(err, doc){
+        if(err){
+            console.log("Erreur :"+err);
+            res.send(500, {error:err});
+        } else {
+            res.redirect("/sales/customerDetails/"+doc._id+"/infos");
+        }
+    });
+}
+
+exports.updateCustomer = function(req, res){
+
+    var _id = req.params.id;
+    var data = req.body;
+    console.log("**********************************")
+    console.log("Update Customer _id:"+_id+" - data="+JSON.stringify(data));
+    data.account_id=req.session.accountId;
+    
+    data.customer_owner=req.session.userId;
+    
+    app.model.updateDocument("CustomerModel", _id, data, function(err, doc){
+        if(err){
+            console.log("Erreur :"+err);
+            res.send(500, {error:err});
+            console.log("**********************************")
+        } else {
+            res.redirect("/sales/customerDetails/"+doc._id+"/infos");
+            console.log("**********************************")
+        }
+    });
+}
+exports.updateAddress = function(req, res){
+    var _id = req.params.id;
+    var customerId = req.params.custId;
+    var data = req.body;
+    console.log("**********************************")
+    console.log("Update Address _id:"+_id+" - data="+JSON.stringify(data));
+
+    
+    app.model.updateSubDocument("CustomerModel", customerId, "addresses._id", _id, data, function(err, doc){
+        if(err){
+            console.log("Erreur :"+err);
+            res.send(500, {error:err});
+            console.log("**********************************")
+        } else {
+            res.redirect("/sales/customerDetails/"+customerId+"/address");
+            console.log("**********************************")
+        }
+    });
+}
+
+exports.insertAddress = function(req, res){
+
+    var customerId = req.params.custId;
+    var data = req.body;
+    console.log("**********************************")
+    console.log("Insert Address customer_id:"+customerId+" - data="+JSON.stringify(data));
+    //data.account_id=req.session.accountId;
+    
+    //data.customer_owner=req.session.userId;
+    app.model.Customer.findById(customerId, function(err, customer){
+        if (err){
+            console.log("Erreur : "+err);
+            res.send(500, {error:err})
+        } else 
+        {
+            customer.addresses.push(data);
+            customer.save(function(err){
+                if (err){
+                    console.log("Erreur : "+err);
+                    res.send(500, {error:err})
+                } else {
+                    res.redirect("/sales/customerDetails/"+customerId+"/address");
+                }
+            })
+        }
+         
+    });
+}
+
+exports.deleteAddress = function(req, res){
+
+    var _id = req.params.id;
+    var customerId = req.params.custId;
+    console.log("**********************************")
+    console.log("Delete Address customer_id:"+customerId);
+    
+    app.model.deleteDocument("Address", _id, function(err){
+        if(err){
+            console.log("Erreur :"+err);
+            res.send(500, {error:err});
+            console.log("**********************************")
+        } else {
+            
+            console.log("**********************************")
+            app.model.Customer.findById(customerId, function(err, customer){
+                if (err){
+                    console.log("Erreur : "+err);
+                    res.send(500, {error:err})
+                } else 
+                {
+                    customer.addresses.pull(_id);
+                    customer.save(function(err){
+                        if (err){
+                            console.log("Erreur : "+err);
+                            res.send(500, {error:err})
+                        } else {
+                            res.redirect("/sales/customerDetails/"+customerId+"/address");
+                        }
+                    })
+                }
+                
+            })
+
+        }
+    });
 }
 
 exports.customerQuotations = function(req, res){
@@ -202,17 +363,16 @@ exports.customerQuotations = function(req, res){
     }
 }
 
-exports.custs= function(req, res){
-    app.model.getCustomers2("5173c6ed96e2cdb3d2155f1d", null, null, function(err, result){
-    });
-}
+exports.maps = function(req, res){
+    if (req.session.loggedIn){
+        var lat = req.params.lat;
+        var lng = req.params.lng;
+        var position = {};
+        position["lat"] = lat;
+        position["lng"] = lng;
 
-/*
-exports.dashboard = function(req, res){
-    
-    app.model.customerDashBoard("518162013ff14901704ad445", function(err, result){
-        console.log("Result="+JSON.stringify(result));
-    })
-
+        res.render(__dirname+'/customers/maps.jade', {position:position});
+     } else {
+        res.redirect('/login');
+    }
 }
-*/
