@@ -16,10 +16,18 @@ exports.params = function(req, res){
 //TVA
 exports.gst = function(req, res){
 	if (req.session.loggedIn){
+		res.render(__dirname+'/GST/gst.jade');
+	} else {
+		res.redirect('/login');
+	}
+
+}
+exports.gstList = function(req, res){
+	if (req.session.loggedIn){
 		app.model.getList('Gst', req.session.accountId, -1, -1, function(err, result){
             if(!err){
             	console.log("TVA="+result);
-                res.render(__dirname+'/GST/gst.jade', {model:result});
+                res.send(result);
             } else
             {
                 console.log("Erreur = "+err);
@@ -64,7 +72,7 @@ exports.deleteDocument = function(req, res){
 	if (req.session.loggedIn){
 		var entity =  req.params.entity;
 		console.log("body = "+JSON.stringify(req.body));
-	    var id = req.body._id;
+	    var id = req.params._id;
 	    console.log("Delete "+entity+" id="+id);
         //var obj = eval(entity);
         app.model.deleteDocument(entity, id, function(err, record){

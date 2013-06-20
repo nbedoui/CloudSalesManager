@@ -1,6 +1,7 @@
 var mongoose = require('mongoose');
+var _ = require("underscore");
 //var Q = require('q');
-//mongoose.set('debug', true);
+mongoose.set('debug', true);
 var crypto = require('crypto');
 
 var conn = mongoose.connect('mongodb://localhost/SalesManagerDB', {server:{poolSize:3}}, function(err){
@@ -148,6 +149,14 @@ var ContactSchema = new mongoose.Schema({
 var Contact = conn.model('Contact', ContactSchema);
 
 /*
+* Bank
+*/
+var BankSchema = new mongoose.Schema({
+    account_no : {type:String, trim:true},
+    bank_name  : {type:String, trim:true},
+    currency   : {type:String, trim:true}
+}) 
+/*
 * Customers
  */
 var CustomerSchema = new mongoose.Schema({
@@ -156,21 +165,16 @@ var CustomerSchema = new mongoose.Schema({
     customerCode : {type : String, unique : true, trim: true},
     customerName : {type : String, required : true, trim: true},
     description  : {type : String,  trim: true},
-    logo         : {type : String,  trim: true},
     website      : {type : String,  trim: true},
     status       : {type:String, trim:true},
     industry     : {type:String, trim:true},
     gstCode      : {type:String, trim:true},
-    bank : {
-        account_no : {type:String, trim:true},
-        bank_name  : {type:String, trim:true},
-        currency   : {type:String, trim:true}
-    },
+    bank : [BankSchema],
     addresses:[AddressSchema],
     contacts:[{type: mongoose.Schema.ObjectId, ref:'Contact'}]
 });
 
-var CustomerModel = conn.model('Customer', CustomerSchema);
+var Customer = conn.model('Customer', CustomerSchema);
 
 
 /*
@@ -530,6 +534,30 @@ getRowById = function(entity, id, callback){
     
 }
 
+module.exports.getSubDocument = function(entity, subdoc, id, callback){
+    
+    console.log("id="+id);
+    var criteria = {};
+    criteria[subdoc+"._id"] = id;
+    var obj = eval(entity);
+    var _subDoc = null;
+    obj.findOne(criteria, function(err, doc){
+       if(!err){
+            var subDocs = doc[subdoc];
+            subDocs.forEach(function(subDoc){
+                if (subDoc._id == id){
+                    _subDoc = subDoc;
+                    return;
+                }
+            });
+            callback(null, _subDoc);
+        } else {
+            console.log("Erreur="+err);
+            callback(err, null);
+        } 
+    })
+}
+
 module.exports.updateSubDocument = function(entity, id, subdoc, idSub, data, callback){
 
     var criteria = {};
@@ -597,12 +625,12 @@ module.exports.deleteDocument = function(entity, id, callback){
 module.exports.getCustomer = function(id, callback){
     var promise = new mongoose.Promise;
     if (callback) promise.addBack(callback);
-    CustomerModel.findOne({_id:id}, function(err, customer){
+    Customer.findOne({_id:id}, function(err, customer){
         if (err) { 
             promise.error(err);
             return;
         }
-        customer.populate('contacts', function(err, customer){
+        customer.populate('contacts').populate('customer_owner', 'name _id', function(err, customer){
             promise.complete(customer);
         })
         
@@ -612,33 +640,27 @@ module.exports.getCustomer = function(id, callback){
 
 
 module.exports.getCustomers2= function(accountId, fieldName, fieldValue, callback){
-    //console.log("getCustomers2");
-    var customers = new Array();
+    console.log("getCustomers2");
+    //var customers = new Array();
     if (fieldName && fieldValue){
         var criteria = new RegExp('^'+fieldValue, 'i');
         //console.log("getCustomers2 criteria="+criteria);  
-        var query = CustomerModel.where(fieldName, criteria).where('account_id').equals(accountId);  
+        var query = Customer.where(fieldName, criteria).where('account_id').equals(accountId);  
     } else {
-        var query = CustomerModel.where('account_id').equals(accountId);
+        var query = Customer.where('account_id').equals(accountId);
     }
     
-    //query.where('customer_owner').equals(customer_owner);
-    
-    query.sort('_id');
-    query.select('_id customerCode customerName logo customer_owner');
+    query.sort('customerCode');
+    query.select('_id customerCode customerName logo customer_owner status');
     query.populate('customer_owner', 'name');
     query.exec(function (err, docs) {
-        // called when the `query.complete` or `query.error` are called
-        // internally
-        if (err) { callback(err, null)}
-            docs.forEach(function(customer){
-                var cust = {};
-                cust["customer"]= customer;
-                customers.push(cust);
-            })
-        callback(null, customers);
-        //console.log("docs="+docs);
-        //console.log("customers="+JSON.stringify(customers));
+        if (err) { 
+            callback(err, null)
+        } else {
+            callback(null, docs);
+
+        } 
+                    
     });
 
 }
@@ -665,7 +687,7 @@ module.exports.getCustomerDetails = function(id, callback){
         //console.log("details="+JSON.stringify(details));
     })
 
-var q = CustomerModel.findOne({_id:id});
+    var q = CustomerModel.findOne({_id:id});
     var promise = q.exec();
     promise.addBack(function (err, customer){
         details["Customer"] = customer;
@@ -680,6 +702,39 @@ var q = CustomerModel.findOne({_id:id});
 
    
 }
+
+
+
+var getQuotations= function(accountId, callback){
+    //console.log("getCustomers2");
+    var quotations = new Array();
+    var query = model.Quotation.where('account_id').equals(accountId);
+    
+    
+    //query.where('customer_owner').equals(customer_owner);
+    
+    query.sort('_id');
+    query.select('_id number date reference total status customer_id');
+    query.populate('customer_id', 'customerName customerCode');
+    query.exec(function (err, docs) {
+        //console.log("quotations="+docs);
+        // called when the `query.complete` or `query.error` are called
+        // internally
+        
+        if (err) { 
+                callback(err, null)
+        } else {
+            docs.forEach(function(quotation){
+                console.log("Customer = "+quotation.customer_id)
+            })
+            callback(null, docs);
+        }
+        //console.log("docs="+docs);
+        //console.log("customers="+JSON.stringify(customers));
+    });
+
+}
+
 module.exports.getRowById = getRowById;
 /*
 module.exports.GST                  = GSTModel;
@@ -697,7 +752,7 @@ module.exports.ModuleAuth           = ModuleAuthModel;
 module.exports.Account              = Account;
 module.exports.User                 = User;
 */
-module.exports.Customer             = CustomerModel;
+module.exports.Customer             = Customer;
 /*
 module.exports.Contact              = ContactModel;
 module.exports.Quotation            = QuotationModel;

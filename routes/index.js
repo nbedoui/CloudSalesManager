@@ -2,6 +2,8 @@ var home = require('../modules/home/home');
 var login = require('../modules/login/login');
 var common = require('../modules/common/common');
 var sales = require('../modules/sales/sales');
+var address = require('../modules/sales/customers/addresses');
+var quotation = require('../modules/sales/quotations/quotations')
 
 //app.use(home);
 //app.use(login);
@@ -15,38 +17,54 @@ module.exports = function(app){
 	app.post('/auth', login.auth);
 
 
+	//Sales module
 	app.get('/sales', sales.index);
 
+	
+//customers
+	app.get('/sales/customers', sales.customers); //Show customers view
 
-	app.get('/sales/customers', sales.customers);
+	app.get('/sales/customerDetails/:id/:active', sales.customerDetails); 
 	app.get('/sales/newCustomer', sales.newCustomer);
 	app.post('/sales/insertCustomer', sales.insertCustomer);
 	app.post('/sales/updateCustomer/:id', sales.updateCustomer);
 
-	app.post('/sales/insertAddress/:custId', sales.insertAddress);
-	app.post('/sales/updateAddress/:custId/:id', sales.updateAddress);
-	app.get('/sales/deleteAddress/:custId/:id', sales.deleteAddress);
+	//Api
+	app.post('/list/customers', sales.customersList)
+	//***********************************	
+
+
+	//address
+	app.post('/sales/insertAddress/:custId', address.insertAddress);
+	app.post('/sales/updateAddress/:custId/:id', address.updateAddress);
+	app.get('/sales/deleteAddress/:custId/:id', address.deleteAddress);
 	
-	app.get('/sales/customer/address/maps/:lat/:lng', sales.maps);
+	//maps for unique address
+	app.get('/sales/customer/address/maps/:custId/:addressId', sales.maps);
 
 
-	app.get('/sales/customer/:id', sales.customer);
-	app.get('/sales/customerDetails/:id/:active', sales.customerDetails);
-
+	
+	//Quotations menu
+	app.get('/sales/quotations', quotation.index);
 	//Quotations
 	app.get('/sales/quotations/:custId/:status', sales.customerQuotations);
-	//api
-	app.get('/list/customers', sales.customersList)
-	app.get('/list/customer/customerName=:fieldValue', sales.customersSubList)
+	
+
+
+
+	//Quotations
+	app.get('/list/quotations', quotation.quotationsList)
 
 	//Common pages
 	app.get('/params', common.params);
-	app.get('/params/gst', common.gst);
+	app.get('/params/:entity', common.gst);
+	app.post('/list/:entity', common.gstList);
 
 	//CRUD GST (TVA)
 	app.post('/params/update/:entity/:id', common.updateDocument);
 	app.post('/params/insert/:entity', common.insertDocument);
 	app.delete('/params/delete/:entity', common.deleteDocument);
+	app.delete('/list/:entity/:id', common.deleteDocument);
 
 	
 }

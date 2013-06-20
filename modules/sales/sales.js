@@ -14,20 +14,11 @@ exports.index = function(req, res){
 
 };
 
+//Show the customers page
 exports.customers= function(req, res){
     if (req.session.loggedIn){
     	console.log("accountid="+req.session.accountId);
-        //app.model.getAddresses(req.session.accountId);
-
-        app.model.getList('CustomerModel', req.session.accountId, -1, -1, function(err, result){
-            if(!err){
-                res.render(__dirname+'/customers/customers.jade', {customers:result});
-            } else
-            {
-                console.log("Erreur = "+err);
-                res.render('../../views/error', {error:err});
-            }
-        });
+        res.render(__dirname+'/customers/customers.jade');
 	} else {
 		res.redirect('/login');
 	}
@@ -35,33 +26,19 @@ exports.customers= function(req, res){
 	
 }
 
+//API list of customers (with criteria)
 exports.customersList = function(req, res){
     if (req.session.loggedIn){
-        console.log("accountid="+req.session.accountId);
-        
-        app.model.getCustomers2(req.session.accountId, null, null, function(err, result){
-            if(!err){
-                //console.log(result);
-                res.send(result);
-            } else
-            {
-                console.log("Erreur = "+err);
-                res.render('../../views/error', {error:err});
-            }
-        });
-    } else {
-        res.redirect('/login');
-    }
-    
-    
-}
+        var fieldName = null;
+        var fieldValue = null;
+        if ((req.body.fieldName) && (req.body.fieldValue)) { 
+            fieldName = req.body.fieldName;
+            fieldValue = req.body.fieldValue;
+        }
+        console.log(fieldName+":"+fieldValue);
 
-exports.customersSubList = function(req, res){
-    if (req.session.loggedIn){
-        var fieldValue = req.params.fieldValue;
-        console.log("  - fieldValue="+fieldValue);
         console.log("accountid="+req.session.accountId);
-       app.model.getCustomers2(req.session.accountId, 'customerName', fieldValue, function(err, result){
+       app.model.getCustomers2(req.session.accountId, fieldName, fieldValue, function(err, result){
             if (!err){
                 res.send(result);
             } else {
@@ -75,26 +52,6 @@ exports.customersSubList = function(req, res){
     }
 }
 
-exports.customer= function(req, res){
-  console.log("Call of get('/:entity/:id'");
-    if (req.session.loggedIn){
-        var id = req.params.id;
-        //console.log("id : "+id);
-        req.session.selectedCustomer = id; 
-        app.model.getCustomer(id, function(err, result){
-            if(!err){
-                res.render(__dirname+'/customers/customer.jade', {model:result});
-            } else
-            {
-                res.send(500, {error:err});
-            }
-        });
-    } else {
-        res.redirect("/login");
-    }
-}
-
-
 exports.customerDetails= function(req, res){
     if (req.session.loggedIn){
         var accountId = req.session.accountId;
@@ -105,6 +62,7 @@ exports.customerDetails= function(req, res){
             //var id = "517e933bb6771658540000032";
              app.model.getCustomer(id, function(err, customer){
                 if(err){
+                    console.log("Customer="+customer);
                    callback(err, null); 
                 } else
                 {
@@ -152,13 +110,25 @@ exports.customerDetails= function(req, res){
              }  
             });
         }
-        var criteria = {customer:getCustomer, phoneType:getPhoneType, addressType:getAddressType, industryList:getIndustryList, statusList:getStatusList};
+
+        var getManagerList = function(callback){
+            console.log(".......... getManagerList...");
+            app.model.getReferenceList("User", accountId, function(err, doc){
+             if (err){
+                callback(err, null)
+             } else {
+                callback(null, doc);
+             }  
+            });
+        }
+
+        var criteria = {customer:getCustomer, phoneType:getPhoneType, addressType:getAddressType, industryList:getIndustryList, statusList:getStatusList, managerList:getManagerList};
         async.parallel(criteria, function(err, result){
             if (err){
                 //console.log("Erreur:"+err);
                 res.send(500, {error:err});
             } else {
-                //console.log("Finish : "+JSON.stringify(result));
+                console.log("Finish : "+JSON.stringify(result));
                 //console.log("addressType : "+result.addressType);
                 res.render(__dirname+'/customers/customerDetails.jade', {model:result, active:active});
             }
@@ -168,6 +138,8 @@ exports.customerDetails= function(req, res){
     }
 }
 
+//Customers CRUD
+//Show new customer dialog wirth all the refs.
 exports.newCustomer = function(req, res){
     if (req.session.loggedIn){
         var accountId = req.session.accountId;
@@ -196,7 +168,7 @@ exports.newCustomer = function(req, res){
                 console.log("Erreur:"+err);
                 res.send(500, {error:err});
             } else {
-                //console.log("Finish : "+JSON.stringify(result));
+                console.log("Finish : "+JSON.stringify(result));
                 console.log("addressType : "+result.addressType);
                 res.render(__dirname+'/customers/newCustomer.jade', {model:result});
             }
@@ -207,6 +179,7 @@ exports.newCustomer = function(req, res){
 
 }
 
+//Insert a new customer into the Database
 exports.insertCustomer = function(req, res){
     var data = req.body;
     console.log("data="+JSON.stringify(data));
@@ -222,6 +195,7 @@ exports.insertCustomer = function(req, res){
     });
 }
 
+//Modifiy the customer data into the Database
 exports.updateCustomer = function(req, res){
 
     var _id = req.params.id;
@@ -243,92 +217,14 @@ exports.updateCustomer = function(req, res){
         }
     });
 }
-exports.updateAddress = function(req, res){
-    var _id = req.params.id;
-    var customerId = req.params.custId;
-    var data = req.body;
-    console.log("**********************************")
-    console.log("Update Address _id:"+_id+" - data="+JSON.stringify(data));
 
-    
-    app.model.updateSubDocument("CustomerModel", customerId, "addresses._id", _id, data, function(err, doc){
-        if(err){
-            console.log("Erreur :"+err);
-            res.send(500, {error:err});
-            console.log("**********************************")
-        } else {
-            res.redirect("/sales/customerDetails/"+customerId+"/address");
-            console.log("**********************************")
-        }
-    });
+//Delete a customer from the database
+exports.deleteCustomer = function(req, res){
+
 }
 
-exports.insertAddress = function(req, res){
 
-    var customerId = req.params.custId;
-    var data = req.body;
-    console.log("**********************************")
-    console.log("Insert Address customer_id:"+customerId+" - data="+JSON.stringify(data));
-    //data.account_id=req.session.accountId;
-    
-    //data.customer_owner=req.session.userId;
-    app.model.Customer.findById(customerId, function(err, customer){
-        if (err){
-            console.log("Erreur : "+err);
-            res.send(500, {error:err})
-        } else 
-        {
-            customer.addresses.push(data);
-            customer.save(function(err){
-                if (err){
-                    console.log("Erreur : "+err);
-                    res.send(500, {error:err})
-                } else {
-                    res.redirect("/sales/customerDetails/"+customerId+"/address");
-                }
-            })
-        }
-         
-    });
-}
 
-exports.deleteAddress = function(req, res){
-
-    var _id = req.params.id;
-    var customerId = req.params.custId;
-    console.log("**********************************")
-    console.log("Delete Address customer_id:"+customerId);
-    
-    app.model.deleteDocument("Address", _id, function(err){
-        if(err){
-            console.log("Erreur :"+err);
-            res.send(500, {error:err});
-            console.log("**********************************")
-        } else {
-            
-            console.log("**********************************")
-            app.model.Customer.findById(customerId, function(err, customer){
-                if (err){
-                    console.log("Erreur : "+err);
-                    res.send(500, {error:err})
-                } else 
-                {
-                    customer.addresses.pull(_id);
-                    customer.save(function(err){
-                        if (err){
-                            console.log("Erreur : "+err);
-                            res.send(500, {error:err})
-                        } else {
-                            res.redirect("/sales/customerDetails/"+customerId+"/address");
-                        }
-                    })
-                }
-                
-            })
-
-        }
-    });
-}
 
 exports.customerQuotations = function(req, res){
     if (req.session.loggedIn){
@@ -363,15 +259,22 @@ exports.customerQuotations = function(req, res){
     }
 }
 
+
 exports.maps = function(req, res){
     if (req.session.loggedIn){
-        var lat = req.params.lat;
-        var lng = req.params.lng;
-        var position = {};
-        position["lat"] = lat;
-        position["lng"] = lng;
+        var custId = req.params.custId;
+        var addressId = req.params.addressId;
+        app.model.getSubDocument('Customer', 'addresses', addressId, function(err, address){
+            if(err){
+                console.log("erreur"+err);
+            } else {
+                var addressStr = address.street+ " "+address.zipCode+" "+address.city+" "+address.country;
 
-        res.render(__dirname+'/customers/maps.jade', {position:position});
+                console.log("Address="+addressStr+" - custId"+custId);
+                res.render(__dirname+'/customers/maps.jade', {address:addressStr, customerId:custId});
+            }
+        })
+        
      } else {
         res.redirect('/login');
     }

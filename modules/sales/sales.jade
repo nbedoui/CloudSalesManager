@@ -7,32 +7,26 @@ block content
                 img(src="/images/backbutton24x24.png", style="margin-left:1%;")
             span.section-title   Ventes
         .row-fluid
-            a(href="/sales")#invoices.tile.wide.imagetext.bg-color-pink
-                .image-wrapper
-                    .icon-gift-2
-                .column-text
-                    .text-header3 Factures
-                .app-label Factures
-                .app-count 1
-            #quotations.tile.wide.imagetext.bg-color-purple
-                .image-wrapper
-                    .icon-docs
-                .column-text
-                    .text-header3 Devis
-                    .text-header4 
-                        a(href="/sales/quotations") Devis en attente
-                    .text-header4 
-                        a(href="/sales/quotations") Devis transformés
-                    .text-header4 
-                        a(href="/sales/quotations") Devis annulés
-                .app-label Devis
-                .app-count 2
             a(href="/sales/customers")#customers.tile.wide.imagetext.bg-color-teal
                 .image-wrapper
                     .icon-office(style="font-size:48px;")
                 .column-text
                     .text-header3 Liste clients
                 .app-label Clients
+                .app-count 1
+            a(href="/sales")#invoices.tile.wide.imagetext.bg-color-pink
+                .image-wrapper
+                    .icon-gift-2
+                .column-text
+                    .text-header3 Factures
+                .app-label Factures
+                .app-count 2
+            a(href="/sales/quotations")#quotations.tile.wide.imagetext.bg-color-purple
+                .image-wrapper
+                    .icon-docs
+                .column-text
+                    .text-header3 Devis
+                .app-label Devis
                 .app-count 3
             a(href="/sales/products")#products.tile.wide.imagetext.bg-gradient-green
                 .image-wrapper

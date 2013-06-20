@@ -6,7 +6,7 @@ block content
 			a#back(href="/params")
 				img(src="/images/backbutton24x24.png", style="margin-left:1%;")
 			span.section-title   Liste des TVA
-		.container-fluid
+		.container-fluid#gstList-container
 			.row-fluid
 				div.well
 					button.btn.btn-danger(type="button", data-toggle="collapse", data-target="#inputPanel") 
@@ -14,9 +14,9 @@ block content
 						|  Ajouter un élément
 					span#error.pull-right
 					div#inputPanel.collapse
-						form.form-inline(action="/params/gst/insert", method="POST")
+						form.form-inline
 							input#addItem.input-medium(required, type="text", name="tauxGST", placeholder="Saisir des données", x-webkit-speech="x-webkit-speech")
-							button#submit.btn.btn-small.magenta(type="submit", data-toggle="collapse", data-target="#inputPanel")  Enregistrer
+							button#submit.btn.btn-small.magenta(type="button", data-toggle="collapse", data-target="#inputPanel")  Enregistrer
 
 			.row-fluid
 				center
@@ -29,19 +29,23 @@ block content
 									center Taux de TVA
 								th 
 									center &nbsp;
-						tbody
-						- each gst, i in model 
-							tr
-								td 
-									center #{i}
-								td 
-									center.list-input 
-										input.edit(id="#{gst._id}", type="text", name="tauxGST", value="#{gst.tauxGST}")
-								td
-									center
-										div.delete(id="#{gst._id}")
-											i.icon-minus-2
+						tbody#gst-list 
+							
 block script
-	script(src="/js/modules/common/params.js")
+	script(src="http://code.jquery.com/jquery-1.10.1.min.js")
+	script(src="http://underscorejs.org/underscore-min.js") 
+	script(src="http://backbonejs.org/backbone-min.js")
+	//Templates
+	script#gst-template(type="text/template")
+		td 
+			center #{i}
+		td 
+			center.list-input 
+				input.edit(id!="<%=model._id%>", type="text", name="tauxGST", value!="<%=model.tauxGST%>")
+		td
+			center
+				div.delete(id!="<%=model._id%>")
+					i.icon-minus-2
+	script(src="/js/modules/common/gst.js")
 
 		

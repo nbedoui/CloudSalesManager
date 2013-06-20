@@ -5,8 +5,8 @@ block content
         div.header
             a(href="/sales/customers")
                 img(src="/images/backbutton24x24.png")
-            span.section-title   Détails du client 
-                strong.fg-color-red #{model.customerName}
+            span.section-title   Détails du client "#{model.customer.customerName}"
+                
         .row-fluid
             div.dialogPanel#customerPanel
                 div.dialogHeader
@@ -19,10 +19,6 @@ block content
                             a#li-address(href="#address", data-toggle="tab").win-command
                                 span.win-commandimage.win-commandring &#xe033;
                                 span.win-label Adresses
-                        li
-                            a#li-manager(href="#manager", data-toggle="tab").win-command
-                                    span.win-commandimage.win-commandring &#xe045;
-                                    span.win-label Géré par
                         li
                             a#li-bank(href="#bank", data-toggle="tab").win-command
                                     span.win-commandimage.win-commandring &#xe080;
@@ -39,7 +35,6 @@ block content
                                     label.control-label(for="customerCode") Code client :
                                     div.controls
                                         input#customerCode(type="text", name="customerCode", required, placeholder="Code client", value="#{model.customer.customerCode}")
-                                        strong.fg-color-red *
                                 div.control-group
                                     label.control-label(for="customerName") Nom du client : 
                                     div.controls
@@ -61,12 +56,25 @@ block content
                                                     option(value="#{industry.industry}", selected=(industry.industry == model.customer.industry)) #{industry.industry}
                                         span.caret
                                 div.control-group
+                                    label.control-label(for="description") Code TVA : 
+                                    div.controls
+                                        input#gstCode(type="text", name="gstCode", placeholder="Code TVA", value="#{model.customer.gstCode}")
+                                
+                                div.control-group
                                     label.control-label(for="statusList") Statut : 
                                     div.controls
                                         select.btn.btn-mini#statusList(name="status")
                                             if (model.statusList)
                                                 - each status in model.statusList
                                                     option(value="#{status.status}", selected=(status.status == model.customer.status)) #{status.status}
+                                        span.caret
+                                div.control-group
+                                    label.control-label(for="managerList") Suivi par : 
+                                    div.controls
+                                        select.btn.btn-mini#managerList(name="customer_owner")
+                                            if (model.managerList)
+                                                - each manager in model.managerList
+                                                    option(value="#{manager._id}", selected=(manager._id == model.customer.customer_owner._id)) #{manager.name.first} #{manager.name.last}
                                         span.caret
                                 div.controls
                                     button#save1.btn.btn-small.btn-primary(type="submit") Enregistrer
@@ -88,12 +96,12 @@ block content
                                                             option(value="#{addressType.addressType}") #{addressType.addressType}
                                                 span.caret
                                             div.controls
-                                                textarea#street.span6(type="text", name="street", required, placeholder="Rue")
+                                                textarea#street.span8(type="text", name="street", required, placeholder="Rue")
                                             div.controls.controls-row(style="margin-bottom:8px;")
                                                     input#zipCode.span2(type="zipCode", name="zipCode", required, placeholder="Code postal")
-                                                    input#city.span4(type="city", name="city", required, placeholder="Ville")
+                                                    input#city.span6(type="city", name="city", required, placeholder="Ville")
                                             div.controls
-                                                input#country.span6(type="text", name="country", required, placeholder="Pays")
+                                                input#country.span8(type="text", name="country", required, placeholder="Pays")
                                             div.controls
                                                 button.btn.btn-small.btn-primary(type="submit") Enregistrer
                             if (model.customer.addresses)
@@ -102,7 +110,6 @@ block content
                                         form(method="POST", action="/sales/updateAddress/#{model.customer._id}/#{address._id}" )
                                             div.controls(style="margin-bottom:8px;") 
                                                 //- addresses.$. permet d'insérer les données dans les sous-documents addresses du document CustomerModel
-                                                input(id="addr-#{address._id}", type="text", value="#{address.street} #{address.zipCode} #{address.city} #{address.country}")
                                                 select.btn.btn-mini#addressList(name="addresses.$.addressType", required)
                                                     if (model.addressType)
                                                         - each addressType in model.addressType
@@ -118,7 +125,9 @@ block content
                                             div.controls.btn-toolbar
                                                 button.btn.btn-small.btn-primary(type="submit") Enregistrer
                                                 button.deleteAddress.btn.btn-small.btn-danger(id="#{address._id}", type="button")  Supprimer
-                                                button.maps.btn(id="#{address._id}", type="button") Localiser sur google Maps
+                                                button.maps.btn(id="#{address._id}", type="button") 
+                                                    i.icon-location
+                                                    | Localiser sur google Maps
 
                     div.tab-pane#manager
                         span Manager
@@ -151,68 +160,61 @@ block content
                                     button.btn.btn-small.btn-primary(type="submit") Enregistrer
                     
                     div.tab-pane#contacts
-                        h4  Liste des contacts
+                        
                             .container-fluid
+                                h4  Liste des contacts
                                 .row-fluid
-                                    #contacts-list
-                                        if (model.customer.contacts)
-                                            - each contact, i in model.customer.contacts 
-                                                .tile(style="width:190px; height:200px;background-color:#FFF;color:#333;border:1px solid #ccc")
-                                                    //.card
-                                                        figure.front
-                                                    center 
-                                                        div(style="font-size:30px;padding-top:10px;background-color:#6A6A6A").fg-color-white 
-                                                            i.icon-user-3
-                                                        .text-inner(style="padding:10px;")   
-                                                            .text-header #{contact.name.first} #{contact.name.last}  
-                                                            h5   #{contact.email}
-                                                            - each phone in contact.phones
-                                                                h5   #{phone.phoneType} : #{phone.number}
+                                    center
+                                        .app-bar
+                                            button#addBtn.win-command
+                                                span.win-commandimage.win-commandring &#xe33c;
+                                                span.win-label Ajouter
+                                            button#deleteBtn.win-command.disabled
+                                                span.win-commandimage.win-commandring &#xe33b;
+                                                span.win-label Supprimer
+                                            hr.win-command
+                                            button#prevBtn.win-command.disabled
+                                                span.win-commandimage.win-commandring &#xe360;
+                                                span.win-label Préc.
+                                            button#nextBtn.win-command
+                                                span.win-commandimage.win-commandring &#xe35c;
+                                                span.win-label Suiv.
+                                .row-fluid
+                                    center
+                                        #contacts-list
+                                            if (model.customer.contacts)
+                                                - each contact, i in model.customer.contacts 
+                                                    .tile(style="width:190px; height:200px;background-color:#FFF;color:#333;border:1px solid #ccc")
+                                                        //.card
+                                                            figure.front
+                                                        center 
+                                                            div(style="font-size:30px;padding-top:10px;background-color:#6A6A6A").fg-color-white 
+                                                                i.icon-user-3
+                                                            .text-inner(style="padding:10px;")   
+                                                                .text-header #{contact.name.first} #{contact.name.last}  
+                                                                h5   #{contact.email}
+                                                                - each phone in contact.phones
+                                                                    h5   #{phone.phoneType} : #{phone.number}
 
 block script
     
     script
         
-        function codeAddress(address, geocoder, callback) {
-            console.log("codeAddress...");
-              console.log('address='+address);
-              geocoder.geocode( { 'address': address}, function(results, status) {
-                //$("#error2").text('Status='+status);
-                console.log("position ="+results[0].geometry.location);
-                if (status == google.maps.GeocoderStatus.OK) {
-                  var position = results[0].geometry.location;
-                  
-                  callback(position);
-                } else {
-                  $("#error2").text('Geocode was not successful for the following reason: ' + status);
-                  callback(null);
-                }
-              });
-            }
-
+        
         $(document).ready(function (){
             //Show the right panel
             $("#li-#{active}").trigger('click');
-            var geocoder = new google.maps.Geocoder();
             
+            
+            //Localisation 
             $(".maps").on('click', function(e){
                 console.log("maps ...");
                 var id = e.currentTarget.id;
                 console.log("#addr-"+id);
-                var addressStrId = $("#addr-"+id);
-                var addressStr = addressStrId.val();
-                var position = codeAddress(addressStr, geocoder, function(position){
-                    console.log("position:"+position);
-                    var lat = position.lat();
-                    var lng = position.lng();
-                    window.location.href="/sales/customer/address/maps/"+lat+"/"+lng;
-                });
-                console.log("address ="+addressStr);
                 
+                    window.location.href="/sales/customer/address/maps/#{model.customer._id}/"+id;
+            });
                 
-                
-            })
-            
             
             $(".deleteAddress").on('click', function(e) {
                 e.preventDefault();

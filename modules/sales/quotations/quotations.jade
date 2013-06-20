@@ -1,55 +1,45 @@
 extends ../../../views/index
 
 block content
-	#content 
-		header.page-header
-			a#back(href="/sales/customers/")
+	.container(style="margin-top: 15px;")
+		div.header
+			a(href="/sales")
 				img(src="/images/backbutton24x24.png", style="margin-left:1%;")
 			span.section-title   Liste des devis
+		div#quotations-container.row-fluid
+			.row-fluid
+				.app-bar.fg-color-white
+					a#homeBtn(href="/").win-command
+						span.win-commandimage.win-commandring &#xe03f;
+						span.win-label Accueil
+					hr.win-command
+					button#addBtn.win-command
+						span.win-commandimage.win-commandring &#xe33c;
+						span.win-label Ajouter
+					button#deleteBtn.win-command.disabled
+						span.win-commandimage.win-commandring &#xe33b;
+						span.win-label Supprimer
+					button#infosBtn.win-command.disabled
+						span.win-commandimage.win-commandring &#xe055;
+						span.win-label Détails 
+					hr.win-command
+					button#prevBtn.win-command.disabled
+						span.win-commandimage.win-commandring &#xe360;
+						span.win-label Page préc.
+					button#nextBtn.win-command
+						span.win-commandimage.win-commandring &#xe35c;
+						span.win-label Page suiv.
 
-		section.sub-content
-			span#customerName(style="display:block; margin-left:100px;") Client : #{customer}
-			.show-grid
-				span Liste des devis en attente
-				.row-fluid
-					.listview-container.grid-layout.bg-gradient-grayDark
-						each quotation, i in model
-							div(id="#{quotation.number}").first.tile.square.text.bg-gradient-blue
-								.text-header #{quotation.number}
-								.text #{quotation.reference}
-								.text Date : #{quotation.date}
-								.text.fg-color-orange #{quotation.amount} €
-								.text Statut : #{quotation.status}
-								.app-count #{i+1}
-		br
-		.app-bar.fg-color-white
-			a#homeBtn(href="/").win-command
-				span.win-commandimage.win-commandring &#xe03f;
-				span.win-label Accueil
-			hr.win-command
-			button#addBtn.win-command
-				span.win-commandimage.win-commandring &#xe33c;
-				span.win-label Ajouter
-			button#deleteBtn.win-command.disabled
-				span.win-commandimage.win-commandring &#xe33b;
-				span.win-label Supprimer
-			button#infosBtn.win-command.disabled
-				span.win-commandimage.win-commandring &#xe055;
-				span.win-label Détails 
-			hr.win-command
-			button#prevBtn.win-command.disabled
-				span.win-commandimage.win-commandring &#xe360;
-				span.win-label Page préc.
-			button#nextBtn.win-command
-				span.win-commandimage.win-commandring &#xe35c;
-				span.win-label Page suiv.
+			.row-fluid
+				div.input-append.span6(style="margin:6px;")
+					input#search(type="search", placeholder="Trouver un devis")
+					button.add-on.btn#search Go
+			#quotations-list.row-fluid
 block script
-	script.
-		$(document).ready(function (){
-			//$("#customerName").append(localStorage['customerName']);
-			//var href = $("#back").attr('href') +localStorage['customer_id'];
-			//console.log("href="+href);
-			//$("#back").attr('href', href);
-			})
-		
-
+	script(src="http://code.jquery.com/jquery-1.10.1.min.js")
+	script(src="http://underscorejs.org/underscore-min.js") 
+	script(src="http://backbonejs.org/backbone-min.js")
+	//Templates
+	script#customer-template(type="text/template")
+			
+	script(src="/js/modules/sales/quotations.js")

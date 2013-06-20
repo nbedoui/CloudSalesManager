@@ -30,6 +30,7 @@
   left: 0;
   right: 0;
   text-align: center;
+  margin-right: 30px;
 }
 
 a.win-command, button.win-command {
@@ -43,12 +44,12 @@ a.win-command, button.win-command {
   background: none;
   background-clip: border-box;
   height: auto;
-  padding: 12px 0;
+  padding: 2px 0;
   margin: 0 5px;
   border: 0;
-  min-width: 42px;
+  min-width: 32px;
   text-align: center;
-  font-size: 9pt;
+  font-size: 0.7em;
   font-weight: normal;
   line-height: 16px;
 }
@@ -62,12 +63,13 @@ button.win-command .win-label {
    line-height: 20px;
    display: block;
    max-width: 88px;    /* 100px button, but allow for 2px margins and 4px padding on each side */
-   padding-left: 4px;  /* 12px between buttons, 6px per side, minus 2px margins */
-   padding-right: 4px;
+   padding-left: 2px;  /* 12px between buttons, 6px per side, minus 2px margins */
+   padding-right: 2px;
    overflow: hidden;
    word-wrap: break-word;
    word-break: keep-all;
    top: 1px;
+   font-size: 12px;
 }
 a.win-command,
 a.win-command:hover {
@@ -78,9 +80,9 @@ a.win-command:hover {
 hr.win-command {
   display: inline-block;
   padding: 0;
-  margin: 14px 29px 34px 30px;
+  margin: 2px;
   width: 1px;
-  height: 40px;
+  height: 20px;
   border: 0;
   vertical-align: top;
   background-color: #CCC;
@@ -91,13 +93,13 @@ hr.win-command {
   font-family : "IcoMoon";
   letter-spacing  : 0;
   vertical-align  : middle;
-  font-size : 14pt;
+  font-size : 11pt;
   margin : -2px;
-  line-height : 40px;
+  line-height : 25px;
   background-position : 0 0;
   display : inline-block;
-  width : 40px;
-  height : 40px;
+  width : 25px;
+  height : 25px;
   background-size: 160px 80px;
 }
 
@@ -149,23 +151,33 @@ h1, h2, h3, h4, h5, h6,
   background-color: #CCC;
 }
 
-.navbar .brand {
-	font-size: 1.8em;
-	text-shadow : none;
+
+
+
+@media (min-width: 979px) {
+  .header {
+  	position: relative;
+  	font-family: "Segoe UI Light";
+    vertical-align: middle;
+    display : block;
+    padding: 0.3em;
+    height: 10%;
+    margin-top: 2.1em;
+    margin-bottom: 0.8em;
+  }
 }
-
-
-.header {
-	position: relative;
-	font-family: "Segoe UI Light";
-  vertical-align: middle;
-  display : block;
-  padding: 0.3em;
-  height: 10%;
-  margin-top: 2.5em;
-  margin-bottom: 2em;
+@media (max-width: 979px) {
+  .header {
+    position: relative;
+    font-family: "Segoe UI Light";
+    vertical-align: middle;
+    display : block;
+    padding: 0.3em;
+    height: 10%;
+    margin-top: 0.1em;
+    margin-bottom: 0.8em;
+  }
 }
-
 .header img {
 	margin-left:1%;
 	width: 30px;
@@ -230,12 +242,12 @@ h1, h2, h3, h4, h5, h6,
 }
 
 .row-fluid .tile.high {
-	height: 18em;
+	height: 20em;
 }
 
 .row-fluid .tile.wide.imagetext {
   width: 17em;
-  height: 8em;
+  height: 9em;
   padding-top: 2.5em;
   padding-left: 2.5em;
   
@@ -307,7 +319,7 @@ h1, h2, h3, h4, h5, h6,
 
 .card .text-inner {
   width      : 90%;
-  height     : 110px;
+  height     : 130px;
   padding    : 10px;
   text-align : center;
   margin     : auto;
@@ -471,7 +483,7 @@ figure {
 
 .dialogPanel {
   width: 50em;
-  height:40em;
+  height:49em;
   margin: auto;
   overflow: auto;
   -webkit-box-shadow: 0 4px 16px rgba(0,0,0,0.2);
@@ -540,7 +552,35 @@ select.btn-mini + .caret {
     font-size: 24px;
 }
 
+@media (max-width: 979px) {
+
+  .nav .brand  {
+    font-size:8px;
+    color:red;
+    background-color: red;
+
+  }
+  .dialogPanel {
+    float: none;
+    width: auto;
+    padding-top: 0;
+    text-align: left;
+    min-width: 410px;
+  }
+
+  .nav.nav-pills {
+    float:none;
+    width: auto;
+    padding-top: 0;
+    text-align: left;
+  }
+}
+
 @media (max-width: 480px) {
+  .nav .brand {
+    font-size:8px;
+    color:red;
+  }
   .dialogPanel {
     float: none;
     width: auto;
@@ -568,6 +608,7 @@ select.btn-mini + .caret {
       box-shadow: 0 4px 16px rgba(0,0,0,0.2);
 }
 
+
 .list-input > input {
   -webkit-box-shadow:none; 
     -moz-box-shadow:none; 
@@ -578,9 +619,17 @@ select.btn-mini + .caret {
   width: 50px;
 }
 
-.list-input > input:hover, .list-input > input:focus {
-  outline : 1px solid #00AEDB;
+.list-input > input:hover {
+  
+  outline : 1px solid #647687;
 }
+
+.list-input > input:focus {
+  
+  outline : 1px solid #00AEDB;
+  
+}
+
 
 .delete {
   vertical-align: middle;
@@ -591,6 +640,14 @@ select.btn-mini + .caret {
 .delete:hover {
   color : red;
   cursor:pointer;
+}
+
+.map{
+  width:auto; 
+  height:600px;
+  -webkit-box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+    -moz-box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+      box-shadow: 0 4px 16px rgba(0,0,0,0.2);
 }
 
 
