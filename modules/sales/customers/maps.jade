@@ -1,12 +1,13 @@
 extends ../../../views/index
 
 block content
-	span #{customerId}
 	.container(style="margin-top: 15px;")
 		div.header
-			a(href="/sales/customerDetails/#{customerId}/address")
-				img(src="/images/backbutton24x24.png")
-			span.section-title   Google Maps  
+			div.section-title
+				a(href="/sales/customerDetails/#{customerId}/address")
+					span.win-backbutton
+					span  Google Maps
+			
 		.row-fluid
 			span 
 				b Adresse : 

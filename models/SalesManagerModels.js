@@ -18,7 +18,7 @@ var PhoneTypeSchema = new mongoose.Schema({
     phoneType : {type : String, unique : true, trim: true}
 });
 
-var PhoneTypeModel = mongoose.model('PhoneType', PhoneTypeSchema);
+var PhoneType = mongoose.model('PhoneType', PhoneTypeSchema);
 
 /*
 * AddressType
@@ -28,7 +28,7 @@ var AddressTypeSchema = new mongoose.Schema({
     addressType : {type : String, unique : true, trim: true}
 });
 
-var AddressTypeModel = conn.model('AddressType', AddressTypeSchema);
+var AddressType = conn.model('AddressType', AddressTypeSchema);
 
 /*
 * Address
@@ -94,7 +94,7 @@ var StatusSchema = new mongoose.Schema({
     status : {type : String, unique : true, trim: true}
 });
 
-var StatusModel = conn.model('Status', StatusSchema);
+var Status = conn.model('Status', StatusSchema);
 
 
 /*
@@ -105,7 +105,7 @@ var IndustrySchema = new mongoose.Schema({
     industry : {type : String, unique : true, trim: true}
 });
 
-var IndustryModel = conn.model('Industry', IndustrySchema);
+var Industry = conn.model('Industry', IndustrySchema);
 
 
 
@@ -240,6 +240,28 @@ var QuotationSchema = new mongoose.Schema({
 });
 
 var QuotationModel = conn.model('Quotation', QuotationSchema);
+
+
+/*
+* Products
+*/
+
+var ProductSchema = new mongoose.Schema({
+    account_id : {type: mongoose.Schema.ObjectId, ref:'Account'},
+    itemCode : {type : String, unique : true, trim: true},
+    itemCategory : {type : String, required : true, trim: true},
+    description  : {type : String,  trim: true},
+    itemUnitPrice : {type : String,  trim: true},
+    itemCostPrice : {type : String,  trim: true},
+    itemSellingPrice : {type : String,  trim: true},
+    itemMargin : {type : String,  trim: true},
+    itemGST : {type : String,  trim: true},
+    itemAmount : {type : String,  trim: true},
+    itemCompta : {type : String,  trim: true}
+
+})
+
+var Product = conn.model('Product', ProductSchema);
 
 var registerCallBack = function(err){
     if (err){
@@ -741,8 +763,8 @@ module.exports.GST                  = GSTModel;
 module.exports.Status               = StatusModel;
 module.exports.Industry             = IndustryModel;
 */
-module.exports.AddressType          = AddressTypeModel;
-module.exports.PhoneType            = PhoneTypeModel;
+module.exports.AddressType          = AddressType;
+module.exports.PhoneType            = PhoneType;
 /*
 module.exports.AddressAccount       = AddressAccount;
 module.exports.AddressCustomer      = AddressCustomerModel;

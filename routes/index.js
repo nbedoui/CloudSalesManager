@@ -1,9 +1,11 @@
 var home = require('../modules/home/home');
 var login = require('../modules/login/login');
-var common = require('../modules/common/common');
+var common = require('../modules/common/models/common');
 var sales = require('../modules/sales/sales');
 var address = require('../modules/sales/customers/addresses');
 var quotation = require('../modules/sales/quotations/quotations')
+var invoice = require('../modules/sales/invoices/invoices')
+var product = require('../modules/sales/products/products')
 
 //app.use(home);
 //app.use(login);
@@ -46,19 +48,24 @@ module.exports = function(app){
 	
 	//Quotations menu
 	app.get('/sales/quotations', quotation.index);
+	//Quotations menu
+	app.get('/sales/quotation', quotation.newQuotation);
 	//Quotations
 	app.get('/sales/quotations/:custId/:status', sales.customerQuotations);
 	
-
+	//Invoices
+	app.get('/sales/invoices', invoice.index);
 
 
 	//Quotations
 	app.get('/list/quotations', quotation.quotationsList)
 
+	//products
+	app.post('/list/products', product.productList);
 	//Common pages
 	app.get('/params', common.params);
-	app.get('/params/:entity', common.gst);
-	app.post('/list/:entity', common.gstList);
+	app.get('/params/:param', common.param);
+	app.post('/list/:entity', common.paramList);
 
 	//CRUD GST (TVA)
 	app.post('/params/update/:entity/:id', common.updateDocument);

@@ -1,0 +1,14 @@
+mongoimport --db SalesManagerDB --collection accounts --file accounts.json
+mongoimport --db SalesManagerDB --collection addresstypes --file addresstypes.json
+mongoimport --db SalesManagerDB --collection contacts --file contacts.json
+mongoimport --db SalesManagerDB --collection customers --file customers.json
+mongoimport --db SalesManagerDB --collection gsts --file gsts.json
+mongoimport --db SalesManagerDB --collection industries --file industries.json
+mongoimport --db SalesManagerDB --collection modulesauths --file moduleauths.json
+mongoimport --db SalesManagerDB --collection moduleauths --file moduleauths.json
+mongoimport --db SalesManagerDB --collection modules --file modules.json
+mongoimport --db SalesManagerDB --collection phonetypes --file phonetypes.json
+mongoimport --db SalesManagerDB --collection quotation --file quotation.json
+mongoimport --db SalesManagerDB --collection quotations --file quotations.json
+mongoimport --db SalesManagerDB --collection status --file status.json
+mongoimport --db SalesManagerDB --collection users --file users.json

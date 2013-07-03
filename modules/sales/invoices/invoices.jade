@@ -1,0 +1,75 @@
+doctype 5
+html
+	head
+		meta(charset="utf-8")
+		meta(http-equiv="X-UA-Compatible", content="IE=edge,chrome=1")
+		title Marwael Sales Manager
+		meta(name="description", content="Description du site")
+		meta(name="viewport", content="width=device-width, initial-scale=1.0")
+		link(rel='stylesheet', href='/css/iconmoon.css')
+		link(rel='stylesheet', href='/bootstrap/css/bootstrap.css')
+		link(rel='stylesheet', href='/bootstrap/css/bootstrap-responsive.css')
+		
+
+        
+		style
+			body { padding-top: 60px; }
+			table { width: 100%; }
+			td, th {text-align: left; white-space: nowrap;}
+			td.numeric, th.numeric { text-align: right; }
+			h2, h3 {margin-top: 1em;}
+			section {padding-top: 40px;}
+			[contenteditable="true"]:hover {
+				cursor:pointer;
+				outline: 1px solid orange;
+			}
+
+		link(href="/css/flip-scroll.css", rel="stylesheet")	
+			
+
+
+	body
+		div.container-fluid
+			div(itemscope, itemtype="http://schema.org/Review")
+				h1(itemprop="itemReviewed") Juiz Smart Mobile Admin
+				//-- Imbrication d’un item 
+				p(itemprop="reviewRating", itemscope, itemtype="http://schema.org/AggregateRating")
+					| Note de :
+					span(itemprop="ratingValue") 90
+					| sur
+					span(itemprop="bestRating") 100
+					| basée sur
+					span(itemprop="ratingCount") 35 
+					| votes.
+				//-- / fin de l’imbrication 
+				p(itemprop="reviewBody") Ce plugin proposé pour optimiser l'interface d'administration de[…]
+			
+			//section#flip-scroll
+				table.table-bordered.table-striped.table-condensed.cf
+					thead.cf
+						tr
+							th Code
+							th Company
+							th.numeric Price
+							th.numeric Change
+							th.numeric Change %
+					tbody
+						tr
+							td(contenteditable="true") AAC
+							td(contenteditable="true") AUSTRALIAN AGRICULTURAL COMPANY LIMITED.
+							td(contenteditable="true").numeric $1.38
+							td.numeric -0.01
+							td.numeric -0.36%
+						tr
+							td(contenteditable="true") AAC
+							td(contenteditable="true") AUSTRALIAN AGRICULTURAL COMPANY LIMITED.
+							td(contenteditable="true").numeric $1.38
+							td.numeric -0.01
+							td.numeric -0.36%
+						tr
+							td(contenteditable="true") AAC
+							td(contenteditable="true") AUSTRALIAN AGRICULTURAL COMPANY LIMITED.
+							td(contenteditable="true").numeric $1.38
+							td.numeric -0.01
+							td.numeric -0.36%
+					

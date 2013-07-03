@@ -1,15 +1,31 @@
 extends ../../../views/index
 
 block content
-	.container(style="margin-top: 15px;")
+	.container(style="margin-top: 16px;")
 		div.header
-			a(href="/sales")
-				img(src="/images/backbutton24x24.png", style="margin-left:1%;")
-			span.section-title   Liste des clients
+			div.section-title
+				a(href="/sales")
+					span.win-backbutton
+					span  Liste des clients  
 		div#customers-container.row-fluid
 
 			.row-fluid
-				.app-bar.pull-right
+				.win-commandlayout.win-ui-dark.pull-right
+					button#searchBtn.win-command
+						span.win-commandicon.win-commandring.icon-search-4
+						span.win-label Rech.
+					button#addBtn.win-command
+						span.win-commandicon.win-commandring.icon-plus-4
+						span.win-label Ajouter
+					hr.win-command
+					button#prevBtn.win-command
+						span.win-commandicon.win-commandring.icon-arrow-left-9
+						span.win-label Préc.
+					button#nextBtn.win-command
+						span.win-commandicon.win-commandring.icon-arrow-right-8
+						span.win-label Suiv.
+			//.row-fluid
+				.app-bar.pull-right.fg-color-yellow
 					button#searchBtn.win-command
 						span.win-commandimage.win-commandring &#xe041;
 						span.win-label Rech.

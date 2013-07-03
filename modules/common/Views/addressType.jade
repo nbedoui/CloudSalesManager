@@ -1,0 +1,35 @@
+extends param
+
+block title
+	span  Type d'adresse
+
+block input
+	input#inputItem.input-large.fg-color-white(required, type="text", name="paramName",
+											placeholder="Saisir des données", 
+											x-webkit-speech="x-webkit-speech", data-error-style="inline")
+block table
+	table#table.table.table-bordered.table-condensed(entity="AddressType", paramname="addressType")
+					thead
+						tr
+							th 
+								center Type d'adresse
+							th 
+								center &nbsp;
+					tbody#param-list 
+		thead
+			tr
+				th 
+					center Statut
+				th 
+					center &nbsp;
+		tbody#param-list 
+
+block template
+	script#param-template(type="text/template")
+		td 
+			center.list-input 
+				input.edit.input-medium(id!="<%=model._id%>", type="text", name="addressType", value!="<%=model.addressType%>")
+		td
+			center
+				div.delete(id!="<%=model._id%>")
+					i.icon-minus-2

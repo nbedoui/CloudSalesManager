@@ -1,0 +1,446 @@
+//-
+	Informations pièce
+		Numéro
+		Date
+	Informations client/prospect
+		Code
+		Nom
+		Adresse
+	Informations règlement
+		Mode de paiement
+		Date de validité
+	Lignes de détail
+		Code article
+		Description
+		Quantité
+		PHT
+		Taux TVA
+		PTTC
+		Remise (%)
+		Mt Remise
+
+
+
+extends ../../../views/index
+
+block content
+	style
+		.table {
+			border:1px solid #FFF;
+		}
+		.table th {
+			border: 1px solid #FFF;
+		}
+		.table td {
+			vertical-align: middle;
+			padding:1px;
+			height: auto;
+			border-right : 1px solid #FFF;
+		}
+		
+		.table td input {
+			margin-bottom : 2px;
+			border: none;
+			color: white;
+			width:90%;
+		}
+
+		.table td input:hover,
+		.table td input:focus {
+			/*
+			outline: 1px solid #FFF;
+			*/
+		}
+		.table td span {
+			border : 1px solid red;
+		}
+		
+
+			@media 
+			only screen and (max-width: 760px), (min-device-width: 768px) and (max-device-width: 1024px)  {
+			
+				/* Force table to not be like tables anymore */
+				table, thead, tbody, th, td, tr { 
+					display: block; 
+				}
+				
+				/* Hide table headers (but not display: none;, for accessibility) */
+				thead tr { 
+					position: absolute;
+					top: -9999px;
+					left: -9999px;
+			}
+			
+			tr { border: 1px solid #ccc; }
+			
+			td { 
+				/* Behave  like a "row" */
+				border: none;
+				border-bottom: 1px solid #eee; 
+				position: relative;
+				padding-left: 50%; 
+			}
+
+			td input {
+				position:relative;
+				margin-left: 100px;
+			}
+			
+			td:before { 
+				/* Now like a table header */
+				position: absolute;
+				/* Top/left values mimic padding */
+				top: 6px;
+				left: 6px;
+				width: 45%; 
+				padding-right: 10px; 
+				white-space: nowrap;
+			}
+			
+			/*
+			Label the data
+			*/
+			
+			td:nth-of-type(1):before { 
+				content: "Code"; 
+				background-color:#F0A30A;
+				width:80px;
+				padding-left:3px;
+				}
+			td:nth-of-type(2):before { content:"Désignation"; background-color:#F0A30A;
+				width:80px;
+				padding-left:3px;}
+			td:nth-of-type(3):before { content: "PU"; background-color:#F0A30A;
+				width:80px;
+				padding-left:3px;}
+			td:nth-of-type(4):before { content: "Qté"; background-color:#F0A30A;
+				width:80px;
+				padding-left:3px;}
+			td:nth-of-type(5):before { content: "MHT"; background-color:#F0A30A;
+				width:80px;
+				padding-left:3px;}
+			td:nth-of-type(6):before { content: "TVA"; background-color:#F0A30A;
+				width:80px;
+				padding-left:3px;}
+			
+			
+		}
+		
+		/* Smartphones (portrait and landscape) ----------- */
+		@media only screen
+		and (min-device-width : 320px)
+		and (max-device-width : 480px) {
+			body { 
+				padding: 0; 
+				margin: 0; 
+				width: 320px; }
+
+
+			/* Force table to not be like tables anymore */
+			table, thead, tbody, th, td, tr { 
+				display: block; 
+			}
+			
+			/* Hide table headers (but not display: none;, for accessibility) */
+			thead tr { 
+				position: absolute;
+				top: -9999px;
+				left: -9999px;
+			}
+			
+			tr { border: 1px solid #ccc; }
+			
+			td { 
+				/* Behave  like a "row" */
+				border: none;
+				border-bottom: 1px solid #eee; 
+				position: relative;
+				padding-left: 50%; 
+			}
+
+			td input {
+				position:relative;
+				margin-left: 100px;
+			}
+			
+			td:before { 
+				/* Now like a table header */
+				position: absolute;
+				/* Top/left values mimic padding */
+				top: 6px;
+				left: 6px;
+				width: 45%; 
+				padding-right: 10px; 
+				white-space: nowrap;
+			}
+
+			td:before {content: attr(data-title)}
+			}
+		
+		/* iPads (portrait and landscape) ----------- */
+		@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) {
+			body { 
+				width: 495px; 
+			}
+		}
+		
+		.flip-container {
+			-webkit-perspective : 1000;
+				-moz-perspective:1000;
+					perspective :1000;
+			border: 1px solid #ccc;
+
+		}
+
+		/*.flip-container:hover .flipper,*/
+		
+		.flip-container.hover .flipper {
+			-webkit-transform : rotateY(180deg);
+				-moz-transform: rotateY(180deg);
+					transform : rotateY(180deg);
+		}
+
+		.flip-container, 
+		.front, 
+		.back {
+			width : 320px;
+			height: 480px;
+		}
+
+		.flipper {
+			-webkit-transition : 0.6s;
+			-webkit-transform-style: preserve-3d;
+
+			-moz-transition : 0.6s;
+			-moz-transform-style: preserve-3d;
+
+			transition : 0.6s;
+			transform-style: preserve-3d;
+			position:relative;
+		}
+
+		.front, 
+		.back {
+			-webkit-backface-visibility: hidden;
+				-moz-backface-visibility: hidden;
+					backface-visibility: hidden;
+			position: absolute;
+			top: 0;
+			left: 0;
+		}
+
+		.front {
+			background-color: lightgreen;
+			z-index:2;
+		}
+
+		.back { 
+			background-color: lightblue;
+
+			-webkit-transform: rotateY(180deg);
+				-moz-transform: rotateY(180deg);
+					transform: rotateY(180deg);
+		}
+	
+		.con { contenteditable:true; margin:0 0 0 4px; border:0}
+		.con button { display:block; position:absolute; right:2px; cusrsor:pointer}
+						
+
+	.container(style="margin-top: 15px;")
+		div.header
+			div.section-title
+				a(href="/sales")
+					span.win-backbutton
+					span  Devis
+		div#quotation-container.row-fluid(style="height:650px").fg-color-white
+			div.row-fluid(style="height:150px")
+				div
+					span Client 1
+				div.well  
+					input.span3#search(type="text", autocomplete="false", style="margin: 0 auto;")
+				tr
+				tr
+			div.row-fluid(style="height:500px").fg-color-white
+
+				table.table
+					thead
+						tr
+							th #
+							th(style="width:10%") Code
+							th(style="width:30%") Désignation
+							th(style="width:10%") PU
+							th(style="width:10%") Qté
+							th(style="width:10%") MHT
+							th(style="width:10%") Remise
+							th(style="width:10%") MHT (Remise)
+							th(style="width:10%") TVA
+					tbody
+						tr#1
+							th 1
+							td#edit1.itemCode(contenteditable="true", data-title="Code", type="text", name="itemCode", list="codeList", data-provide="typeahead",data-items="4")
+							td
+								input.itemDescription(data-title="Designation", type="text", name="itemDescription");
+							td
+								input.itemPU(type="text", name="itemPU", value="0")
+							td
+								input.itemQty(type="text", name="itemQty", value="0")
+							td
+								input.itemAmount(type="text", name="itemAmount", value="0")
+							td
+								input.itemDiscount(type="text", name="itemDiscount", value="0")
+							td
+								input.itemAmoutDiscount(type="text", name="itemAmoutDiscount", value="0")
+							td
+								input.itemTax(type="text", name="itemTax", value="0")
+								
+						tr#2
+							th 2
+							td
+								input.itemCode(type="text", name="itemCode", list="codeList")
+							td
+								input.itemDescription(type="text", name="itemDescription");
+							td
+								input.itemPU(type="text", name="itemPU", value="0")
+							td
+								input.itemQty(type="text", name="itemQty", value="0")
+							td
+								input.itemAmount(type="text", name="itemAmount", value="0")
+							td
+								input.itemDiscount(type="text", name="itemDiscount", value="0")
+							td
+								input.itemAmoutDiscount(type="text", name="itemAmoutDiscount", value="0")
+							td
+								input.itemTax(type="text", name="itemTax", value="0")
+						tr#3
+							th 3
+							td
+								input.itemCode(type="text", name="itemCode", list="codeList")
+							td
+								input.itemDescription(type="text", name="itemDescription");
+							td
+								input.itemPU(type="text", name="itemPU", value="0")
+							td
+								input.itemQty(type="text", name="itemQty", value="0")
+							td
+								input.itemAmount(type="text", name="itemAmount", value="0")
+							td
+								input.itemDiscount(type="text", name="itemDiscount", value="0")
+							td
+								input.itemAmoutDiscount(type="text", name="itemAmoutDiscount", value="0")
+							td
+								input.itemTax(type="text", name="itemTax", value="0")
+				dataList#codeList
+					
+
+				
+
+
+
+	//input(type="text", style="width: 67px; height: 17px; font-family: 'lucida grande', tahoma, verdana, arial, sans-serif; font-size: 11px; position: absolute; left: 13px; top: 130px;", class="")
+				
+block  script
+	script
+		
+		(function($){
+			$(document).ready(function(){
+				var sendData = function(method, url, data, callback){
+				$.ajax({
+						type: method,
+						url:url,
+						data:data,
+						success: function(data, textStatus, xhr){
+							callback(null, {data:data, msg:textStatus});
+						},
+						error: function(xhr, textStatus, error){
+							var msg ="Impossible de modifier l'élément sélectionné : ";
+							switch (xhr.status) {
+								case 404: {
+									msg += "Problème de connexion avec le serveur";
+									break;
+								}
+								case 500: {
+									var responseText = $.parseJSON(xhr.responseText);
+									var error = responseText.error;
+									msg += error.name+" : "+error.errmsg;
+									break;
+								}
+							}
+							callback(error, {data:null, msg:msg});
+						}
+						});
+				}
+				
+				var source= function (query, process) {
+					console.log("query="+query);
+					sendData('POST', '/list/products', {q:query}, function(err, result){
+
+						console.log("result="+JSON.stringify(result));
+					});
+					states = [];
+					map = {};
+
+					var data = [
+						{"stateCode": "CA", "stateName": "California"},
+						{"stateCode": "AZ", "stateName": "Arizona"},
+						{"stateCode": "NY", "stateName": "New York"},
+						{"stateCode": "NV", "stateName": "Nevada"},
+						{"stateCode": "OH", "stateName": "Ohio"}
+					];
+
+					$.each(data, function (i, state) {
+						map[state.stateName] = state;
+						states.push(state.stateName);
+					});
+
+					process(states);
+				}
+				
+				var matcher = function(item){
+					var qr = this.query.trim().toLowerCase();
+					console.log("qr="+qr);
+					if (item.toLowerCase().indexOf(qr) == 0){
+						return true;
+					}
+				}
+				var higlighter = function(item){
+					var regex = new RegExp('('+this.query+')', 'gi');
+					return item.replace(regex, '<span style="color:red">$1</span>');
+				}
+
+				var updater = function(item){
+					selectedState = map[item].stateCode;
+					return item;
+				}
+				$('.itemCode').typeahead({source: source, matcher:matcher, highlighter:higlighter, updater:updater}) 
+				$("#edit1").on('input', function(e){
+					console.log("Input");
+					})
+				$('#edit1').typeahead({source: source, matcher:matcher, highlighter:higlighter, updater:updater}) 
+				$("#codeList").on('selected', function(e){
+					console.log("Data list selected");
+					})
+				
+				$("#flip").on('click', function(e){
+					$(".flip-container").addClass("hover");
+					})
+				$("#back").on('click', function(e){
+					$(".flip-container").removeClass("hover");
+					})
+				$("#addLine").on('click', function(e){
+					console.log("Add line ....");
+					$("#body").append('<div class="table-row"><div class="table-cell"> <div contenteditable="true" data-placeholder="Code"> </div></div><div class="table-cell"> <div contenteditable="true" data-placeholder="Désignation"> </div></div><div class="table-cell"> <div contenteditable="true" data-placeholder="Qté"> </div></div><div class="table-cell"> <div contenteditable="true" data-placeholder="PU HT"> </div></div><div class="table-cell"> <div contenteditable="true" data-placeholder="M HT"> </div></div><div class="table-cell"> <div contenteditable="true" data-placeholder="TVA"> </div></div></div>');
+					})
+
+				$('div[data-placeholder]').on('keydown keypress input', function() {
+					if (this.textContent) {
+						this.dataset.divPlaceholderContent = 'true';
+					}
+					else {
+						delete(this.dataset.divPlaceholderContent);
+					}
+				});
+		
+			})
+
+			
+		})(jQuery);

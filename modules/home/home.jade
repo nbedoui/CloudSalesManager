@@ -2,22 +2,23 @@ extends ../../views/index
 
 block content
     -var obj = JSON.parse(local)
-    .container(style="margin-top: 15px;",dir="rtl")
+    .container(style="margin-top: 15px;")
 
         div.header
-            //a(href="#")
-                img(src="/images/backbutton24x24.png", style="margin-left:1%;")
-            span.section-title #{obj["home"]}
-        .row-fluid
+            div.section-title
+                a(href="#")
+                    //span.win-backbutton
+                    span  #{obj["home"]}
+        .row-fluid.menu
                 
                 if (moduleList.indexOf('sales') >= 0)
                     a(href="/sales")#sales.tile.wide.imagetext.bg-color-red
-                        .image-wrapper
-                            .icon-gift-2
-                        .column-text
-                            .text-header3(dir="rtl") #{obj["sales"]}
-                        .app-label #{obj["sales"]}
-                        .app-count 1
+                            .image-wrapper
+                                i.icon-bag
+                            .column-text
+                                .text-header3 #{obj["sales"]}
+                            .app-label Ventes
+                            .app-count 1
                 if (moduleList.indexOf('crm') >= 0)
                     a(href="/crm")#crm.tile.wide.imagetext.bg-color-blue
                             .image-wrapper
@@ -28,7 +29,7 @@ block content
                             .app-count 2
                 a(href="/accountInfos")#accountInfos.tile.wide.imagetext.bg-color-orange
                     .image-wrapper
-                        .icon-vcard
+                        .icon-profile
                     .column-text
                         .text-header3 #{obj["Account"]}
                     .app-label Infos société

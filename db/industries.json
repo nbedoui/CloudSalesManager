@@ -1,0 +1,9 @@
+{ "_id" : { "$oid" : "5173c64296e2cdb3d2155f19" }, "account_id" : { "$oid" : "5173c6ed96e2cdb3d2155f1d" }, "industry" : "Informatique" }
+{ "_id" : { "$oid" : "5173c65196e2cdb3d2155f1a" }, "account_id" : { "$oid" : "5173c6ed96e2cdb3d2155f1d" }, "industry" : "Banque" }
+{ "_id" : { "$oid" : "5173c65696e2cdb3d2155f1b" }, "account_id" : { "$oid" : "5173c6ed96e2cdb3d2155f1d" }, "industry" : "Assurance" }
+{ "_id" : { "$oid" : "5173c65c96e2cdb3d2155f1c" }, "account_id" : { "$oid" : "5173c6ed96e2cdb3d2155f1d" }, "industry" : "Immobilier" }
+{ "_id" : { "$oid" : "51c0c84a3004d4d593b0d9ce" }, "account_id" : { "$oid" : "5173c6ed96e2cdb3d2155f1d" }, "industry" : "Restauration" }
+{ "_id" : { "$oid" : "51c0c85a3004d4d593b0d9cf" }, "account_id" : { "$oid" : "5173c6ed96e2cdb3d2155f1d" }, "industry" : "Nettoyage" }
+{ "_id" : { "$oid" : "51c0c8663004d4d593b0d9d0" }, "account_id" : { "$oid" : "5173c6ed96e2cdb3d2155f1d" }, "industry" : "Tertiaire" }
+{ "_id" : { "$oid" : "51c0c8703004d4d593b0d9d1" }, "account_id" : { "$oid" : "5173c6ed96e2cdb3d2155f1d" }, "industry" : "Commerce" }
+{ "__v" : 0, "_id" : { "$oid" : "51c4a0fa94591c9487000008" }, "account_id" : { "$oid" : "5173c6ed96e2cdb3d2155f1d" }, "industry" : "sport" }

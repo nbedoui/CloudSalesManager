@@ -1,0 +1,1 @@
+{ "_id" : { "$oid" : "514875d1f4fcecab06000006" }, "email" : "nabil.bedoui@marwael.fr", "password" : "marwael", "active" : true, "account_id" : { "$oid" : "5173c6ed96e2cdb3d2155f1d" }, "phones" : [], "name" : { "first" : "Nabil", "last" : "BEDOUI" }, "__v" : 0 }

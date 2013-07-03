@@ -14,6 +14,15 @@ exports.index = function(req, res){
 
 }
 
+exports.newQuotation = function(req, res){
+    if (req.session.loggedIn){
+        res.render(__dirname+'/quotation.jade');
+    } else {
+        res.redirect('/login');
+    }
+
+}
+
 exports.quotationsList = function(req, res){
     if (req.session.loggedIn){
         console.log("accountid="+req.session.accountId);

@@ -3,9 +3,10 @@ extends ../../../views/index
 block content
     .container(style="margin-top: 15px;")
         div.header
-            a(href="/sales/customers")
-                img(src="/images/backbutton24x24.png")
-            span.section-title   Détails du client "#{model.customer.customerName}"
+            div.section-title
+                a(href="/sales/customers")
+                    span.win-backbutton
+                    span  #{model.customer.customerName}
                 
         .row-fluid
             div.dialogPanel#customerPanel
@@ -13,19 +14,19 @@ block content
                     ul.nav.nav-pills
                         li.active
                             a#li-infos(href="#infos", data-toggle="tab").win-command
-                                    span.win-commandimage.win-commandring &#xe000;
-                                    span.win-label Infos
+                                span.win-commandicon.win-commandring.icon-vcard
+                                span.win-label Infos
                         li
                             a#li-address(href="#address", data-toggle="tab").win-command
-                                span.win-commandimage.win-commandring &#xe033;
+                                span.win-commandicon.win-commandring.icon-location
                                 span.win-label Adresses
                         li
                             a#li-bank(href="#bank", data-toggle="tab").win-command
-                                    span.win-commandimage.win-commandring &#xe080;
+                                    span.win-commandicon.win-commandring.icon-credit-card
                                     span.win-label Banque
                         li
                             a#li-contacts(href="#contacts", data-toggle="tab").win-command
-                                    span.win-commandimage.win-commandring &#xe001;
+                                    span.win-commandicon.win-commandring.icon-users-3
                                     span.win-label Contacts
                 div.tab-content
                     div.tab-pane#infos.active
@@ -165,19 +166,19 @@ block content
                                 h4  Liste des contacts
                                 .row-fluid
                                     center
-                                        .app-bar
+                                        .win-commandlayout
+                                            button#searchBtn.win-command
+                                                span.win-commandicon.win-commandring.icon-search-4
+                                                span.win-label Rech.
                                             button#addBtn.win-command
-                                                span.win-commandimage.win-commandring &#xe33c;
+                                                span.win-commandicon.win-commandring.icon-plus-4
                                                 span.win-label Ajouter
-                                            button#deleteBtn.win-command.disabled
-                                                span.win-commandimage.win-commandring &#xe33b;
-                                                span.win-label Supprimer
                                             hr.win-command
-                                            button#prevBtn.win-command.disabled
-                                                span.win-commandimage.win-commandring &#xe360;
+                                            button#prevBtn.win-command
+                                                span.win-commandicon.win-commandring.icon-arrow-left-9
                                                 span.win-label Préc.
                                             button#nextBtn.win-command
-                                                span.win-commandimage.win-commandring &#xe35c;
+                                                span.win-commandicon.win-commandring.icon-arrow-right-8
                                                 span.win-label Suiv.
                                 .row-fluid
                                     center

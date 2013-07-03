@@ -2,37 +2,26 @@ extends layout
 
 
 block page
-	div.navbar.navbar-fixed-top
+	div.navbar.navbar-fixed-top.navbar-inverse
 		div.navbar-inner
 			div.container
 				a.btn.btn-navbar(data-toggle="collapse", data-target=".nav-collapse")
 					.icon-list-4.fg-color-grayDark(style="font-size:2em;")
-				a.brand(href="#") Cloud Sales Manager
+				a.brand(href="#").fg-color-yellow Cloud Sales Manager
 				div.nav-collapse
 					ul.nav.pull-right
-						li.active
+						li
 							a(href="/") Accueil
 						li
-							a(href="#") Contact
+							a(href="/") Contact
 
 						li
-							div.divider-vertical
+							a(href="#") 
+								i.icon-user-7
+								|  #{session.firstname} #{session.lastname}
 						li
-							div.btn-group
-								a.btn(href="#") 
-									i.icon-user-7.icon-white
-									|  #{session.firstname} #{session.lastname}
-								a.btn.dropdown-toggle(data-toggle="dropdown", href="#")
-									span.caret.fg-color-red
-								ul.dropdown-menu
-									li
-										a(href="#")
-											i.icon-pencil
-											|  Mon compte
-									li
-										a(href="#")
-											i.icon-pencil
-											|  Déconnexion
+							a(href="#") 
+								i.icon-switch-2
 									
 	block content
 block script	

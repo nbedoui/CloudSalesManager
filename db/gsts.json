@@ -1,0 +1,10 @@
+{ "__v" : 0, "_id" : { "$oid" : "5148943674fbc7ad08000008" }, "account_id" : { "$oid" : "5173c6ed96e2cdb3d2155f1d" }, "tauxGST" : 7.25 }
+{ "__v" : 0, "_id" : { "$oid" : "5148944474fbc7ad08000009" }, "account_id" : { "$oid" : "5173c6ed96e2cdb3d2155f1d" }, "tauxGST" : 19.5 }
+{ "account_id" : { "$oid" : "5173c6ed96e2cdb3d2155f1f" }, "tauxGST" : 40, "_id" : { "$oid" : "5148944e74fbc7ad0800000b" }, "__v" : 0 }
+{ "tauxGST" : 4566666, "_id" : { "$oid" : "517ac170e121ba4f05000018" }, "__v" : 0 }
+{ "tauxGST" : 455566, "_id" : { "$oid" : "517ac37028036b8205000006" }, "__v" : 0 }
+{ "tauxGST" : 454111233, "_id" : { "$oid" : "517ac39cfbc6e88505000006" }, "__v" : 0 }
+{ "__v" : 0, "_id" : { "$oid" : "517ac52c45924fa705000006" }, "account_id" : { "$oid" : "5173c6ed96e2cdb3d2155f1d" }, "tauxGST" : 6.3 }
+{ "__v" : 0, "_id" : { "$oid" : "51c495fd9d7252b07c000006" }, "account_id" : { "$oid" : "5173c6ed96e2cdb3d2155f1d" }, "tauxGST" : 35.574 }
+{ "__v" : 0, "_id" : { "$oid" : "51c591939ab4c07422000007" }, "account_id" : { "$oid" : "5173c6ed96e2cdb3d2155f1d" }, "tauxGST" : 344.12 }
+{ "__v" : 0, "_id" : { "$oid" : "51ceeb757c2ffd7b01000006" }, "account_id" : { "$oid" : "5173c6ed96e2cdb3d2155f1d" }, "tauxGST" : 59 }

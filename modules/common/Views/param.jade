@@ -1,0 +1,46 @@
+
+//The basic view "param"
+extends ../../../views/index
+
+block content
+	.container(style="margin-top: 15px;")
+		div.header
+			div.section-title
+				a(href="/params")
+					span.win-backbutton
+				block title
+					
+		.container-fluid#paramList-container
+			.row-fluid
+				.win-commandlayout.win-ui-dark.pull-right
+					button#searchBtn.win-command
+						span.win-commandicon.win-commandring.icon-search-4
+						span.win-label Rech.
+					button#addItem.win-command
+						span.win-commandicon.win-commandring.icon-plus-4
+						span.win-label Ajouter
+					hr.win-command
+					button#prevBtn.win-command
+						span.win-commandicon.win-commandring.icon-arrow-left-9
+						span.win-label Préc.
+					button#nextBtn.win-command
+						span.win-commandicon.win-commandring.icon-arrow-right-8
+						span.win-label Suiv.
+			.row-fluid
+					span#error.alert.alert-error.pull-right(style="display:none")
+					div#inputPanel.well(style="display:none")
+						form.form-inline
+							block input
+							button#submit.btn.btn-small.magenta(type="button")  Enregistrer
+
+			.row-fluid
+				center
+					block table
+							
+block script
+	script(src="http://underscorejs.org/underscore-min.js") 
+	script(src="http://backbonejs.org/backbone-min.js")
+	
+	//Templates
+	block template
+	script(src="/js/modules/common/params.js")

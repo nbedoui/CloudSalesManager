@@ -1,0 +1,3 @@
+{ "account_id" : { "$oid" : "5173c6ed96e2cdb3d2155f1d" }, "addressType" : "Facturation", "_id" : { "$oid" : "5157126c958f01f705000011" }, "__v" : 0 }
+{ "account_id" : { "$oid" : "5173c6ed96e2cdb3d2155f1d" }, "addressType" : "Livraison", "_id" : { "$oid" : "51571275958f01f705000012" }, "__v" : 0 }
+{ "_id" : { "$oid" : "51bddd6c300471c165b7b656" }, "account_id" : { "$oid" : "5173c6ed96e2cdb3d2155f1d" }, "addressType" : "Postale" }

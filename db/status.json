@@ -1,0 +1,4 @@
+{ "_id" : { "$oid" : "5173c5c396e2cdb3d2155f16" }, "account_id" : { "$oid" : "5173c6ed96e2cdb3d2155f1d" }, "status" : "Client" }
+{ "_id" : { "$oid" : "5173c5e896e2cdb3d2155f17" }, "account_id" : { "$oid" : "5173c6ed96e2cdb3d2155f1d" }, "status" : "Prospect" }
+{ "_id" : { "$oid" : "5173c5ef96e2cdb3d2155f18" }, "account_id" : { "$oid" : "5173c6ed96e2cdb3d2155f1d" }, "status" : "Contact" }
+{ "status" : "qSqs", "account_id" : { "$oid" : "5173c6ed96e2cdb3d2155f1d" }, "_id" : { "$oid" : "51c5f5f76e4c619a88000006" }, "__v" : 0 }

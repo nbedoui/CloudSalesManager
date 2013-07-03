@@ -1,0 +1,14 @@
+/Users/mac/Doc*/Ou*/mongodb/bin/mongoexport --db SalesManagerDB --collection accounts --out accounts.json
+/Users/mac/Doc*/Ou*/mongodb/bin/mongoexport --db SalesManagerDB --collection addresstypes --out addresstypes.json
+/Users/mac/Doc*/Ou*/mongodb/bin/mongoexport --db SalesManagerDB --collection contacts --out contacts.json
+/Users/mac/Doc*/Ou*/mongodb/bin/mongoexport --db SalesManagerDB --collection customers --out customers.json
+/Users/mac/Doc*/Ou*/mongodb/bin/mongoexport --db SalesManagerDB --collection gsts --out gsts.json
+/Users/mac/Doc*/Ou*/mongodb/bin/mongoexport --db SalesManagerDB --collection industries --out industries.json
+/Users/mac/Doc*/Ou*/mongodb/bin/mongoexport --db SalesManagerDB --collection modulesauths --out moduleauths.json
+/Users/mac/Doc*/Ou*/mongodb/bin/mongoexport --db SalesManagerDB --collection moduleauths --out moduleauths.json
+/Users/mac/Doc*/Ou*/mongodb/bin/mongoexport --db SalesManagerDB --collection modules --out modules.json
+/Users/mac/Doc*/Ou*/mongodb/bin/mongoexport --db SalesManagerDB --collection phonetypes --out phonetypes.json
+/Users/mac/Doc*/Ou*/mongodb/bin/mongoexport --db SalesManagerDB --collection quotation --out quotation.json
+/Users/mac/Doc*/Ou*/mongodb/bin/mongoexport --db SalesManagerDB --collection quotations --out quotations.json
+/Users/mac/Doc*/Ou*/mongodb/bin/mongoexport --db SalesManagerDB --collection status --out status.json
+/Users/mac/Doc*/Ou*/mongodb/bin/mongoexport --db SalesManagerDB --collection users --out users.json

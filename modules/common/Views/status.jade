@@ -1,0 +1,28 @@
+extends param
+
+block title
+	span  Status
+
+block input
+	input#inputItem.input-large.fg-color-white(required, type="text", name="paramName",
+											placeholder="Saisir des données", 
+											x-webkit-speech="x-webkit-speech", data-error-style="inline")
+block table
+	table#table.table.table-bordered.table-condensed(entity="Status", paramname="status")
+		thead
+			tr
+				th 
+					center Statut
+				th 
+					center &nbsp;
+		tbody#param-list 
+
+block template
+	script#param-template(type="text/template")
+		td 
+			center.list-input 
+				input.edit.input-medium(id!="<%=model._id%>", type="text", name="status", value!="<%=model.status%>")
+		td
+			center
+				div.delete(id!="<%=model._id%>")
+					i.icon-minus-2

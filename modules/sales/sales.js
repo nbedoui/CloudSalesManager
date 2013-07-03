@@ -72,7 +72,7 @@ exports.customerDetails= function(req, res){
         }
 
         var getPhoneType = function(callback){
-            app.model.getReferenceList("PhoneTypeModel", accountId, function(err, doc){
+            app.model.getReferenceList("PhoneType", accountId, function(err, doc){
              if (err){
                 callback(err, null)
              } else {
@@ -82,7 +82,7 @@ exports.customerDetails= function(req, res){
         }
 
         var getAddressType = function(callback){
-            app.model.getReferenceList("AddressTypeModel", accountId, function(err, doc){
+            app.model.getReferenceList("AddressType", accountId, function(err, doc){
              if (err){
                 callback(err, null)
              } else {
@@ -92,7 +92,7 @@ exports.customerDetails= function(req, res){
         }
 
         var getIndustryList = function(callback){
-            app.model.getReferenceList("IndustryModel", accountId, function(err, doc){
+            app.model.getReferenceList("Industry", accountId, function(err, doc){
              if (err){
                 callback(err, null)
              } else {
@@ -102,7 +102,7 @@ exports.customerDetails= function(req, res){
         }
 
         var getStatusList = function(callback){
-            app.model.getReferenceList("StatusModel", accountId, function(err, doc){
+            app.model.getReferenceList("Status", accountId, function(err, doc){
              if (err){
                 callback(err, null)
              } else {
@@ -144,7 +144,7 @@ exports.newCustomer = function(req, res){
     if (req.session.loggedIn){
         var accountId = req.session.accountId;
         var getIndustryList = function(callback){
-            app.model.getReferenceList("IndustryModel", accountId, function(err, doc){
+            app.model.getReferenceList("Industry", accountId, function(err, doc){
              if (err){
                 callback(err, null)
              } else {
@@ -154,7 +154,7 @@ exports.newCustomer = function(req, res){
         }
 
         var getStatusList = function(callback){
-            app.model.getReferenceList("StatusModel", accountId, function(err, doc){
+            app.model.getReferenceList("Status", accountId, function(err, doc){
              if (err){
                 callback(err, null)
              } else {

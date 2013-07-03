@@ -1,149 +1,211 @@
-$(document).ready(function (){
-	var showMessage = function(msg){
-		//show an error message
-		$('#error').text(msg);
-		$('#error').show('fast');
-		//setTimeout( "jQuery('#error').hide();",3000 );
-		
-		setTimeout(function(){
-			//$('#error').hide('slow');
-			$('#error').text("fini");
-			console.log("Fini");
-		}, 3000);  //The message is displayed for 5 sec
+(function($){
+
 	
-	}
-
-	//Generic function for sending data to the server
-	var sendData = function(entity, method, url, data, callback){
-		var entity = entity;
-		$.ajax({
-				type: method,
-				url:url,
-				data:data,
-				success: function(data, textStatus, xhr){
-					console.log("update data ok : "+textStatus);
-					callback(null, textStatus);
-					//window.location.href="/params/"+entity;
-				},
-				error: function(xhr, textStatus, error){
-					var msg ="Impossible de modifier l'élément sélectionné : ";
-					switch (xhr.status) {
-						case 404: {
-							msg += "Problème de connexion avec le serveur";
-							break;
-						}
-						case 500: {
-							var responseText = $.parseJSON(xhr.responseText);
-							var error = responseText.error;
-							msg += error.name+" : "+error.errmsg;
-							break;
-						}
+	var sendData = function(method, url, data, callback){
+	$.ajax({
+			type: method,
+			url:url,
+			data:data,
+			success: function(data, textStatus, xhr){
+				callback(null, {data:data, msg:textStatus});
+			},
+			error: function(xhr, textStatus, error){
+				var msg ="Impossible de modifier l'élément sélectionné : ";
+				switch (xhr.status) {
+					case 404: {
+						msg += "Problème de connexion avec le serveur";
+						break;
 					}
-					callback(error, msg);
+					case 500: {
+						var responseText = $.parseJSON(xhr.responseText);
+						var error = responseText.error;
+						msg += error.name+" : "+error.errmsg;
+						break;
+					}
 				}
-				});
-
+				callback(error, {data:null, msg:msg});
+			}
+			});
+	}
+	
+	var showMessage = function(msg){
+		$('#error').text(msg);
+	    $('#error').show('fast');
+	    setTimeout(function(){
+	        $('#error').hide('slow');
+	    }, 5000);  //The message is displayed for 5 sec
 	}
 
-		//Insert data
 
-		var insertData = function(){
-			var dataString = $('form').serialize()
-				console.log("Enregistrer les données..."+dataString);
-				var entity = $("#table").attr("entity");
-				var url = '/params/insert/'+entity;
-				sendData(entity, 'POST', url, dataString, function(err, msg){
-					if(err){
-						console.log("Erreur="+err.name+" - msg:"+msg);
-						showMessage(msg);
-					} else {
-						console.log("OK - msg:"+msg);
-						window.location.href="/params/"+entity;
-					}
-				});
-		}
+	Backbone.Model.prototype.idAttribute = '_id';
 
-		$("#submit").on('click', function(e){
-				e.preventDefault();
-				insertData();
-		})
+	var paramEntity = $("#table").attr("entity");
+	var paramName = $("#table").attr("paramname");
+	console.log("paramEntity="+paramEntity);
+	var paramListView;
 
-		$("#addItem").on('webkitspeechchange', function(e){
-				e.preventDefault();
-				insertData();
-		})
+	//Models 
+	var Param = Backbone.Model.extend({
+
 		
-		//Delete document
-		$(".delete").on('click', function(e){
-				e.preventDefault();
-				var id = e.currentTarget.id;
-				var dataString = "_id="+id;
-				console.log("Supprimer de l'enreg..."+dataString);
-				var entity = $("#table").attr("entity");
-				var url = '/params/delete/'+entity;
-				sendData(entity, 'DELETE', url, dataString, function(err, msg){
-					if(err){
-						console.log("Erreur="+err.name+" - msg:"+msg);
-					} else {
-						console.log("OK - msg:"+msg);
-						window.location.href="/params/"+entity;
-					}
-				});
-				
-				/*
-				sendData('gst', 'POST', url, dataString, function(err, msg){
-					if(err){
-					console.log("Erreur="+err.name+" - msg:"+msg);
-					} else {
-						console.log("OK - msg:"+msg);
-					}
-					});
-				*/
-			})
-		//Update data
-		var updateData = function(editId){
-				var el = $("#"+editId);
-				var entity = $("#table").attr("entity");
-				var name = el.attr("name");
-				var value=el.val();
-				var dataString = name+'='+value;
-				var url = '/params/update/'+entity+'/'+editId;
-				console.log('entity = '+entity+' - dataString: '+dataString);
-				sendData(entity, 'POST', url, dataString, function(err, msg){
-					if(err){
-						console.log("Erreur="+err.name+" - msg:"+msg);
-					} else {
-						console.log("OK - msg:"+msg);
-						window.location.href="/params/"+entity;
-					}
-				});
+	});
 
+	var ParamList = Backbone.Collection.extend({
+		model : Param,
+		url : '/list/'+paramEntity
+	});
 
-		}
-		$(".edit").on('focus', function(e) {
-			console.log("Focus");
+	var paramList = new ParamList();
+
+	//GST View
+	var ParamView = Backbone.View.extend({
+		tagName : 'tr',
+		events : {
+			'focus .edit':'editFocused',
+            'keypress .edit': 'editKeypressed',
+            'webkitspeechchange .edit':'editWebkitspeechchange',
+            'click .delete':'deleteItem'
+		},
+		initialize : function(options){
+			this.template = _.template($('#param-template').html());
+			this.listenTo(this.model, 'change', this.update);
+            this.listenTo(this.model, 'destroy', this.remove);
+		},
+		render : function(){
+			var data = this.model.toJSON();
+			this.$el.append(this.template({pos:this.pos, model: data}));
+			return this;
+		},
+		editFocused: function(e) {
 			e.preventDefault();
 			var id = e.currentTarget.id;
 			$(".edit").removeAttr("x-webkit-speech");
 			$("#"+id).attr("x-webkit-speech", "x-webkit-speech");
-
-		});
-
-		$(".edit").on('webkitspeechchange', function(e){
+		},
+		editWebkitspeechchange: function(e){
 			var id = e.currentTarget.id;
-			updateData(id);
-		})
-
-		
-		$(".edit").on('keypress', function(e) {
-			console.log("e.keyCode="+e.keyCode);
-			//e.preventDefault();
+			this.updateData(id);
+		},
+		editKeypressed : function(e) {
 			if (e.keyCode == 13) {
 				var id = e.currentTarget.id;
-				updateData(id);
-				
-				
+				this.updateData(id);
 			}
-		});
-		
-});
+		},
+		updateData : function(editId){
+			self = this;
+			var el = $("#"+editId);
+			//var paramName = el.attr('name');
+        	var paramValue = el.val();
+        	if (paramValue){
+				var data = {};
+				data[paramName]=paramValue
+				console.log("data="+JSON.stringify(data));
+				var url = '/params/update/'+paramEntity+'/'+editId;
+				sendData('POST', url, data, function(err, result){
+					if(err){
+						showMessage(result.msg);
+					} else {
+						self.model.set(result.data);
+						$("#inputItem").focus();
+						$(".edit").removeAttr("x-webkit-speech");
+					}
+				});
+			}
+		},
+		deleteItem : function(e){
+			self = this;
+			e.preventDefault();
+			var id = e.currentTarget.id;
+			var dataString = "_id="+id;
+			this.model.destroy();
+		}
+	})
+
+//GST List View
+
+	var ParamListView = Backbone.View.extend({
+		model: paramList,
+		el : $('#paramList-container'),
+		events : {
+			'click #addItem':'toggleInputPanel',
+			'click #submit':'insertData',
+			'keypress #inputItem':'insertKeypressed',
+			'webkitspeechchange #inputItem':'insertData'
+
+		},
+		initialize : function(){
+			 _.bindAll(this, 'render');
+			this.fetch('');
+			this.model.bind('add', this.addItem, this);
+		},
+		fetch : function(params){
+			var self = this;
+
+			this.model.fetch(
+				{
+					data:$.param(params),
+					type: 'POST',
+					success: function(){ 
+						self.render();
+					},
+					error: function(){
+						showMessage('Cannot retrive models from server');
+					}
+				})
+		},
+		render: function(){
+			var self = this;
+			$("#param-list").html('');
+			var paramList = this.model.models;
+			for (var i = 0; i < paramList.length; i++){
+				var item = paramList[i];
+				this.addItem(item);
+			};
+
+			return this;
+		},
+		toggleInputPanel : function(e){
+			$('#inputPanel').toggle();
+			$("#inputItem").focus();
+		},
+		addItem : function(item){
+			var paramView = (new ParamView({model: item})).render().el;
+			$("#param-list").append(paramView);
+		},
+		insertKeypressed : function(e) {
+			if (e.keyCode == 13) {
+				e.preventDefault();
+				this.insertData();
+			}
+		},
+        insertData : function(){
+        	self = this;
+        	//var paramName = $("#inputItem").attr('name');
+        	var paramValue = $("#inputItem").val();
+        	if (paramValue){
+	        	var dataString = paramName+'='+paramValue;
+				var url = '/params/insert/'+paramEntity;
+				var placeholder = $("#inputItem").attr("placeholder");
+				sendData('POST', url, dataString, function(err, result){
+					if(err){
+						showMessage(result.msg);
+					} else {
+						self.model.add(result.data);
+						self.toggleInputPanel();
+					}
+					$("#inputItem").val(placeholder);
+				});
+			}
+		}
+	});
+
+	
+	$(document).ready(function(){
+		paramListView = new ParamListView();
+		//Backbone.history.start({pushState: true});
+		if (!Backbone.history)
+		//Backbone.history = Backbone.history || new Backbone.History({});
+   			Backbone.history.start({pushState: true});
+	})
+})(jQuery);

@@ -1,52 +1,60 @@
-extends ../../views/index
+extends ../../../views/index
 
 block content
     .container(style="margin-top: 15px;")
         div.header
-            a(href="/")
-                img(src="/images/backbutton24x24.png", style="margin-left:1%;")
-            span.section-title   Configuration des paramétres
+            div.section-title
+                a(href="/")
+                    span.win-backbutton
+                    span  Gestion des paramétres
         .row-fluid
-                a(href="/params/gst")#sales.tile.wide.imagetext.bg-color-amber
+                a(href="/params/gst")#gst.tile.wide.imagetext.bg-color-amber
                         .image-wrapper
                             .icon-gift-2
                         .column-text
                             .text-header3 TVA
                         .app-label TVA
                         .app-count 1
-                a(href="/crm")#crm.tile.wide.imagetext.bg-color-cyan
+                a(href="/params/industry")#industry.tile.wide.imagetext.bg-color-cyan
                             .image-wrapper
                                 .icon-users-2
                             .column-text
                                 .text-header3 Activités
                             .app-label Activités
                             .app-count 2
-                a(href="/accountInfos")#accountInfos.tile.wide.imagetext.bg-color-brown
+                a(href="/params/status")#status.tile.wide.imagetext.bg-color-brown
                     .image-wrapper
                         .icon-vcard
                     .column-text
                         .text-header3 Status
                     .app-label Status
                     .app-count 3
-                a(href="/params")#params.tile.wide.imagetext.bg-color-cobalt
+                a(href="/params/addressType")#addressType.tile.wide.imagetext.bg-color-cobalt
                     .image-wrapper
                         .icon-tools
                     .column-text
                         .text-header3 Types d'adresses
                     .app-label Types d'adresse
                     .app-count 4
+                a(href="/params/phoneType")#phoneType.tile.wide.imagetext.bg-color-pink
+                    .image-wrapper
+                        .icon-tools
+                    .column-text
+                        .text-header3 Types de téléphones
+                    .app-label Types d'adresse
+                    .app-count 5
                 a(href="/params")#params.tile.wide.imagetext.bg-color-crimson
                     .image-wrapper
                         .icon-tools
                     .column-text
                         .text-header3 Modules
                     .app-label Modules
-                    .app-count 5
+                    .app-count 6
                 a(href="/params")#params.tile.wide.imagetext.bg-color-green
                     .image-wrapper
                         .icon-users
                     .column-text
                         .text-header3 Utilisateurs
                     .app-label Utilisateurs
-                    .app-count 6
+                    .app-count 7
                 

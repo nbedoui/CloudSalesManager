@@ -3,25 +3,26 @@ extends ../../views/index
 block content
     .container(style="margin-top: 15px;")
         div.header
-            a(href="/")
-                img(src="/images/backbutton24x24.png", style="margin-left:1%;")
-            span.section-title   Ventes
-        .row-fluid
+            div.section-title
+                a(href="/")
+                    span.win-backbutton
+                    span  Ventes
+        .row-fluid.menu
             a(href="/sales/customers")#customers.tile.wide.imagetext.bg-color-teal
                 .image-wrapper
-                    .icon-office(style="font-size:48px;")
+                    .icon-office
                 .column-text
                     .text-header3 Liste clients
                 .app-label Clients
                 .app-count 1
-            a(href="/sales")#invoices.tile.wide.imagetext.bg-color-pink
+            a(href="/sales/invoices")#invoices.tile.wide.imagetext.bg-color-pink
                 .image-wrapper
-                    .icon-gift-2
+                    .icon-newspaper
                 .column-text
                     .text-header3 Factures
                 .app-label Factures
                 .app-count 2
-            a(href="/sales/quotations")#quotations.tile.wide.imagetext.bg-color-purple
+            a(href="/sales/quotation")#quotations.tile.wide.imagetext.bg-color-purple
                 .image-wrapper
                     .icon-docs
                 .column-text
@@ -30,7 +31,7 @@ block content
                 .app-count 3
             a(href="/sales/products")#products.tile.wide.imagetext.bg-gradient-green
                 .image-wrapper
-                    .icon-link-3(style="font-size:48px;")
+                    .icon-barcode
                 .column-text
                     .text-header3 Produits / Services
                 .app-label Produits

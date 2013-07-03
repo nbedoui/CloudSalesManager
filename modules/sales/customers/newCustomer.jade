@@ -3,10 +3,10 @@ extends ../../../views/index
 block content
     .container(style="margin-top: 15px;")
         div.header
-            a(href="/sales/customers")
-                img(src="/images/backbutton24x24.png")
-            span.section-title   Nouveau client 
-                strong.fg-color-red #{model.customerName}
+            div.section-title
+                a(href="/sales/customers")
+                    span.win-backbutton
+                    span  Nouveau client
         .row-fluid
             div.dialogPanel#customerPanel
                 div.dialogHeader
