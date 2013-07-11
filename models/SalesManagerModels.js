@@ -248,16 +248,19 @@ var QuotationModel = conn.model('Quotation', QuotationSchema);
 
 var ProductSchema = new mongoose.Schema({
     account_id : {type: mongoose.Schema.ObjectId, ref:'Account'},
-    itemCode : {type : String, unique : true, trim: true},
-    itemCategory : {type : String, required : true, trim: true},
-    description  : {type : String,  trim: true},
-    itemUnitPrice : {type : String,  trim: true},
-    itemCostPrice : {type : String,  trim: true},
-    itemSellingPrice : {type : String,  trim: true},
-    itemMargin : {type : String,  trim: true},
-    itemGST : {type : String,  trim: true},
-    itemAmount : {type : String,  trim: true},
-    itemCompta : {type : String,  trim: true}
+    productCode : {type : String, unique : true, trim: true},
+    productCategory : {type : String, required : true, trim: true},
+    productName : {type : String, unique : true, trim: true},
+    productDescription  : {type : String,  trim: true},
+    productCostPrice : {type : Number,  trim: true, default : 0},
+    productUnit : {type : String,  trim: true},
+    productSalesPrice : {type : Number,  trim: true, default : 0},
+    productSalesDiscount : {type : Number,  trim: true, default : 0},
+    productGST : {type : Number,  trim: true, default : 0},
+    productAccount : {type : String,  trim: true},
+    productActive : {type : Boolean, required : true, default : true},
+    productStock : {type : Number,  trim: true, default : 0},
+
 
 })
 
@@ -556,6 +559,21 @@ getRowById = function(entity, id, callback){
     
 }
 
+//Update entity
+module.exports.getDocument = function(entity, id, callback){
+   
+    console.log("entity="+entity+"  id="+id);
+    var obj = eval(entity);
+    obj.findById(id, function (err, doc) {
+        if(!err){
+            callback(null, doc);
+        } else {
+            callback(err, null);
+        }
+    });    
+    
+}
+
 module.exports.getSubDocument = function(entity, subdoc, id, callback){
     
     console.log("id="+id);
@@ -725,7 +743,31 @@ module.exports.getCustomerDetails = function(id, callback){
    
 }
 
+//Products
+module.exports.getProducts= function(accountId, fieldName, fieldValue, callback){
+    console.log("getCustomers2");
+    //var customers = new Array();
+    if (fieldName && fieldValue){
+        var criteria = new RegExp('^'+fieldValue, 'i');
+        //console.log("getCustomers2 criteria="+criteria);  
+        var query = Product.where(fieldName, criteria).where('account_id').equals(accountId);  
+    } else {
+        var query = Product.where('account_id').equals(accountId);
+    }
+    
+    query.sort('productCode');
+    query.select('_id productCode productCategory productName productDescription productSalesPrice productStock');
+    query.exec(function (err, docs) {
+        if (err) { 
+            callback(err, null)
+        } else {
+            callback(null, docs);
 
+        } 
+                    
+    });
+
+}
 
 var getQuotations= function(accountId, callback){
     //console.log("getCustomers2");

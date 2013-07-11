@@ -26,50 +26,14 @@ html
 
 		link(href="/css/flip-scroll.css", rel="stylesheet")	
 			
-
+		script(src="https://maps.googleapis.com/maps/api/js?sensor=false&libraries=places", type="text/javascript")
 
 	body
 		div.container-fluid
-			div(itemscope, itemtype="http://schema.org/Review")
-				h1(itemprop="itemReviewed") Juiz Smart Mobile Admin
-				//-- Imbrication d’un item 
-				p(itemprop="reviewRating", itemscope, itemtype="http://schema.org/AggregateRating")
-					| Note de :
-					span(itemprop="ratingValue") 90
-					| sur
-					span(itemprop="bestRating") 100
-					| basée sur
-					span(itemprop="ratingCount") 35 
-					| votes.
-				//-- / fin de l’imbrication 
-				p(itemprop="reviewBody") Ce plugin proposé pour optimiser l'interface d'administration de[…]
-			
-			//section#flip-scroll
-				table.table-bordered.table-striped.table-condensed.cf
-					thead.cf
-						tr
-							th Code
-							th Company
-							th.numeric Price
-							th.numeric Change
-							th.numeric Change %
-					tbody
-						tr
-							td(contenteditable="true") AAC
-							td(contenteditable="true") AUSTRALIAN AGRICULTURAL COMPANY LIMITED.
-							td(contenteditable="true").numeric $1.38
-							td.numeric -0.01
-							td.numeric -0.36%
-						tr
-							td(contenteditable="true") AAC
-							td(contenteditable="true") AUSTRALIAN AGRICULTURAL COMPANY LIMITED.
-							td(contenteditable="true").numeric $1.38
-							td.numeric -0.01
-							td.numeric -0.36%
-						tr
-							td(contenteditable="true") AAC
-							td(contenteditable="true") AUSTRALIAN AGRICULTURAL COMPANY LIMITED.
-							td(contenteditable="true").numeric $1.38
-							td.numeric -0.01
-							td.numeric -0.36%
+			//input#addressInput(type="text", name="address", placeholder="lieu...", style="width:300px")
+			textarea#addressInput(name="address", placeholder="lieu...", style="width:300px")
+			//AIzaSyBR6l-fFZZQO_ntNkY-0cNXVQK0a2LGIx0
+		script
+			var input = document.getElementById("addressInput");
+			var autocomplete = new google.maps.places.Autocomplete(input);
 					

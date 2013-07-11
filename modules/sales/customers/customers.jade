@@ -24,25 +24,7 @@ block content
 					button#nextBtn.win-command
 						span.win-commandicon.win-commandring.icon-arrow-right-8
 						span.win-label Suiv.
-			//.row-fluid
-				.app-bar.pull-right.fg-color-yellow
-					button#searchBtn.win-command
-						span.win-commandimage.win-commandring &#xe041;
-						span.win-label Rech.
-					hr.win-command
-					button#addBtn.win-command
-						span.win-commandimage.win-commandring &#xe33c;
-						span.win-label Ajouter
-					button#deleteBtn.win-command.disabled
-						span.win-commandimage.win-commandring &#xe33b;
-						span.win-label Suppr.
-					hr.win-command
-					button#prevBtn.win-command.disabled
-						span.win-commandimage.win-commandring &#xe360;
-						span.win-label Préc.
-					button#nextBtn.win-command
-						span.win-commandimage.win-commandring &#xe35c;
-						span.win-label Suiv.
+			
 			.row-fluid#searchPanel(style="display:none")
 				form.well.form-inline
 					select.btn.btn-mini#searchFieldName
@@ -52,7 +34,7 @@ block content
 					span 
 						| = 
 					input#searchFieldValue(type="search", placeholder="Saisir le critère")
-					button.add-on.btn.btn(type="button")#search Go
+					button.add-on.btn.btn-small(type="button")#search Go
 			#customers-list.row-fluid
 
 block script

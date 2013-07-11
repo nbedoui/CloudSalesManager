@@ -5,7 +5,7 @@ var sales = require('../modules/sales/sales');
 var address = require('../modules/sales/customers/addresses');
 var quotation = require('../modules/sales/quotations/quotations')
 var invoice = require('../modules/sales/invoices/invoices')
-var product = require('../modules/sales/products/products')
+var products = require('../modules/sales/products/products')
 
 //app.use(home);
 //app.use(login);
@@ -56,12 +56,16 @@ module.exports = function(app){
 	//Invoices
 	app.get('/sales/invoices', invoice.index);
 
+	//Items
+	app.get('/sales/products', products.index);
+	app.get('/sales/product/:id', products.productDetails);
+	app.post('/sales/updateProduct/:id', products.updateProduct);
+	app.post('/list/products', products.productsList);
 
 	//Quotations
 	app.get('/list/quotations', quotation.quotationsList)
 
-	//products
-	app.post('/list/products', product.productList);
+	
 	//Common pages
 	app.get('/params', common.params);
 	app.get('/params/:param', common.param);

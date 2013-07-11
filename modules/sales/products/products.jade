@@ -1,0 +1,41 @@
+extends ../../../views/index
+
+block content
+	style
+		
+
+	.container(style="margin-top: 15px;")
+		div.header
+			div.section-title
+				a(href="/sales")
+					span.win-backbutton
+					span  Produits / Services
+		div#products-container.row-fluid(style="height:650px;").fg-color-white
+			div.row-fluid.fg-color-white
+				div.well
+					div.input-append
+						input(placeholder="Search...", name="searchField")
+						button
+							i.icon-search
+			div.row-fluid(style="height:500px;").fg-color-white
+				section.list-container
+					ul#products-list.list-large.clearfix
+						
+block script
+	script(src="http://code.jquery.com/jquery-1.10.1.min.js")
+	script(src="http://underscorejs.org/underscore-min.js") 
+	script(src="http://backbonejs.org/backbone-min.js")
+	//Templates
+	script#product-template(type="text/template")
+		a(href="#", id!="<%=model._id%>").productDetails
+			span.picture
+				img(src="/images/product.png")
+			H4(itemprop="name") <%=model.productCode%> - <%=model.productName%>
+			strong(itemprop="category") Catégorie : <%=model.productCategory%>
+			span.text.ellipsis(itemprop="description") 
+				| <%=model.productDescription%>
+			span.text.price Prix (HT) : <%=model.productSalesPrice%> €
+			span.text <%=model.productStock%> dispo.
+	script(src="/js/modules/sales/products.js")
+
+

@@ -24,6 +24,7 @@
 extends ../../../views/index
 
 block content
+	script(src="//cdnjs.cloudflare.com/ajax/libs/numeral.js/1.4.5/numeral.min.js")
 	style
 		.table {
 			border:1px solid #FFF;
@@ -38,6 +39,9 @@ block content
 			border-right : 1px solid #FFF;
 		}
 		
+		.table td .center {
+			text-align : center;
+		}
 		.table td input {
 			margin-bottom : 2px;
 			border: none;
@@ -54,6 +58,7 @@ block content
 		.table td span {
 			border : 1px solid red;
 		}
+		
 		
 
 			@media 
@@ -245,6 +250,14 @@ block content
 		.con { contenteditable:true; margin:0 0 0 4px; border:0}
 		.con button { display:block; position:absolute; right:2px; cusrsor:pointer}
 						
+		@decimal-format price {
+			grouping-speparator: ".";
+			decimal-separator:","
+		}
+
+		td.price {
+			number-format : "### ###0.00", "price";
+		}
 
 	.container(style="margin-top: 15px;")
 		div.header
@@ -262,10 +275,9 @@ block content
 				tr
 			div.row-fluid(style="height:500px").fg-color-white
 
-				table.table
+				table.table#dataTable
 					thead
 						tr
-							th #
 							th(style="width:10%") Code
 							th(style="width:30%") Désignation
 							th(style="width:10%") PU
@@ -274,27 +286,19 @@ block content
 							th(style="width:10%") Remise
 							th(style="width:10%") MHT (Remise)
 							th(style="width:10%") TVA
-					tbody
+					tbody#body
 						tr#1
-							th 1
-							td#edit1.itemCode(contenteditable="true", data-title="Code", type="text", name="itemCode", list="codeList", data-provide="typeahead",data-items="4")
 							td
-								input.itemDescription(data-title="Designation", type="text", name="itemDescription");
-							td
-								input.itemPU(type="text", name="itemPU", value="0")
-							td
-								input.itemQty(type="text", name="itemQty", value="0")
-							td
-								input.itemAmount(type="text", name="itemAmount", value="0")
-							td
-								input.itemDiscount(type="text", name="itemDiscount", value="0")
-							td
-								input.itemAmoutDiscount(type="text", name="itemAmoutDiscount", value="0")
-							td
-								input.itemTax(type="text", name="itemTax", value="0")
+								input.itemCode(type="text", name="itemCode", data-title="Code", data-provide="typeahead", data-items="4")
+							td.itemDescription(data-title="Designation", contenteditable="true", name="itemDescription")
+							td.itemPU(contenteditable="true", name="itemPU") 0.0
+							td.itemQty(contenteditable="true", name="itemQty") 0
+							td.itemAmount(name="itemAmount") 0.0
+							td.itemDiscount(contenteditable="true", name="itemDiscount") 0 %
+							td.itemAmoutDiscount(name="itemAmoutDiscount") 0.0
+							td.itemTax(contenteditable="true", name="itemTax") 19.6%
 								
 						tr#2
-							th 2
 							td
 								input.itemCode(type="text", name="itemCode", list="codeList")
 							td
@@ -312,7 +316,6 @@ block content
 							td
 								input.itemTax(type="text", name="itemTax", value="0")
 						tr#3
-							th 3
 							td
 								input.itemCode(type="text", name="itemCode", list="codeList")
 							td
@@ -329,9 +332,13 @@ block content
 								input.itemAmoutDiscount(type="text", name="itemAmoutDiscount", value="0")
 							td
 								input.itemTax(type="text", name="itemTax", value="0")
-				dataList#codeList
-					
-
+						tr
+							td(colspan="2")
+								button#addItem Ajouter une ligne
+							td(colspan="4")
+							td Montant HT
+							td.price 2345656
+				
 				
 
 
@@ -343,6 +350,25 @@ block  script
 		
 		(function($){
 			$(document).ready(function(){
+				// load a language
+				numeral.language('fr', {
+					delimiters: {
+						thousands: ' ',
+						decimal: ','
+					},
+					abbreviations: {
+						thousand: 'k',
+						million: 'm',
+						billion: 'b',
+						trillion: 't'
+					},
+					ordinal : function (number) {
+						return number === 1 ? 'er' : 'ème';
+					},
+					currency: {
+						symbol: '€'
+					}
+				});
 				var sendData = function(method, url, data, callback){
 				$.ajax({
 						type: method,
@@ -372,7 +398,7 @@ block  script
 				
 				var source= function (query, process) {
 					console.log("query="+query);
-					sendData('POST', '/list/products', {q:query}, function(err, result){
+					sendData('POST', '/list/items', {q:query}, function(err, result){
 
 						console.log("result="+JSON.stringify(result));
 					});
@@ -426,9 +452,24 @@ block  script
 				$("#back").on('click', function(e){
 					$(".flip-container").removeClass("hover");
 					})
-				$("#addLine").on('click', function(e){
+				$("#addItem").on('click', function(e){
 					console.log("Add line ....");
-					$("#body").append('<div class="table-row"><div class="table-cell"> <div contenteditable="true" data-placeholder="Code"> </div></div><div class="table-cell"> <div contenteditable="true" data-placeholder="Désignation"> </div></div><div class="table-cell"> <div contenteditable="true" data-placeholder="Qté"> </div></div><div class="table-cell"> <div contenteditable="true" data-placeholder="PU HT"> </div></div><div class="table-cell"> <div contenteditable="true" data-placeholder="M HT"> </div></div><div class="table-cell"> <div contenteditable="true" data-placeholder="TVA"> </div></div></div>');
+					var myTable = document.getElementById("dataTable");
+					var rowsCount = myTable.rows.length;
+					var aRow = myTable.insertRow(rowsCount-1);
+					aRow.setAttribute("id",rowsCount-1);
+					
+					//id
+					var cell = aRow.insertCell(0);
+					cell.innerHTML= rowsCount-1;
+
+					//Code
+					aRow.insertCell(1).innerHTML = '<input type="text" name="code">';
+
+					//Désignation
+					aRow.insertCell(2).innerHTML = '<input type="text" name="Designation">';
+					numeral.language('fr');
+					console.log("Montant HT"+numeral("2000.5").format('0,0[.]00$'));
 					})
 
 				$('div[data-placeholder]').on('keydown keypress input', function() {
