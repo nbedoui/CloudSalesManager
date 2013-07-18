@@ -6,14 +6,10 @@
     "start": "node app.js"
   },
   "dependencies": {
-    "express": "3.2.4",
+    "express": "*",
     "jade": "*",
-    "underscore":"*"
+    "underscore":"*",
+    "mongoose":"*"
   }
 }
 
-/**
-http://momentjs.com/docs/
-https://github.com/adamwdraper/Numeral-js
-https://github.com/warpech/jquery-handsontable
-*/

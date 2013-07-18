@@ -1,0 +1,148 @@
+extends ../../../views/index
+
+block content
+	style.
+		#product-detail {
+			opacity : 1;
+			bottom : 0;
+			margin-left : 6px;
+			margin-top : 20px;
+			color : #fff;
+
+			padding : 5px;
+
+			border : 1px solid #4e4e4e;
+			-webkit-box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+				-moz-box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+					box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+		}
+
+		#description {
+			height : 100px;
+		}
+
+		.edit {
+			background-color : #2f2F2F;
+			margin-bottom: 2px;
+			padding : 2px;
+
+		}
+
+		.edit > input {
+			height : 20px;
+			margin-bottom : 0;
+			width : 98%;
+			border : none;
+			color: #fff;
+		} 
+
+		.edit > textarea {
+			height : 90px;
+			margin-bottom : 0;
+			width : 98%;
+			border : none;
+			color: #fff;
+			background : transparent;
+		} 
+
+		#product-detail label {
+			background-color : #49afcd;
+			padding : 5px;
+			color : #eee;
+			text-shadow : 0 1px 1px rgba(0,0,0,0.8);
+			width : 50%;
+		}
+
+		.input-append input[class*="span"] {
+			color : red;
+		}
+
+		@media only screen and (min-width: 760px)  {
+			#product-detail label {
+				width : 100%;
+				background-color : #49afcd;
+				padding : 5px;
+				color : #eee;
+				text-align : right;
+				text-shadow : 0 1px 1px rgba(0,0,0,0.8);
+			}
+		}
+
+	.container(style="margin-top: 15px;")
+		div.header
+			div.section-title
+				a(href="/sales/products")
+					span.win-backbutton
+					span   Nouveau produit / service
+		
+			form(action="/sales/insertProduct", method="POST")
+				div#product-detail.span8
+					.row-fluid	
+						div.span3
+							label Code :
+						div.span9.edit 
+							input(type="text", name="productCode", placeholder="Code...")
+					.row-fluid	
+						div.span3
+							label Catégorie :
+						div.span9.edit 
+							input(type="text", name="productCategory", placeholder="Catégorie du produit...")
+					.row-fluid	
+						div.span3
+							label Nom :
+						div.span9.edit 
+							input(type="text", name="productName", placeholder="Nom du produit...")
+					.row-fluid	
+						div.span3
+							label Prix d'achat HT (€) :
+						div.span9.edit 
+							input(type="text", name="productCostPrice", placeholder="Prix d'achat HT...")
+					.row-fluid	
+						div.span3
+							label Prix de vente HT (€) :
+						div.span9.edit
+							input(type="text", name="productSalesPrice", placeholder="Prix de vente HT...")
+					.row-fluid	
+						div.span3
+							label Unité  :
+						div.span9.edit 
+							input(type="text", name="productUnit", placeholder="Unité...")
+					.row-fluid	
+						div.span3
+							label Remise (%) :
+						div.span9.edit 
+							input(type="text", name="productSalesDiscount", placeholder="Remise (%)")
+					.row-fluid	
+						div.span3
+							label TVA  (%) :
+						div.span9.edit 
+							input(type="text", name="productGST", placeholder="TVA (%)")
+					.row-fluid	
+						div.span3
+							label En vente :
+						div.span9.edit 
+							input#productActive(type="checkbox")
+							input#productActiveText(type="hidden", name="productActive", value="0")
+					.row-fluid	
+						div.span3
+							label Stock dispo. :
+						div.span9.edit 
+							input(type="text", name="productStock", placeholder="Stock disponible")
+					.row-fluid	
+						div.span3
+							label Description :
+						div#description.span9.edit
+							textarea(name="productDescription", placeholder="Description du produit") 
+					.row-fluid
+						button.btn.pull-right.btn-success(type="submit") Enregistrer
+				
+block script
+    
+	script.
+		$(document).ready(function (){
+			$("#productActive").on("click", function(){
+				var n = $( "#productActive:checked" ).length;
+				console.log("Ckecked : "+n);
+				$("#productActiveText").val(n);
+			})
+		});

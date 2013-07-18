@@ -141,7 +141,7 @@
             switch(idBtn) {
                 case "searchBtn" : {
                 	console.log("Search...");
-                	$("#searchPanel").toggle();
+                	$("#searchPanel").toggle("slow");
                 }
                 break;
                 case "addBtn" : {

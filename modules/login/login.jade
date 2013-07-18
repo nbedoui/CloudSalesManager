@@ -1,5 +1,17 @@
 extends ../../views/layout
+style.
+    @media only screen and (min-width: 760px)  {
+        #text {
+            display:none;
 
+        }
+            
+    }
+
+    #text {
+        display : default;
+    }
+    
 
 block page
     div.navbar.navbar-fixed-top.navbar-inverse
@@ -13,21 +25,20 @@ block page
                         li
                             a(href="#") Contact
     div.hero-unit.clearfix
-        div.pull-left.span8
-            img(src="/images/logos/marwael-logo.png")
+        img(src="/images/logos/marwael-logo.png")
+        div.pull-left.span8.hidden-phone
+            
             h2 Marwael Cloud Sales Manager
             p Application de gestion commerciale en environnement Cloud
             p Vous n'avez pas encore de compte? 
             small Inscription sans engagement 
                 a.btn.btn-info(href="") M'inscrire
-        div.pull-right
-            form.well(method="post", action="/auth")
+        div#login
+            form(method="post", action="/auth")
                 label Identifiant
                 input.span3(type="email", name="email", placeholder="Saisir l'identifiant", value="nabil.bedoui@marwael.fr")
                 label Mot de passe
                 input.span3(type="password", name="password", placeholder="Saisir le mot de passe", value="marwael")
-                label.checkbox Rester connecté
-                    input(type="checkbox") 
                 button.btn.btn-primary(type="submit") Me connecter
                 label 
                     a(href="#") Mot de passe oublié?

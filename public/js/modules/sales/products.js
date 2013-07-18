@@ -138,8 +138,8 @@
                 }
                 break;
                 case "addBtn" : {
-                	console.log("Ajouter un client");
-                	window.location.href = '/sales/newproduct';
+                	console.log("Ajouter un produit");
+                	window.location.href = '/sales/newProduct';
                 }
                 break;
                 case "deleteBtn" : {

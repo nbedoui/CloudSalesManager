@@ -128,7 +128,7 @@ input[type="text"] {
   border-style: solid;
   border-width: 2px;
   -webkit-border-radius: 50%;
-  -moz-border-radius: 50%;
+    -moz-border-radius: 50%;
   border-radius: 50%;
   background-clip: border-box;
   
@@ -152,6 +152,8 @@ a.win-backbutton {
   min-height: 40px;
   padding-left: 10px;
   font-size: 0;
+  
+  
 }
 
 .win-command {
@@ -167,11 +169,15 @@ a.win-backbutton {
   cursor: pointer;
   background: none;
   border: 0;
+  
   background-clip: border-box;
+  width: 50px;
+  opacity: 0.8;
+  
 }
 
 .win-commandlayout .win-command {
-  padding: 12px 0;
+  padding: 10px 0;
 }
 a.win-command, 
 a.win-command:hover {
@@ -211,16 +217,21 @@ hr.win-command {
 
 
 a.win-command .win-label,
-button.win-command .win-label, 
-button.win-command:hover {
+button.win-command .win-label
+ {
   position: relative;
-  display: block;
+  display: inline-block;
+  
   width: 100%;
+  
   padding-right: 4px;
   padding-left: 4px;
   margin-top: 3px;
-  overflow: hidden;
   line-height: 15px;
+  overflow: hidden;
+  
+  opacity: 0.8;
+
   word-break: keep-all;
   word-wrap: break-word;
   -webkit-box-sizing: border-box;
@@ -228,6 +239,16 @@ button.win-command:hover {
       box-sizing: border-box;
 }
 
+button.win-command:hover {
+  /*
+  width: 50px;
+  
+  border: 1px solid green;
+  */
+  opacity: 1;
+
+  color : yellow;
+}
 .win-ui-dark .win-commandicon {
   color: #FFF;
 }
@@ -434,14 +455,16 @@ h1, h2, h3, h4, h5, h6,
   height: 100%;
   
   position: absolute;
-  -webkit-transition : -webkit-transform 1s;
-    -moz-transition  : -moz-transform 1s;
-      -o-transition  : -o-transform 1s;
-        transition   : transform 1s;
+  -webkit-transition : all 1s;
+    -moz-transition  : all 1s;
+      -ms-transition  : all 1s;
+        -o-transition  : all 1s;
+          transition   : all 1s;
   -webkit-transform-style : preserve-3d;
     -moz-transform-style  : preserve-3d;
-      -o-transform-style  : preserve-3d;
-        transform-style   : preserve-3d;
+      -ms-transform-style  : preserve-3d;
+        -o-transform-style  : preserve-3d;
+          transform-style   : preserve-3d;
 }
 
 
@@ -482,8 +505,9 @@ h1, h2, h3, h4, h5, h6,
 .card.flipped {
   -webkit-transform: rotateY( 180deg );
     -moz-transform : rotateY( 180deg );
-      -o-transform : rotateY( 180deg );
-        transform  : rotateY( 180deg );
+      -ms-transform : rotateY( 180deg );
+        -o-transform : rotateY( 180deg );
+          transform  : rotateY( 180deg );
 }
 
 
@@ -495,8 +519,9 @@ h1, h2, h3, h4, h5, h6,
   margin: 0 auto 40px;
   -webkit-backface-visibility: hidden;
     -moz-backface-visibility: hidden;
-      -o-backface-visibility: hidden;
-        backface-visibility: hidden;
+      -ms-backface-visibility: hidden;
+        -o-backface-visibility: hidden;
+          backface-visibility: hidden;
 }
 
 figure {
@@ -513,18 +538,24 @@ figure {
     -moz-margin-start: 1px;
     -moz-margin-end: 1px;
 
-      -o-margin-before: 1px;
-      -o-margin-after: 1px;
-      -o-margin-start: 1px;
-      -o-margin-end: 1px;
+      -ms-margin-before: 1px;
+      -ms-margin-after: 1px;
+      -ms-margin-start: 1px;
+      -ms-margin-end: 1px;
+        
+        -o-margin-before: 1px;
+        -o-margin-after: 1px;
+        -o-margin-start: 1px;
+        -o-margin-end: 1px;
 
-        margin-before: 1px;
-        margin-after: 1px;
-        margin-start: 1px;
-        margin-end: 1px;
+          margin-before: 1px;
+          margin-after: 1px;
+          margin-start: 1px;
+          margin-end: 1px;
 }
 
 .card .front {
+  z-index: 2;
   
 }
 
@@ -532,8 +563,9 @@ figure {
   background: #6E6E6E;
   -webkit-transform: rotateY( 180deg );
     -moz-transform: rotateY( 180deg );
-      -o-transform: rotateY( 180deg );
-        transform: rotateY( 180deg );
+      -ms-transform: rotateY( 180deg );
+        -o-transform: rotateY( 180deg );
+          transform: rotateY( 180deg );
 }
 
 .card .back  > ul {
@@ -603,7 +635,7 @@ figure {
 }
 .nav.nav-pills {
   font-size: 40px;
-  width: 11em;
+  width: 10em;
   margin: auto;
   color:#FFFFFF;
   
@@ -611,8 +643,8 @@ figure {
 
 .dialogPanel {
   background-color: #FFF;
-  width: 50em;
-  height:49em;
+  width: 40em;
+  height:45em;
   margin: auto;
   overflow: auto;
   -webkit-box-shadow: 0 4px 16px rgba(0,0,0,0.2);
@@ -639,9 +671,18 @@ figure {
 	font-family: "Segoe UI Light";
 }
 
+
 .nav > li > a,  .nav > li > a.win-command{
   color: #FFFFFF;
   opacity: 0.5;
+}
+
+.nav-tabs > li > a, 
+.nav-pills > li > a {
+    padding-right: 5px;
+    padding-left: 5px;
+    margin-right: 2px;
+    line-height: 14px;
 }
 
 .nav > li > a:hover, .nav > li > a.win-command:hover {
@@ -657,6 +698,10 @@ figure {
   color: #ffffff;
   background-color: transparent;
   opacity: 1.0;
+}
+
+.form-horizontal .control-group {
+    margin-bottom: 12px;
 }
 
 select.btn-mini{
@@ -724,6 +769,14 @@ select.btn-mini + .caret {
     padding-top: 0;
     text-align: left;
   }
+
+  .nav-tabs > li > a, 
+  .nav-pills > li > a {
+    padding-right: 3px;
+    padding-left: 3px;
+    margin-right: 2px;
+    line-height: 14px;
+}
 }
 
 .table thead {
@@ -755,8 +808,18 @@ select.btn-mini + .caret {
 }
 
 .list-input > input:focus {
-  
+  /*
   outline : 1px solid #00AEDB;
+  */
+
+  border-color: rgba(82, 168, 236, 0.8);
+  outline: 0;
+  outline: thin dotted \9;
+  /* IE6-9 */
+
+  -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(82,168,236,.6);
+  -moz-box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(82,168,236,.6);
+  box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(82,168,236,.6);
   
 }
 

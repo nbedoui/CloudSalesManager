@@ -1,7 +1,7 @@
 var mongoose = require('mongoose');
 var _ = require("underscore");
 //var Q = require('q');
-mongoose.set('debug', true);
+//mongoose.set('debug', true);
 var crypto = require('crypto');
 
 var conn = mongoose.connect('mongodb://localhost/SalesManagerDB', {server:{poolSize:3}}, function(err){
@@ -213,12 +213,15 @@ var InvoiceModel = conn.model('Invoice', InvoiceSchema);
  * QuotationLine
  */
 var QuotationLineSchema = new mongoose.Schema({
-    description : {type : String,  trim: true},
-    price : {type:Number, required : true, default : 0},
+    productCode : {type : String,  trim: true},
+    productName : {type : String,  trim: true},
+    productSalesPrice : {type:Number, required : true, default : 0},
     quantity : {type:Number, required : true, default : 0},
     amount : {type:Number, required : true, default : 0},
-    gst_id : {type: mongoose.Schema.ObjectId, ref:'Gst'},
-    quotation : [QuotationSchema]
+    productSalesDiscount : {type:Number, required : true, default : 0},
+    amountAfterDiscount : {type:Number, required : true, default : 0},
+    productGST : {type:Number, required : true, default : 0},
+    quotation_id : {type: mongoose.Schema.ObjectId, ref:'Quotation'},
 });
 
 var QuotationLineModel = conn.model('QuotationLine', QuotationLineSchema);
@@ -239,7 +242,7 @@ var QuotationSchema = new mongoose.Schema({
     status : {type:String, required : true, default : "pending"}
 });
 
-var QuotationModel = conn.model('Quotation', QuotationSchema);
+var Quotation = conn.model('Quotation', QuotationSchema);
 
 
 /*
@@ -757,6 +760,32 @@ module.exports.getProducts= function(accountId, fieldName, fieldValue, callback)
     
     query.sort('productCode');
     query.select('_id productCode productCategory productName productDescription productSalesPrice productStock');
+    query.exec(function (err, docs) {
+        if (err) { 
+            callback(err, null)
+        } else {
+            callback(null, docs);
+
+        } 
+                    
+    });
+
+}
+
+//Products
+module.exports.getProductCodeList= function(accountId, fieldValue, callback){
+    console.log("getProductCodeList");
+    //var customers = new Array();
+    if (fieldValue){
+        var criteria = new RegExp('^'+fieldValue, 'i');
+        console.log(" criteria="+criteria);  
+        var query = Product.where("productCode", criteria).where('productActive').equals(true).where('account_id').equals(accountId);  
+    } else {
+        var query = Product.where('productActive').equals(true).where('account_id').equals(accountId);
+    }
+    
+    query.sort('productCode');
+    query.select('_id productCode');
     query.exec(function (err, docs) {
         if (err) { 
             callback(err, null)

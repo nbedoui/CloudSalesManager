@@ -1,7 +1,7 @@
 extends ../../../views/index
 
 block content
-	style
+	style.
 		#product-detail {
 			opacity : 1;
 			bottom : 0;
@@ -105,6 +105,11 @@ block content
 							input(type="text", name="productSalesPrice", value="#{model.productSalesPrice}")
 					.row-fluid	
 						div.span3
+							label Unité  :
+						div.span9.edit 
+							input(type="text", name="productUnit", value="#{model.productUnit}")
+					.row-fluid	
+						div.span3
 							label Remise (%) :
 						div.span9.edit 
 							input(type="text", name="productSalesDiscount", value="#{model.productSalesDiscount}")
@@ -117,7 +122,8 @@ block content
 						div.span3
 							label En vente :
 						div.span9.edit 
-							input(type="text", name="productActive", value="#{model.productActive}")
+							input#productActive(type="checkbox", checked=(model.productActive))
+							input#productActiveText(type="hidden", name="productActive", value="#{model.productActive}")
 					.row-fluid	
 						div.span3
 							label Stock dispo. :
@@ -136,5 +142,16 @@ block content
 
 					
 
-			div#more-info-block.block.products-block.exclusive
+			
+block script
+    
+	script.
+		$(document).ready(function (){
+			$("#productActive").on("click", function(){
+				var n = $( "#productActive:checked" ).length;
+				console.log("Ckecked : "+n);
+				$("#productActiveText").val(n);
+			})
+		});
+
 		

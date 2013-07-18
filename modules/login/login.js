@@ -9,10 +9,15 @@ app.set('view engine', 'jade');
 */
 
 exports.index = function(req, res){
-    console.log("Login - name="+req.session.name);
     res.render(__dirname+'/login.jade');
 };
 
+exports.logout = function(req, res){
+    req.session.loggedIn = false;
+    req.session.userId = null;
+    res.redirect('/login');
+    res.end();
+}
 exports.auth = function(req, res){
     console.log("Auth - name="+req.session.name);
     

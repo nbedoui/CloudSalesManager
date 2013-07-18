@@ -1,7 +1,7 @@
 extends ../../../views/index
 
 block content
-	style
+	style.
 		
 
 	.container(style="margin-top: 15px;")
@@ -10,16 +10,37 @@ block content
 				a(href="/sales")
 					span.win-backbutton
 					span  Produits / Services
+		
 		div#products-container.row-fluid(style="height:650px;").fg-color-white
-			div.row-fluid.fg-color-white
-				div.well
-					div.input-append
-						input(placeholder="Search...", name="searchField")
-						button
-							i.icon-search
-			div.row-fluid(style="height:500px;").fg-color-white
+			.row-fluid
+				.win-commandlayout.win-ui-dark.pull-right
+					button#searchBtn.win-command
+						span.win-commandicon.win-commandring.icon-search-4
+						span.win-label Rech.
+					button#addBtn.win-command
+						span.win-commandicon.win-commandring.icon-plus-4
+						span.win-label Ajouter
+					hr.win-command
+					button#prevBtn.win-command
+						span.win-commandicon.win-commandring.icon-arrow-left-9
+						span.win-label Préc.
+					button#nextBtn.win-command
+						span.win-commandicon.win-commandring.icon-arrow-right-8
+						span.win-label Suiv.
+			.row-fluid#searchPanel(style="display:none")
+				form.well.form-inline
+					select.btn.btn-mini#searchFieldName
+						option(value="productName") Nom
+						option(value="productCategory") Catégorie
+						option(value="item 3") Item 3
+					span 
+						| = 
+					input#searchFieldValue(type="search", placeholder="Saisir le critère", style="-webkit-appearance:none;")
+					button.add-on.btn.btn-small(type="button")#search Go
+			.row-fluid(style="height:500px;").fg-color-white
 				section.list-container
 					ul#products-list.list-large.clearfix
+
 						
 block script
 	script(src="http://code.jquery.com/jquery-1.10.1.min.js")

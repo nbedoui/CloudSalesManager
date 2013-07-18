@@ -1,4 +1,5 @@
 var home = require('../modules/home/home');
+var crm = require('../modules/crm/crm');
 var login = require('../modules/login/login');
 var common = require('../modules/common/models/common');
 var sales = require('../modules/sales/sales');
@@ -17,7 +18,7 @@ module.exports = function(app){
 
 	app.get('/login', login.index);
 	app.post('/auth', login.auth);
-
+	app.get('/logout', login.logout);
 
 	//Sales module
 	app.get('/sales', sales.index);
@@ -60,12 +61,17 @@ module.exports = function(app){
 	app.get('/sales/products', products.index);
 	app.get('/sales/product/:id', products.productDetails);
 	app.post('/sales/updateProduct/:id', products.updateProduct);
+	app.get('/sales/newProduct', products.newProduct);
+	app.post('/sales/insertProduct', products.insertProduct);
+	app.get('/api/product/:id', products.apiProductDetails);
 	app.post('/list/products', products.productsList);
+	app.post('/list/productsCode', products.productsCodeList);
 
 	//Quotations
 	app.get('/list/quotations', quotation.quotationsList)
 
-	
+	//CRM
+	app.get('/crm', crm.index);
 	//Common pages
 	app.get('/params', common.params);
 	app.get('/params/:param', common.param);

@@ -1,487 +1,176 @@
-//-
-	Informations pièce
-		Numéro
-		Date
-	Informations client/prospect
-		Code
-		Nom
-		Adresse
-	Informations règlement
-		Mode de paiement
-		Date de validité
-	Lignes de détail
-		Code article
-		Description
-		Quantité
-		PHT
-		Taux TVA
-		PTTC
-		Remise (%)
-		Mt Remise
-
-
-
 extends ../../../views/index
 
 block content
-	script(src="//cdnjs.cloudflare.com/ajax/libs/numeral.js/1.4.5/numeral.min.js")
-	style
-		.table {
-			border:1px solid #FFF;
-		}
-		.table th {
-			border: 1px solid #FFF;
-		}
-		.table td {
-			vertical-align: middle;
-			padding:1px;
-			height: auto;
-			border-right : 1px solid #FFF;
-		}
-		
-		.table td .center {
-			text-align : center;
-		}
-		.table td input {
-			margin-bottom : 2px;
-			border: none;
-			color: white;
-			width:90%;
-		}
-
-		.table td input:hover,
-		.table td input:focus {
-			/*
-			outline: 1px solid #FFF;
-			*/
-		}
-		.table td span {
-			border : 1px solid red;
-		}
-		
+	script(src="/js/numeral.min.js")
+	script(src="/js/languages.min.js")
+	style.
 		
 
-			@media 
-			only screen and (max-width: 760px), (min-device-width: 768px) and (max-device-width: 1024px)  {
-			
-				/* Force table to not be like tables anymore */
-				table, thead, tbody, th, td, tr { 
-					display: block; 
-				}
+		@media only screen and (max-width: 979px)  {
+			.quotation-header {
+				display : none;
+			}
+
+			.quotation-line > div {
+				display : block;
+			}
+
+			.quotation-line > div > label {
+				display : inline-block;
+				width : 85px;
+				text-align : right;
 				
-				/* Hide table headers (but not display: none;, for accessibility) */
-				thead tr { 
-					position: absolute;
-					top: -9999px;
-					left: -9999px;
+				color : #fff;
+				background-color : #FA6800;;
+				
+				
 			}
 			
-			tr { border: 1px solid #ccc; }
+		}
+
+		@media only screen and (min-width: 979px)  {
 			
-			td { 
-				/* Behave  like a "row" */
-				border: none;
-				border-bottom: 1px solid #eee; 
-				position: relative;
-				padding-left: 50%; 
+			.quotation-header > div {
+				text-align : center;
+				color : #fff;
+				background-color : #FA6800;
+			}
+			.quotation-line {
+				width : 99%;
+				display: -webkit-box;
+					display: -moz-box;
+						display : -webkit-flex;
+							display : -ms-flexbox;
+								display : flex;
 			}
 
-			td input {
-				position:relative;
-				margin-left: 100px;
-			}
-			
-			td:before { 
-				/* Now like a table header */
-				position: absolute;
-				/* Top/left values mimic padding */
-				top: 6px;
-				left: 6px;
-				width: 45%; 
-				padding-right: 10px; 
-				white-space: nowrap;
-			}
-			
-			/*
-			Label the data
-			*/
-			
-			td:nth-of-type(1):before { 
-				content: "Code"; 
-				background-color:#F0A30A;
-				width:80px;
-				padding-left:3px;
-				}
-			td:nth-of-type(2):before { content:"Désignation"; background-color:#F0A30A;
-				width:80px;
-				padding-left:3px;}
-			td:nth-of-type(3):before { content: "PU"; background-color:#F0A30A;
-				width:80px;
-				padding-left:3px;}
-			td:nth-of-type(4):before { content: "Qté"; background-color:#F0A30A;
-				width:80px;
-				padding-left:3px;}
-			td:nth-of-type(5):before { content: "MHT"; background-color:#F0A30A;
-				width:80px;
-				padding-left:3px;}
-			td:nth-of-type(6):before { content: "TVA"; background-color:#F0A30A;
-				width:80px;
-				padding-left:3px;}
-			
-			
-		}
-		
-		/* Smartphones (portrait and landscape) ----------- */
-		@media only screen
-		and (min-device-width : 320px)
-		and (max-device-width : 480px) {
-			body { 
-				padding: 0; 
-				margin: 0; 
-				width: 320px; }
-
-
-			/* Force table to not be like tables anymore */
-			table, thead, tbody, th, td, tr { 
-				display: block; 
-			}
-			
-			/* Hide table headers (but not display: none;, for accessibility) */
-			thead tr { 
-				position: absolute;
-				top: -9999px;
-				left: -9999px;
-			}
-			
-			tr { border: 1px solid #ccc; }
-			
-			td { 
-				/* Behave  like a "row" */
-				border: none;
-				border-bottom: 1px solid #eee; 
-				position: relative;
-				padding-left: 50%; 
+			.quotation-line > div {
+				-webkit-box-flex :1;
+					-moz-box-flex :1;
+						-webkit-flex:1;
+							-ms-flex: 1;	
+								flex:1;
+				border : 1px solid #e4e4e4;
+				
 			}
 
-			td input {
-				position:relative;
-				margin-left: 100px;
-			}
-			
-			td:before { 
-				/* Now like a table header */
-				position: absolute;
-				/* Top/left values mimic padding */
-				top: 6px;
-				left: 6px;
-				width: 45%; 
-				padding-right: 10px; 
-				white-space: nowrap;
+
+			.quotation-line > div:nth-child(2) {
+				
+				-webkit-box-flex :3;
+					-moz-box-flex :3;
+						-webkit-flex:3;
+							-ms-flex: 3;	
+								flex:3;
+				
 			}
 
-			td:before {content: attr(data-title)}
+			.quotation-line > div > input {
+				border:none;
+				margin : 1px;
+				padding : 1px;
 			}
-		
-		/* iPads (portrait and landscape) ----------- */
-		@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) {
-			body { 
-				width: 495px; 
+
+			.quotation-line > div > input:focus {
+				/*
+				border : 1px solid green;
+				border-color: rgba(82, 168, 236, 0.8);
+				*/
+				outline: 0;
+				outline: thin dotted \9;
+				-webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(82,168,236,.6);
+					-moz-box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(82,168,236,.6);
+				box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(82,168,236,.6);
+			}
+			.quotation-line > div > label {
+				display : none;
 			}
 		}
-		
-		.flip-container {
-			-webkit-perspective : 1000;
-				-moz-perspective:1000;
-					perspective :1000;
-			border: 1px solid #ccc;
 
-		}
-
-		/*.flip-container:hover .flipper,*/
-		
-		.flip-container.hover .flipper {
-			-webkit-transform : rotateY(180deg);
-				-moz-transform: rotateY(180deg);
-					transform : rotateY(180deg);
-		}
-
-		.flip-container, 
-		.front, 
-		.back {
-			width : 320px;
-			height: 480px;
-		}
-
-		.flipper {
-			-webkit-transition : 0.6s;
-			-webkit-transform-style: preserve-3d;
-
-			-moz-transition : 0.6s;
-			-moz-transform-style: preserve-3d;
-
-			transition : 0.6s;
-			transform-style: preserve-3d;
-			position:relative;
-		}
-
-		.front, 
-		.back {
-			-webkit-backface-visibility: hidden;
-				-moz-backface-visibility: hidden;
-					backface-visibility: hidden;
-			position: absolute;
-			top: 0;
-			left: 0;
-		}
-
-		.front {
-			background-color: lightgreen;
-			z-index:2;
-		}
-
-		.back { 
-			background-color: lightblue;
-
-			-webkit-transform: rotateY(180deg);
-				-moz-transform: rotateY(180deg);
-					transform: rotateY(180deg);
-		}
-	
-		.con { contenteditable:true; margin:0 0 0 4px; border:0}
-		.con button { display:block; position:absolute; right:2px; cusrsor:pointer}
-						
-		@decimal-format price {
-			grouping-speparator: ".";
-			decimal-separator:","
-		}
-
-		td.price {
-			number-format : "### ###0.00", "price";
-		}
 
 	.container(style="margin-top: 15px;")
-		div.header
-			div.section-title
-				a(href="/sales")
-					span.win-backbutton
-					span  Devis
-		div#quotation-container.row-fluid(style="height:650px").fg-color-white
-			div.row-fluid(style="height:150px")
-				div
-					span Client 1
-				div.well  
-					input.span3#search(type="text", autocomplete="false", style="margin: 0 auto;")
-				tr
-				tr
-			div.row-fluid(style="height:500px").fg-color-white
-
-				table.table#dataTable
-					thead
-						tr
-							th(style="width:10%") Code
-							th(style="width:30%") Désignation
-							th(style="width:10%") PU
-							th(style="width:10%") Qté
-							th(style="width:10%") MHT
-							th(style="width:10%") Remise
-							th(style="width:10%") MHT (Remise)
-							th(style="width:10%") TVA
-					tbody#body
-						tr#1
-							td
-								input.itemCode(type="text", name="itemCode", data-title="Code", data-provide="typeahead", data-items="4")
-							td.itemDescription(data-title="Designation", contenteditable="true", name="itemDescription")
-							td.itemPU(contenteditable="true", name="itemPU") 0.0
-							td.itemQty(contenteditable="true", name="itemQty") 0
-							td.itemAmount(name="itemAmount") 0.0
-							td.itemDiscount(contenteditable="true", name="itemDiscount") 0 %
-							td.itemAmoutDiscount(name="itemAmoutDiscount") 0.0
-							td.itemTax(contenteditable="true", name="itemTax") 19.6%
-								
-						tr#2
-							td
-								input.itemCode(type="text", name="itemCode", list="codeList")
-							td
-								input.itemDescription(type="text", name="itemDescription");
-							td
-								input.itemPU(type="text", name="itemPU", value="0")
-							td
-								input.itemQty(type="text", name="itemQty", value="0")
-							td
-								input.itemAmount(type="text", name="itemAmount", value="0")
-							td
-								input.itemDiscount(type="text", name="itemDiscount", value="0")
-							td
-								input.itemAmoutDiscount(type="text", name="itemAmoutDiscount", value="0")
-							td
-								input.itemTax(type="text", name="itemTax", value="0")
-						tr#3
-							td
-								input.itemCode(type="text", name="itemCode", list="codeList")
-							td
-								input.itemDescription(type="text", name="itemDescription");
-							td
-								input.itemPU(type="text", name="itemPU", value="0")
-							td
-								input.itemQty(type="text", name="itemQty", value="0")
-							td
-								input.itemAmount(type="text", name="itemAmount", value="0")
-							td
-								input.itemDiscount(type="text", name="itemDiscount", value="0")
-							td
-								input.itemAmoutDiscount(type="text", name="itemAmoutDiscount", value="0")
-							td
-								input.itemTax(type="text", name="itemTax", value="0")
-						tr
-							td(colspan="2")
-								button#addItem Ajouter une ligne
-							td(colspan="4")
-							td Montant HT
-							td.price 2345656
-				
-				
-
-
-
-	//input(type="text", style="width: 67px; height: 17px; font-family: 'lucida grande', tahoma, verdana, arial, sans-serif; font-size: 11px; position: absolute; left: 13px; top: 130px;", class="")
-				
-block  script
-	script
-		
-		(function($){
-			$(document).ready(function(){
-				// load a language
-				numeral.language('fr', {
-					delimiters: {
-						thousands: ' ',
-						decimal: ','
-					},
-					abbreviations: {
-						thousand: 'k',
-						million: 'm',
-						billion: 'b',
-						trillion: 't'
-					},
-					ordinal : function (number) {
-						return number === 1 ? 'er' : 'ème';
-					},
-					currency: {
-						symbol: '€'
-					}
-				});
-				var sendData = function(method, url, data, callback){
-				$.ajax({
-						type: method,
-						url:url,
-						data:data,
-						success: function(data, textStatus, xhr){
-							callback(null, {data:data, msg:textStatus});
-						},
-						error: function(xhr, textStatus, error){
-							var msg ="Impossible de modifier l'élément sélectionné : ";
-							switch (xhr.status) {
-								case 404: {
-									msg += "Problème de connexion avec le serveur";
-									break;
-								}
-								case 500: {
-									var responseText = $.parseJSON(xhr.responseText);
-									var error = responseText.error;
-									msg += error.name+" : "+error.errmsg;
-									break;
-								}
-							}
-							callback(error, {data:null, msg:msg});
-						}
-						});
-				}
-				
-				var source= function (query, process) {
-					console.log("query="+query);
-					sendData('POST', '/list/items', {q:query}, function(err, result){
-
-						console.log("result="+JSON.stringify(result));
-					});
-					states = [];
-					map = {};
-
-					var data = [
-						{"stateCode": "CA", "stateName": "California"},
-						{"stateCode": "AZ", "stateName": "Arizona"},
-						{"stateCode": "NY", "stateName": "New York"},
-						{"stateCode": "NV", "stateName": "Nevada"},
-						{"stateCode": "OH", "stateName": "Ohio"}
-					];
-
-					$.each(data, function (i, state) {
-						map[state.stateName] = state;
-						states.push(state.stateName);
-					});
-
-					process(states);
-				}
-				
-				var matcher = function(item){
-					var qr = this.query.trim().toLowerCase();
-					console.log("qr="+qr);
-					if (item.toLowerCase().indexOf(qr) == 0){
-						return true;
-					}
-				}
-				var higlighter = function(item){
-					var regex = new RegExp('('+this.query+')', 'gi');
-					return item.replace(regex, '<span style="color:red">$1</span>');
-				}
-
-				var updater = function(item){
-					selectedState = map[item].stateCode;
-					return item;
-				}
-				$('.itemCode').typeahead({source: source, matcher:matcher, highlighter:higlighter, updater:updater}) 
-				$("#edit1").on('input', function(e){
-					console.log("Input");
-					})
-				$('#edit1').typeahead({source: source, matcher:matcher, highlighter:higlighter, updater:updater}) 
-				$("#codeList").on('selected', function(e){
-					console.log("Data list selected");
-					})
-				
-				$("#flip").on('click', function(e){
-					$(".flip-container").addClass("hover");
-					})
-				$("#back").on('click', function(e){
-					$(".flip-container").removeClass("hover");
-					})
-				$("#addItem").on('click', function(e){
-					console.log("Add line ....");
-					var myTable = document.getElementById("dataTable");
-					var rowsCount = myTable.rows.length;
-					var aRow = myTable.insertRow(rowsCount-1);
-					aRow.setAttribute("id",rowsCount-1);
+			div.header
+				div.section-title
+					a(href="/sales")
+						span.win-backbutton
+						span  Devis
+			div#quotation-container.row-fluid(style="height:650px").fg-color-white
+				div.row-fluid(style="height:150px")
+					div
+						span Client 1
+					div.well  
+						input.span3#search(type="text", autocomplete="false", style="margin: 0 auto;")
+					tr
+					tr
+					button.btn.btn-small#addLine Ajouter
+					tr
 					
-					//id
-					var cell = aRow.insertCell(0);
-					cell.innerHTML= rowsCount-1;
-
-					//Code
-					aRow.insertCell(1).innerHTML = '<input type="text" name="code">';
-
-					//Désignation
-					aRow.insertCell(2).innerHTML = '<input type="text" name="Designation">';
-					numeral.language('fr');
-					console.log("Montant HT"+numeral("2000.5").format('0,0[.]00$'));
-					})
-
-				$('div[data-placeholder]').on('keydown keypress input', function() {
-					if (this.textContent) {
-						this.dataset.divPlaceholderContent = 'true';
-					}
-					else {
-						delete(this.dataset.divPlaceholderContent);
-					}
-				});
-		
-			})
-
-			
-		})(jQuery);
+				div.row-fluid(style="height:500px").fg-color-white
+					section.quotation
+						section.quotation-line.quotation-header
+							div Code
+							div Désignation
+							div PU
+							div Unité
+							div Quantité
+							div MHT
+							div Remise (%)
+							div MHT (Remise)
+							div TVA (%)
+						section.quotation-line
+							div
+								label Code :  
+								input#productCode-1.input-mini.productCode(name="productCode", type="text", placeholder="code", autocomplete="off")
+							div
+								label Désignation : 
+								input#productName-1.input-medium.productName(name="productName", type="text", placeholder="Désignation...")
+							div
+								label PU : 
+								input#productSalesPrice-1.input-mini.numeric(name="productSalesPrice", type="text", placeholder="PU", value="0.00")
+							div
+								label Unité : 
+								input#productUnit-1.input-mini.numeric(name="productUnit", type="text", placeholder="PU", value="0.00")
+							div
+								label Quantité : 
+								input#quantity-1.input-mini.numeric(name="quantity", type="text", placeholder="Quantity", value="0") 
+							div
+								label MHT : 
+								input#amount-1.input-mini.numeric(name="amount", type="text", placeholder="Montant HT", value="0.00") 
+							div
+								label Remise : 
+								input#productSalesDiscount-1.input-mini.numeric(name="productSalesDiscount", type="text", placeholder="Remise", value="0") 
+							div
+								label MHT (Rem.) : 
+								input#amountAfterDiscount-1.input-small.numeric(name="amountAfterDiscount", type="text", placeholder="MHT (Remise)", value="0.00") 
+							div
+								label TVA : 
+								input#productGST-1.input-small.numeric(name="productGST", type="text", placeholder="TVA", value="0.00") 
+						section.quotation-line
+							div
+								label Code :  
+								input#productCode-1.input-mini.productCode(name="productCode", type="text", placeholder="code", autocomplete="off")
+							div
+								label Désignation : 
+								input#productName-1.input-medium.productName(name="productName", type="text", placeholder="Désignation...")
+							div
+								label PU : 
+								input#productSalesPrice-1.input-mini.numeric(name="productSalesPrice", type="text", placeholder="PU", value="0.00")
+							div
+								label Unité : 
+								input#productUnit-1.input-mini.numeric(name="productUnit", type="text", placeholder="PU", value="0.00")
+							div
+								label Quantité : 
+								input#quantity-1.input-mini.numeric(name="quantity", type="text", placeholder="Quantity", value="0") 
+							div
+								label MHT : 
+								input#amount-1.input-mini.numeric(name="amount", type="text", placeholder="Montant HT", value="0.00") 
+							div
+								label Remise : 
+								input#productSalesDiscount-1.input-mini.numeric(name="productSalesDiscount", type="text", placeholder="Remise", value="0") 
+							div
+								label MHT (Rem.) : 
+								input#amountAfterDiscount-1.input-small.numeric(name="amountAfterDiscount", type="text", placeholder="MHT (Remise)", value="0.00") 
+							div
+								label TVA : 
+								input#productGST-1.input-small.numeric(name="productGST", type="text", placeholder="TVA", value="0.00") 
+								
