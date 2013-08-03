@@ -1,7 +1,7 @@
 extends param
 
 block title
-	span  Type de téléphone
+	span.title  Type de téléphone
 
 block input
 	input#inputItem.input-large.fg-color-white(required, type="text", name="paramName",
@@ -12,7 +12,7 @@ block table
 		thead
 			tr
 				th 
-					center  Type de téléphone
+					center.fg-color-white  Type de téléphone
 				th 
 					center &nbsp;
 		tbody#param-list 
@@ -25,4 +25,4 @@ block template
 		td
 			center
 				div.delete(id!="<%=model._id%>")
-					i.icon-minus-2
+					i.icon-cross

@@ -1,0 +1,94 @@
+extends ../../../views/index
+
+block content
+	.container(style="margin-top: 16px;")
+		div.header
+			div.section-title
+				a(href="/sales")
+					span.win-backbutton
+					span  Liste des clients  
+		div#customers-container.row-fluid
+
+			.row-fluid
+				.win-commandlayout.win-ui-dark.pull-right
+					button#searchBtn.win-command
+						span.win-commandicon.win-commandring.icon-search-4
+						span.win-label Rech.
+					button#addBtn.win-command
+						span.win-commandicon.win-commandring.icon-plus-4
+						span.win-label Ajouter
+					hr.win-command
+					button#prevBtn.win-command
+						span.win-commandicon.win-commandring.icon-arrow-left-9
+						span.win-label Préc.
+					button#nextBtn.win-command
+						span.win-commandicon.win-commandring.icon-arrow-right-8
+						span.win-label Suiv.
+			
+			.row-fluid#searchPanel(style="display:none")
+				form.well.form-inline
+					select.btn.btn-mini#searchFieldName
+						option(value="customerName") Nom
+						option(value="status") Statut
+						option(value="item 3") Item 3
+					span 
+						| = 
+					input#searchFieldValue(type="search", placeholder="Saisir le critère")
+					button.add-on.btn.btn-small(type="button")#search Go
+			#customers-list.row-fluid
+
+block script
+	script(src="http://code.jquery.com/jquery-1.10.1.min.js")
+	script(src="http://underscorejs.org/underscore-min.js") 
+	script(src="http://backbonejs.org/backbone-min.js")
+	//Templates
+	script#customer-template(type="text/template")
+			div(id!="card-<%=model._id%>").card 
+				figure.front
+					div(style="background-color:#6E6E6E;")
+						div.pull-right
+							span.flip.pull-left(id!="flip-<%=model._id%>") Historique
+						div.img
+							img(src="/images/customer.png")
+					div.text-inner
+						a(id!="customer-<%=model._id%>", href="#").text-header.customerDetails <%=model.customerCode%> - <%=model.customerName%>
+						h5 Statut : <%=model.status%>
+						h5 suivi par : <%=model.customer_owner.name.first%> <%=model.customer_owner.name.last%>
+						h5
+							a(href="#").fg-color-white
+								i.icon-users
+								|  Liste des contacts
+					div.LI
+						div(style="width:150px; margin-left:auto; margin-right:auto")
+							div.esw
+								span.sr
+									span Devis
+							div.esw
+								span.sr
+									span Factures
+				figure.back 
+					div.pull-right.close
+						span(id!="roll-<%-model._id%>").roll.icon-x-altx-alt
+					ul
+						li
+							b
+								i.icon-docs 
+								| Devis
+							ul
+								li Transformés : 50
+								li Rejetés : 50
+								li En attente : 5
+						li
+							b
+								i.icon-notebook 
+								| Factures
+							ul
+								li Réglées : 30
+								li En attente : 20
+	script(src="/js/modules/sales/customers.js")
+
+
+
+			
+	
+	

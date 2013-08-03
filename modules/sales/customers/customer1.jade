@@ -1,0 +1,364 @@
+extends ../../../views/index
+
+block content
+	link(rel='stylesheet', href='/js/libs/bootstrap-fileupload.min.css')
+	script(src="/js/libs/bootstrap-fileupload.min.js")
+	style.
+		
+		.form-details {
+			-webkit-box-sizing: border-box;
+				-moz-box-sizing: border-box;
+					box-sizing: border-box;
+			
+			-webkit-box-shadow: 0px 1px 1px 0px rgba(0,0,0,0.1);
+				-moz-box-shadow: 0px 1px 1px 0px rgba(0,0,0,0.1);
+					box-shadow: 0px 1px 1px 0px rgba(0,0,0,0.1);
+			position: relative;
+			width: 550px;
+			margin : auto;
+			background-color: #fff;
+			margin-bottom: 25px;
+			border: 1px solid #c2c2c2;
+			border-bottom-color: #ccc;
+		}
+
+		.form-header {
+			border-bottom:1px solid #b1b6c3;
+				-moz-border-radius-topleft:4px;
+					-webkit-border-top-left-radius:4px;
+						border-top-left-radius:4px;
+			-moz-border-radius-topright:4px;
+				-webkit-border-top-right-radius:4px;
+					border-top-right-radius:4px;
+			-webkit-box-sizing:border-box;
+				-moz-box-sizing:border-box;
+					box-sizing:border-box;
+			float:left;
+			width:100%;
+			padding:15px 16px 5px 16px;
+			background-color: #FE9C03;
+			
+		}
+
+		.form-header .title {
+			font-size:16px; 
+			margin-left : 5px;
+			border : none;
+			color : #3f3f3f;
+			width : 60%;
+		}
+
+		.form-header .title:focus {
+			
+			border : 1px solid #e4e4e4;
+		}
+
+		
+		
+		.form-header .upload {
+			text-align : center;
+		}
+		.form-header .upload .btn {
+			color: #ccc;
+			border: none;
+			background-color : transparent;
+			padding : 3px;
+
+		}
+
+		.form-header .upload .btn:hover, .form-header .upload a:hover {color: #2f2f2f;}
+		.form-body {
+			-webkit-box-shadow: 0 0 0 1px #b1b6c3,inset 0 1px 0 0 rgba(86,112,134,0.15);
+				-moz-box-shadow: 0 0 0 1px #b1b6c3,inset 0 1px 0 0 rgba(86,112,134,0.15);
+					box-shadow: 0 0 0 1px #b1b6c3,inset 0 1px 0 0 rgba(86,112,134,0.15);
+			-webkit-box-sizing: border-box;
+				-moz-box-sizing: border-box;
+					box-sizing: border-box;
+			position: relative;
+			/*
+			background-color: #e9e9e9;
+			*/
+			background-color: #5f5f5f;
+			
+			display: block;
+			float: left;
+			width: 100%;
+
+			font-size : 12px;
+		}
+
+		.fileupload-preview  {
+			background-color : #fff;
+
+		}
+		
+		.form-details input, textarea, select, label {
+			border : none;
+			background-color : transparent;
+			margin-bottom : 0;
+			font-size : 12px;
+			color : #fff;
+			width : 100%;
+			
+		}
+
+		.form-details textarea {
+			overflow : auto;
+			width : 60%;
+			height : 60px;
+			color : #3f3f3f;
+		}
+
+		.form-details select {
+			-webkit-appearance: button;
+				-moz-appearance: button;
+					appearance: button;
+		}
+
+		
+		.form-details label {
+			color: #ffc40d;
+			min-width : 80px;
+			
+			
+
+		}
+
+		.form-actions{
+			margin : 0;
+
+		}
+
+		.form-details .control-group {
+			margin-bottom : 2px;
+		}
+
+		.form-details .controls {
+			background-color:#3f3f3f;
+			color : #fff;
+			margin-bottom : 0;
+			margin-right : 10px;
+		}
+		
+		.pull-topright {
+			position : absolute;
+			top : 5px;
+			right: 5px;
+		}
+
+		.btn-group > .btn {
+			font-size : 11px;
+		}
+		.btn-group > .dropdown-menu  {
+			background-color : #e4e4e4;
+			color : #1c1c1c;
+		}
+
+		.btn-group > .dropdown-menu li > a {
+			background-color : #e4e4e4;
+			color : #555;
+			font-size : 11px;
+		}
+
+		.btn-group > .dropdown-menu li > a:hover {
+			background-color : #4f4f4f;
+			color : #fff;
+		}
+
+		.btn-action {
+			background-color: #3f3f3f;
+			background-image: none;
+			background-repeat: no-repeat;
+			border-color: #3f3f3f;
+			filter: none;
+			color : #fff;
+		}
+
+	.container(style="margin-top: 15px;")
+		div.header
+			div.section-title
+				a(href="/sales/customers")
+					span.win-backbutton
+				span  model.customer.customerName
+
+		.row-fluid.form-details
+				form(method="POST", action="/fileupload", enctype="multipart/form-data")
+					div.form-header
+						div
+							span Recherche des infos client :
+							input.span6#autocomplete(type="search", name="autocomplete", placeholder="Nom du client...", style="border: 1px solid #3f3f3f;")
+						.fileupload.fileupload-new(data-provides="fileupload").pull-left
+							.fileupload-new.thumbnail(style="width: 80px; height: 80px;")
+								img(src="http://www.placehold.it/80x80/EFEFEF/AAAAAA&text=logo")
+
+							.fileupload-preview.fileupload-exists.thumbnail(style="width: 80px; height: 80px; line-height: 20px;")
+							div.upload
+								span.btn.btn-file
+									span.fileupload-new 
+										i.icon-camera-2
+									span.fileupload-exists 
+										i.icon-camera-2
+									input#logoname(type="file", name="logoimage")
+								span.btn.btn-file
+									span.fileupload-exists(href="#", data-dismiss="fileupload", style="float:none") 
+										i.icon-trashcan-2
+
+						div
+							input.title#customerName(type="text", value="", placeholder="Nom du client...", name="customerName", value="{model.customer.customerName}", required)
+							textarea(type="text", name="description",placeholder="Description de l'activite du client") {model.customer.description}
+						div.btn-group.pull-topright
+							button.btn.btn-action Actions
+							button.btn.dropdown-toggle.btn-action(data-toggle="dropdown")
+								span.caret
+							ul.dropdown-menu
+								li 
+									a(href="#") 
+										i.icon-docs
+										|  Nouveau devis
+								li 
+									a(href="#") 
+										i.icon-truck
+										|  Nouveau BL
+								li 
+									a(href="#") 
+										i.icon-newspaper
+										|  Nouvelle facture	
+					.form-body.form-horizontal
+						.control-group
+							label.control-label(for="website") 
+								i.icon-globe-2
+								|  Website :
+							.controls
+								input#website.edit(type="url", name="website", placeholder="Site web...", value="model.customer.website")
+						.control-group
+							label.control-label(for="email") 
+								i.icon-mail-2
+								|  Email : 
+							.controls
+								input#email(type="email", name="email", placeholder="Adresse email...", value="model.customer.email", required)
+						.control-group
+							label.control-label(for="phone") 
+								i.icon-phone-2
+								|  Téléphone : 
+							.controls
+								input#phone(type="tel", name="phone", placeholder="Téléphone fixe...", value="{model.customer.phone}", required)
+						.control-group
+							label.control-label(for="mobile") 
+								i.icon-mobile-5 
+								|  Mobile : 
+							.controls
+								input#mobile(type="tel", name="mobile", placeholder="Mobile...", value="{model.customer.mobile}")
+
+						//if (model.customer.addresses)
+							//- each address in model.customer.addresses
+								.control-group
+									label.control-label(for="address")  
+										i.icon-directions-2 
+										|  Adresse :
+									.controls
+										input#street(type="text", name="street", required, placeholder="Rue", value="{address.street}")	
+								.control-group
+									label.control-label(for="address") Code postal  :
+									.controls
+										input#zipCode(type="text", name="zipCode", required, placeholder="Code postal", value="{address.zipCode}")
+										
+								.control-group
+									label.control-label(for="address") Ville :
+									.controls
+										input#city(type="text", name="city", required, placeholder="Ville", value="{address.city}")
+								.control-group
+									label.control-label(for="address") Pays :	
+									.controls
+										input#country(type="text", name="country", required, placeholder="Pays", value="{address.country}")
+									.controls
+										a.maps(href="#").fg-color-orange
+											i.icon-compass-4
+											|  Localiser
+
+						.control-group
+							label.control-label(for="industryList") Activité :
+							.controls
+								select#industryList(name="industry")
+									if (model.industryList)
+										- each industry in model.industryList
+											option(value="#{industry.industry}") #{industry.industry}
+                            
+						.control-group
+							label.control-label(for="gstCode") Code TVA : 
+							.controls
+								input#gstCode(type="text", name="gstCode", placeholder="Code TVA", value="{model.customer.gstCode}")
+						div.control-group
+							label.control-label(for="managerList")
+								i.icon-user-6  
+								|  Suivi par : 
+							div.controls
+								select#managerList(name="customer_owner")
+									if (model.managerList)
+										- each manager in model.managerList
+											option(value="#{manager._id}") #{manager.name.first} #{manager.name.last}
+									
+
+					div.form-actions.pull-right
+							button.btn.btn-action(type="submit") Enregistrer
+//0021623110866
+block script
+	script.
+		$(document).ready(function (){
+			$('.fileupload').fileupload({uploadtype: 'image'});
+			$('#logoname').on('change', function(e){
+				console.log("Upload new image");
+				console.log("file name="+$(this).val());
+				})
+			//Localisation 
+			$(".maps").on('click', function(e){
+				console.log("maps ...");
+				var id = e.currentTarget.id;
+				var address = $('#street').val()+' '+$('#zipCode').val()+' '+$('#city').val()+' '+$('#country').val();
+				console.log('address : '+ address);
+				
+			});
+
+			var formatAddress = function(place){
+				var address = {};
+				for (index in place.address_components){
+					var type = place.address_components[index].types[0];
+					address[type] = place.address_components[index].long_name;
+					
+				}
+				return address;
+				
+			}
+
+			$(function(){
+				var country = $("#country option:selected").val();
+				$("#country").on('change', function(e){
+					country = $("#country option:selected").val(); 
+					console.log("country = "+country);
+				})
+				console.log("country = "+country);
+				var input = document.getElementById("autocomplete");
+				var options = {
+					types: ['establishment']
+				};
+				var autocomplete = new google.maps.places.Autocomplete(input, options);
+				google.maps.event.addListener(autocomplete, 'place_changed', function(){
+					var place = autocomplete.getPlace();
+					//console.log("Place = "+JSON.stringify(place));
+					var address = formatAddress(place);
+					//console.log(JSON.stringify(address));
+					console.log(place.formatted_address);
+					$('#customerName').val(place.name);
+					$('#website').val(place.website);
+					$('#phone').val(place.international_phone_number);
+					$('#street').val(address.street_number+','+address.route);
+					$('#city').val(address.locality);
+					$('#zipCode').val(address.postal_code);
+					$('#region').val(address.administrative_area_level_1);
+
+				})
+
+				
+			});
+
+
+		});

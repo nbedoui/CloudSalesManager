@@ -1,7 +1,7 @@
 extends param
 
 block title
-	span  Type d'adresse
+	span.title  Type d'adresse
 
 block input
 	input#inputItem.input-large.fg-color-white(required, type="text", name="paramName",
@@ -19,7 +19,7 @@ block table
 		thead
 			tr
 				th 
-					center Statut
+					center.fg-color-white Statut
 				th 
 					center &nbsp;
 		tbody#param-list 
@@ -32,4 +32,4 @@ block template
 		td
 			center
 				div.delete(id!="<%=model._id%>")
-					i.icon-minus-2
+					i.icon-cross

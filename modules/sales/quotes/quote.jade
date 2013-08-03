@@ -1,0 +1,175 @@
+//-
+	Informations pièce
+		Numéro
+		Date
+	Informations client/prospect
+		Code
+		Nom
+		Adresse
+	Informations règlement
+		Mode de paiement
+		Date de validité
+	Lignes de détail
+		Code article
+		Description
+		Quantité
+		PHT
+		Taux TVA
+		PTTC
+		Remise (%)
+		Mt Remise
+
+	//account_id : {type: mongoose.Schema.ObjectId, ref:'Account'},
+		customer_id : {type: mongoose.Schema.ObjectId, ref:'CustomerModel'},
+		customerName : {type : String,  trim: true},
+		customerAddress :  {type : String,  trim: true},
+		number : {type : String,  trim: true},
+		date : {type : String, required : true},
+		reference : {type : String, required : true},
+		price : {type:Number, required : true, default : 0},
+		amount : {type:String, required : true, default : 0},
+		gst : {type:Number, required : true, default : 0},
+		total : {type:Number, required : true, default : 0},
+		status : {type:String, required : true, default : "pending"},
+		quotation_lines:[QuotationLineSchema]
+extends ../../../views/index
+
+block content
+	link(rel='stylesheet', href='/js/modules/sales/quotation/quotation.css')
+	script(src="/js/numeral.min.js")
+	script(src="/js/languages.min.js")
+	
+		
+
+	.container(style="margin-top: 15px;")
+			div.header
+				div.section-title
+					a(href="/sales")
+						span.win-backbutton
+						span  Devis
+			div#quotation-container.row-fluid(style="height:650px; width:60%;margin:auto; ").fg-color-white
+				div.row-fluid(style="height:500px").fg-color-white
+					section.quotation
+						section.customer-infos
+							div
+								label Client :  
+								input#customerName(name="customerName", type="text", autocomplete="off", required)
+								input#customer_id(name="customer_id", type="hidden")
+							
+							div
+								label Numéro
+								input#number(name="number", type="text", autocomplete="off")
+							div
+								label Date : 
+								input#date(type="date", name="date", value="#{currentDate}", required)
+							div
+								label Référence
+								input#reference(name="reference", type="text", autocomplete="off")
+						button.btn#quote-settings Paramétres du devis
+						section.quote-settings.border-color-blue(style="display:none")
+							div
+								label Garantie :  
+								input#customerName(name="customerName", type="text", autocomplete="off", required)
+								input#customer_id(name="customer_id", type="hidden")
+							
+							div
+								label Validité :
+								input#number(name="number", type="text", autocomplete="off")
+							div
+								label Devise : 
+								input#date(type="date", name="date", value="#{currentDate}", required)
+							div
+								label Langue
+								input#reference(name="reference", type="text", autocomplete="off")
+
+						section.quotation-line.quotation-header-line
+							div
+							div Produit/Service
+							div Désignation
+							div PU
+							div Unité
+							div Quantité
+							div MHT
+							div Remise (%)
+							div MHT (Remise)
+							div TVA (%)
+						section.quotation-lines#quotation-lines
+							
+							
+						section.quotation-summary
+							section.quotation-summary-line.alignment-end
+								
+								div Montant Total HT
+								div
+									span#amount.input-small.numeric(name="amount", type="text", placeholder="Montant HT", value="0.00") 0.00
+							div.quotation-summary-line.alignment-end
+								div Remise
+								div
+									span#discount.input-small.numeric(name="amount", type="text", placeholder="Montant HT", value="0.00") 0.00
+							div.quotation-summary-line.alignment-end
+								div Montant (Remise)
+									
+								div
+									span#amountAfterDiscount.input-small.numeric(name="amount", type="text", placeholder="Montant HT", value="0.00") 0.00
+							div.quotation-summary-line.alignment-end
+								div Montant TVA
+									
+								div
+									span#GST.input-small.numeric(name="amount", type="text", placeholder="Montant HT", value="0.00") 0.00
+							div.quotation-summary-line.alignment-end
+								div Montant TTC
+									
+								div
+									span#amountAll.input-small.numeric(name="amount", type="text", placeholder="Montant HT", value="0.00") 0.00
+						
+						section.pull-right(style="margin-top:5px;")
+							div
+								button.btn#saveQuotation Enregistrer
+
+
+block  script
+	//script(src="http://code.jquery.com/jquery-1.10.1.min.js")
+	script(src="http://underscorejs.org/underscore-min.js") 
+	script(src="http://backbonejs.org/backbone-min.js")
+	script#quotationLine-template(type="text/template")
+		section.quotation-line(id!="quotation-line-<%=lineId%>")
+			div
+				a(id!="delete-<%=lineId%>").deleteBtn.win-command(href="#")
+					span.win-commandicon.icon-minus-4
+			div
+				
+				label Produit/Service :  
+				input(id!="productName-<%=lineId%>").input-mini.productName(name="productName", type="text", placeholder="Nom du produit", autocomplete="off")
+			div
+				label Désignation : 
+				input(id!="productDescription-<%=lineId%>").input-medium.productDescription(name="productDescription", type="text", placeholder="Désignation...")
+			div
+				label PU : 
+				input(id!="productSalesPrice-<%=lineId%>").input-mini.numeric(name="productSalesPrice", type="text", placeholder="PU", value="0.00")
+			div
+				label Unité : 
+				input(id!="productUnit-<%=lineId%>").input-mini.numeric(name="productUnit", type="text", placeholder="Unité", value="U")
+			div
+				label Quantité : 
+				input(id!="quantity-<%=lineId%>").input-mini.numeric(name="quantity", type="text", placeholder="Quantity", value="2") 
+			div
+				label MHT : 
+				input(id!="amount-<%=lineId%>").input-mini.numeric(name="amount", type="text", placeholder="Montant HT", value="0.00") 
+			div
+				label Remise : 
+				input(id!="productSalesDiscount-<%=lineId%>").input-mini.numeric(name="productSalesDiscount", type="text", placeholder="Remise", value="0") 
+			div
+				label MHT (Rem.) : 
+				input(id!="amountAfterDiscount-<%=lineId%>").input-small.numeric(name="amountAfterDiscount", type="text", placeholder="MHT (Remise)", value="0.00") 
+			div
+				label TVA : 
+				input(id!="productGST-<%=lineId%>").input-small.numeric(name="productGST", type="text", placeholder="TVA", value="0.00") 
+	script(src='/js/modules/sales/quotation/quotation.js')
+	script
+		$('#quote-settings').on('click', function(e){
+			$(".quote-settings").toggle();
+			})
+		
+		
+
+								

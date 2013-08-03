@@ -28,14 +28,14 @@ exports.auth = function(req, res){
         res.send(400);
         return;
     }
-    app.model.login(email, password, function(success, doc){
-        if (!success){
-            res.send(401);
+    app.model.login(email, password, function(err, doc){
+        if (err || !doc){
+            res.redirect('/login');
             return;
-        }
-        if (! doc.active){
+        } else {
+        if (!doc.active){
             console.log("Authentification echouée..");
-            res.send(500);
+            res.redirect('/login');
             return;
         }
         console.log('login was successful');
@@ -57,6 +57,7 @@ exports.auth = function(req, res){
         console.log("userId="+req.session.userId+" - firstName="+req.session.firstname+" - lastName="+req.session.lastname);
         
         res.redirect('/');
+        }
     });
 
 

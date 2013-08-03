@@ -4,19 +4,20 @@ block content
 	.container(style="margin-top: 15px;")
 		div.header
 			div.section-title
-				a(href="/sales/customerDetails/#{customerId}/address")
+				a(href="/sales/customerInfos/#{customerId}")
 					span.win-backbutton
 					span  Google Maps
 			
 		.row-fluid
-			span 
-				b Adresse : 
+			span.fg-color-white 
+				strong Adresse : 
 				| #{address}
 			div.map
 				div#map-canvas(style="width:100%; height:100%;")
 
 block script
 	script.
+
 		function initialize(){
 			var latlng = new google.maps.LatLng(49.0041169, 2.4654564999999593) ;
 			var mapcanvas = document.getElementById('map-canvas');
@@ -44,6 +45,7 @@ block script
 		}
 
 		$(document).ready(function (){
+
 			
 			var map = initialize();
 

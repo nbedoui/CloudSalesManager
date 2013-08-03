@@ -4,7 +4,7 @@ var login = require('../modules/login/login');
 var common = require('../modules/common/models/common');
 var sales = require('../modules/sales/sales');
 var address = require('../modules/sales/customers/addresses');
-var quotation = require('../modules/sales/quotations/quotations')
+var quote = require('../modules/sales/quotes/quotes')
 var invoice = require('../modules/sales/invoices/invoices')
 var products = require('../modules/sales/products/products')
 
@@ -27,32 +27,36 @@ module.exports = function(app){
 //customers
 	app.get('/sales/customers', sales.customers); //Show customers view
 
-	app.get('/sales/customerDetails/:id/:active', sales.customerDetails); 
+	//app.get('/sales/customerDetails/:id/:active', sales.customerDetails); 
+	app.get('/sales/customerInfos/:id', sales.customerInfos);
+	app.get('/sales/customerDetails/:id', sales.customerDetails);
 	app.get('/sales/newCustomer', sales.newCustomer);
 	app.post('/sales/insertCustomer', sales.insertCustomer);
 	app.post('/sales/updateCustomer/:id', sales.updateCustomer);
 
 	//Api
 	app.post('/list/customers', sales.customersList)
+	app.post('/list/customersName', sales.customersNameList)
 	//***********************************	
 
 
 	//address
+	app.post('/api/address', address.getAddressByCustomerId)
 	app.post('/sales/insertAddress/:custId', address.insertAddress);
 	app.post('/sales/updateAddress/:custId/:id', address.updateAddress);
 	app.get('/sales/deleteAddress/:custId/:id', address.deleteAddress);
 	
 	//maps for unique address
 	app.get('/sales/customer/address/maps/:custId/:addressId', sales.maps);
+	//app.post('/sales/maps', sales.maps);
 
 
 	
-	//Quotations menu
-	app.get('/sales/quotations', quotation.index);
-	//Quotations menu
-	app.get('/sales/quotation', quotation.newQuotation);
-	//Quotations
-	app.get('/sales/quotations/:custId/:status', sales.customerQuotations);
+	//Quotes menu
+	app.get('/sales/quotes', quote.index);
+	app.get('/sales/newQuote', quote.newQuote);
+	app.post('/sales/saveQuote', quote.saveQuote);
+	app.get('/sales/quotes/:custId/:status', sales.customerQuotations);
 	
 	//Invoices
 	app.get('/sales/invoices', invoice.index);
@@ -65,10 +69,10 @@ module.exports = function(app){
 	app.post('/sales/insertProduct', products.insertProduct);
 	app.get('/api/product/:id', products.apiProductDetails);
 	app.post('/list/products', products.productsList);
-	app.post('/list/productsCode', products.productsCodeList);
+	app.post('/list/productsName', products.productsNameList);
 
 	//Quotations
-	app.get('/list/quotations', quotation.quotationsList)
+	app.get('/list/quotes', quote.quotesList)
 
 	//CRM
 	app.get('/crm', crm.index);
@@ -82,6 +86,8 @@ module.exports = function(app){
 	app.post('/params/insert/:entity', common.insertDocument);
 	app.delete('/params/delete/:entity', common.deleteDocument);
 	app.delete('/list/:entity/:id', common.deleteDocument);
+
+	app.post('/fileupload', sales.uploadLogo);
 
 	
 }

@@ -1,0 +1,174 @@
+//-
+	Informations pièce
+		Numéro
+		Date
+	Informations client/prospect
+		Code
+		Nom
+		Adresse
+	Informations règlement
+		Mode de paiement
+		Date de validité
+	Lignes de détail
+		Code article
+		Description
+		Quantité
+		PHT
+		Taux TVA
+		PTTC
+		Remise (%)
+		Mt Remise
+
+	//account_id : {type: mongoose.Schema.ObjectId, ref:'Account'},
+		customer_id : {type: mongoose.Schema.ObjectId, ref:'CustomerModel'},
+		customerName : {type : String,  trim: true},
+		customerAddress :  {type : String,  trim: true},
+		number : {type : String,  trim: true},
+		date : {type : String, required : true},
+		reference : {type : String, required : true},
+		price : {type:Number, required : true, default : 0},
+		amount : {type:String, required : true, default : 0},
+		gst : {type:Number, required : true, default : 0},
+		total : {type:Number, required : true, default : 0},
+		status : {type:String, required : true, default : "pending"},
+		quotation_lines:[QuotationLineSchema]
+extends ../../../views/index
+
+block content
+	link(rel='stylesheet', href='/js/modules/sales/quotation/quotation.css')
+	script(src="/js/numeral.min.js")
+	script(src="/js/languages.min.js")
+	
+		
+
+	.container(style="margin-top: 15px;")
+			div.header
+				div.section-title
+					a(href="/sales")
+						span.win-backbutton
+						span  Nouveau devis
+			div#quotation-container.row-fluid(style="height:650px; width:60%;margin:auto; ").fg-color-white
+				div.row-fluid(style="height:500px").fg-color-white
+					section.quotation
+						form(action="/sales/saveQuote", method="POST")
+							
+							section.customer-infos
+								div
+									label Client :  
+									input#customerName(name="customerName", type="text", autocomplete="off", style="margin: 0 auto;", required)
+									input#customer_id(name="customer_id", type="hidden")
+								div
+									label Adresse de facturation
+									textarea#customerAddress(name="customerAddress", required)
+								div
+									label Référence
+									input#reference(name="reference", type="text", autocomplete="off", style="margin: 0 auto;")
+
+								div
+									
+									label Date : 
+									input#date(type="date", name="date", value="#{currentDate}", required)
+								
+							section
+								div
+									button.btn#saveQuotation Enregistrer
+block script
+	script.
+		(function($){
+
+			var sendData = function(method, url, data, callback){
+				$.ajax({
+					type: method,
+					url:url,
+					data:data,
+					success: function(data, textStatus, xhr){
+						callback(null, {data:data, msg:textStatus});
+					},
+					error: function(xhr, textStatus, error){
+						var msg ="Impossible de modifier l'élément sélectionné : ";
+						switch (xhr.status) {
+							case 404: {
+								msg += "Problème de connexion avec le serveur";
+								break;
+							}
+							case 500: {
+								var responseText = $.parseJSON(xhr.responseText);
+								var error = responseText.error;
+								msg += error.name+" : "+error.errmsg;
+								break;
+							}
+						}
+						callback(error, {data:null, msg:msg});
+					}
+				});
+			}
+
+
+
+			//Source for customer name
+			var customerSource= function (query, process) {
+				console.log("query="+query);
+
+				customers = [];
+				map = {};
+				
+				sendData('POST', '/list/customersName', {q:query}, function(err, result){
+
+					console.log("result="+JSON.stringify(result));
+					var data = result["data"];
+					console.log("data="+JSON.stringify(data));
+					
+					
+					$.each(data, function (i, customer) {
+						
+						map[customer.customerName] = customer;
+						customers.push(customer.customerName);
+					});
+
+					process(customers);
+				});
+			}
+			
+			var customerMatcher = function(item){
+				console.log("item="+JSON.stringify(item));
+				var qr = this.query.trim().toLowerCase();
+				console.log("qr="+qr);
+				if (item.toLowerCase().indexOf(qr) == 0){
+					return true;
+				}
+			}
+			var customerHiglighter = function(item){
+				var regex = new RegExp('('+this.query+')', 'gi');
+				return item.replace(regex, '<span style="color:red">$1</span>');
+			}
+
+			
+			var customerUpdater = function(item){
+				selectedCustomer = map[item];
+				var custId = selectedCustomer._id;
+				$("#customer_id").val(custId);
+				sendData('POST', '/api/address/', {"custId":custId, "addressType":"1"}, function(err, data){
+					var address = data["data"];
+					console.log("address="+JSON.stringify(address));
+					//var addressStr = '<strong>'+selectedCustomer.customerName+'</strong><br/>';
+					var addressStr = address.street+'\n';
+					addressStr += address.zipCode+" , "+ address.city+'\n';
+					addressStr += address.country;
+					$("#customerAddress").html(addressStr);
+
+					
+				});
+				return item;
+			}
+
+			
+				
+			$(document).ready(function(){
+				console.log("Document ready....");
+				$('#customerName').typeahead({source: customerSource, matcher:customerMatcher, highlighter:customerHiglighter, updater:customerUpdater});
+				
+			})
+		})(jQuery);
+		
+
+								

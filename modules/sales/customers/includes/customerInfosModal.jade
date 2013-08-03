@@ -1,0 +1,54 @@
+style.
+	.title {
+		font-size : 19px;
+		font-weight : bold;
+		border : none;
+	}
+mixin textline(caption, fieldValue)
+	.content-row
+		ul.inline
+			li.caption #{caption}
+				|  :   
+			li.text
+				if (fieldValue)
+					| #{fieldValue}
+				else
+					p.placeholder 
+						= caption 
+
+#modalInfos.modal.hide.fade
+	.container-content
+		.content-heading
+			.fileupload.fileupload-new(data-provides="fileupload").pull-left
+				.fileupload-new.thumbnail(style="width: 80px; height: 80px;")
+					img(src="http://www.placehold.it/80x80/EFEFEF/AAAAAA&text=logo")
+
+				.fileupload-preview.fileupload-exists.thumbnail(style="width: 80px; height: 80px; line-height: 20px;")
+				div.upload
+					span.btn.btn-file
+						span.fileupload-new 
+							i.icon-camera-2
+						span.fileupload-exists 
+							i.icon-camera-2
+						input#logoname(type="file", name="logoimage")
+					span.btn.btn-file
+						span.fileupload-exists(href="#", data-dismiss="fileupload", style="float:none") 
+							i.icon-trashcan-2
+			div.card-heading-header
+				input#customerId(type="hidden", value="#{customer._id}")
+				.control-row
+					ul.inline
+						li.caption.fg-color-red 
+							label(for="customerName") Nom : 
+						li.text
+							input.title#customerName(type="text", name="customerName", value="#{customer.customerName}")
+					ul.inline
+						li.caption.fg-color-red 
+							label(for="description") Description : 
+						li.text
+							textarea#description(type="text", name="description") #{customer.description}
+
+
+		.content-body
+			h4.fg-color-blue Coordonnées
+			section

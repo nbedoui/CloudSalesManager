@@ -1,37 +1,20 @@
-@font-face {
-  font-family: "Segoe UI";
-  src: local("Segoe UI"), url('/fonts/segoeui.ttf') format('truetype');
-}
-
-@font-face {
-  font-family: "Segoe UI Light";
-  src: local("Segoe UI  Light"), url('/fonts/segoeuil.ttf') format('truetype');
-}
-
-@font-face {
-  font-family: "Segoe UI Bold";
-  src: local("Segoe UI Bold"), url('/fonts/segoeuib.ttf') format('truetype');
-}
-
-@font-face {
-  font-family: 'FontAwesome';
-  src: url('/fonts/fontawesome-webfont.eot?v=3.1.0');
-  src: url('/fonts/fontawesome-webfont.eot?#iefix&v=3.1.0') format('embedded-opentype'), 
-      url('/fonts/fontawesome-webfont.woff?v=3.1.0') format('woff'), 
-      url('/fonts/fontawesome-webfont.ttf?v=3.1.0') format('truetype'), 
-      url('/fonts/fontawesome-webfont.svg#fontawesomeregular?v=3.1.0') format('svg');
-  font-weight: normal;
-  font-style: normal;
-}
 
 .body {
-/*
-  background-image: url('/images/bg.png');
-  */
-  background-image: url('/images/bg.png');
-  /*
-  font-family: 'FontAwesome';
-  */
+  display: block;
+  background: #ddd url(/images/bg.png);
+  font-family: "Open Sans"; 
+  -webkit-font-smoothing: antialiased;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  
+}
+
+a {
+  color : #fff;
+}
+
+a:hover {
+  color : #ffc40d;
 }
 
 .navbar .brand {
@@ -39,12 +22,14 @@
   font-family: 'FontAwesome';
   */
   color: #FFF;
+  font-weight: 500;
   text-shadow: none;
-  font-size: 1.8em;
+  font-size: 1.6em;
 }
 
 
 .navbar .nav > li {
+  font-weight: 500;
   font-size: 1.2em;
 }
 
@@ -73,7 +58,7 @@
   color: #FFF;
 }
 .dropdown-menu {
-  background-color: gray;
+  background-color: #303030;
 }
 .dropdown-menu:before {
   position: absolute;
@@ -98,6 +83,24 @@
   content: '';
 }
 
+.dropdown-menu li > a {
+  color: #e4e4e4;
+}
+
+.dropdown-menu li > a {
+  color: #e4e4e4;
+}
+
+.dropdown-menu .active > a, 
+.dropdown-menu .active > a:hover {
+    color: #333;
+    text-decoration: none;
+    outline: 0;
+    background: transparent;
+    background-color: #e4e4e4;
+
+    
+}
 input[type="text"] {
   background : transparent;
 }
@@ -109,166 +112,22 @@ input[type="text"] {
     -moz-box-shadow: 0 0 1px #FFFFCC inset;
       -o-box-shadow: 0 4px 16px rgba(0,0,0,0.2);
 }
-.win-ui-dark {
+
+.win-ui-dark  {
   color: #FFF;
+  background-color: transparent;
 }
 
-.win-backbutton {
-  
-  display: inline-block;
-  width: 28px;
-  height: 28px;
-  min-width: 0;
-  min-height: 0;
-  padding: 0;
-  font-size: 20px;
-  line-height: 28px;
-  text-align: center;
-  vertical-align: baseline;
-  border-style: solid;
-  border-width: 2px;
-  -webkit-border-radius: 50%;
-    -moz-border-radius: 50%;
-  border-radius: 50%;
-  background-clip: border-box;
-  
-  
-}
-
-.win-backbutton:before {
-  font-family: 'IcoMoon';
-  font-size: 22px;
-  font-weight: normal;
-  vertical-align: top;
-  content: "\e368";
-}
-
-a.win-backbutton {
-  text-decoration: none;
-  color: #FFF;
-} 
 
 .win-commandlayout {
-  min-height: 40px;
-  padding-left: 10px;
-  font-size: 0;
-  
-  
-}
-
-.win-command {
-  display: inline-block;
-  height: auto;
-  margin: 0 5px;
-  font-size: 9pt;
-  font-weight: normal;
-  line-height: 16px;
-  letter-spacing: 0.02em;
-  text-align: center;
-  vertical-align: top;
-  cursor: pointer;
-  background: none;
-  border: 0;
-  
-  background-clip: border-box;
-  width: 50px;
-  opacity: 0.8;
-  
+  min-height: 66px;
 }
 
 .win-commandlayout .win-command {
-  padding: 10px 0;
-}
-a.win-command, 
-a.win-command:hover {
-  text-decoration: none;
-}
-
-hr.win-command {
-  color: #FFF;
-  display: inline-block;
-  width: 1px;
-  height: 20px;
-  padding: 0;
-  margin: 14px 5px 14px 5px;
-  vertical-align: top;
-  border: 0;
-  border-right: 1px solid #ffffff;
-}
-
-.win-commandicon {
-  display: inline-block;
-  width: 30px;
-  height: 30px;
-  min-width: 0;
-  min-height: 0;
-  padding: 0;
-  font-size: 14px;
-  line-height: 30px !important;
-}
-.win-commandring {
-  border-style: solid;
-  border-width: 2px;
-  -webkit-border-radius: 50%;
-    -moz-border-radius: 50%;
-      border-radius: 50%;
-  background-clip: border-box;
+padding: 3px 0;
 }
 
 
-a.win-command .win-label,
-button.win-command .win-label
- {
-  position: relative;
-  display: inline-block;
-  
-  width: 100%;
-  
-  padding-right: 4px;
-  padding-left: 4px;
-  margin-top: 3px;
-  line-height: 15px;
-  overflow: hidden;
-  
-  opacity: 0.8;
-
-  word-break: keep-all;
-  word-wrap: break-word;
-  -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-      box-sizing: border-box;
-}
-
-button.win-command:hover {
-  /*
-  width: 50px;
-  
-  border: 1px solid green;
-  */
-  opacity: 1;
-
-  color : yellow;
-}
-.win-ui-dark .win-commandicon {
-  color: #FFF;
-}
-
-.win-ui-dark .win-commandring, 
-.win-ui-dark a:active .win-commandring, 
-.win-ui-dark .win-commandring, 
-.win-ui-dark button:active .win-commandring {
-  background-color: transparent;
-  border-color: #FFF;
-}
-
-.win-ui-dark a.win-command .win-label,
-.win-ui-dark button.win-command .win-label {
-  color: #FFF;
-}
-
-strong {
-  font-family: "Segoe UI";
-}
 h1, h2, h3, h4, h5, h6,
 .navbar .nav > li {
 	text-transform: none;
@@ -290,7 +149,6 @@ h1, h2, h3, h4, h5, h6,
 @media (min-width: 979px) {
   .header {
   	position: relative;
-  	font-family: "Segoe UI Light";
     color:#FFFFFF;
     vertical-align: middle;
     display : block;
@@ -304,7 +162,6 @@ h1, h2, h3, h4, h5, h6,
   .header {
     position: relative;
     color:#FFFFFF;
-    font-family: "Segoe UI Light";
     vertical-align: middle;
     display : block;
     padding: 0.3em;
@@ -333,13 +190,18 @@ h1, h2, h3, h4, h5, h6,
   color: #FFF;
 }
 
+.section-title span.title {
+  font-size:20px; 
+  color:#fff; 
+  margin-left:5px;
+}
+
 .row-fluid.menu{
   width:80%;
   margin:auto;
 }
 
 .row-fluid .tile {
-  font-family: "Segoe UI Light";
   position: relative;
   display: block;
   float: left;
@@ -357,31 +219,7 @@ h1, h2, h3, h4, h5, h6,
         /*box-shadow: 0 4px 16px rgba(0,0,0,0.2);*/
 
 }
-/*
-.row-fluid .tile.selected:before {
-  position: absolute;
-  content: "\e423";
-  color: #fff;
-  left: 4px;
-  top: 0;
-  font-family: 'IcoMoon';
-  z-index: 1002;
-  display: block;
-}
 
-.row-fluid .tile.selected:after {
-  width: 0;
-  height: 0;
-  border-top: 40px solid #00AEDB;
-  border-right: 40px solid transparent;
-  position: absolute;
-  display: block;
-  left: 0;
-  content: "";
-  top: 0;
-  z-index: 1001;
- }
-*/
 .row-fluid .tile.selected {
   outline: 3px solid #ffc40d;
 }
@@ -423,7 +261,7 @@ h1, h2, h3, h4, h5, h6,
 
 
 .row-fluid .tile .text-header3 {
-  font-weight: 300;
+  font-weight: 500;
   font-size: 1.2em;
   height: 4em;
   text-align: left;
@@ -477,8 +315,10 @@ h1, h2, h3, h4, h5, h6,
 }
 
 .card .text-inner .text-header {
+  /*
   font-family : "Segoe UI";
-	font-size   : 1.2em;
+	*/
+  font-size   : 1.2em;
   text-decoration : none;
   color:#FFFFFF;
 }
@@ -621,6 +461,7 @@ figure {
     display: inline-block;
 }
 
+/*
 .close {
   height: 16px;
   margin: 0;
@@ -633,6 +474,7 @@ figure {
 .close:hover {
 	color: white;
 }
+*/
 .nav.nav-pills {
   font-size: 40px;
   width: 10em;
@@ -661,16 +503,18 @@ figure {
 }
 
 .dialogHeader > span {
+  /*
   font-family: "Segoe UI Bold";
+  */
   color: #FFFFFF;
   font-size: 25px;
 } 
 
-
+/*
 .nav-pills, .tab-content, input, button, select, textarea, option {
 	font-family: "Segoe UI Light";
 }
-
+*/
 
 .nav > li > a,  .nav > li > a.win-command{
   color: #FFFFFF;
@@ -703,7 +547,7 @@ figure {
 .form-horizontal .control-group {
     margin-bottom: 12px;
 }
-
+/*
 select.btn-mini{
 	height: 33px;
 	width: 220px;
@@ -725,7 +569,7 @@ select.btn-mini + .caret {
     margin-top: 14px;
     font-size: 24px;
 }
-
+*/
 @media (max-width: 979px) {
 
   .nav .brand  {
@@ -789,6 +633,9 @@ select.btn-mini + .caret {
   -webkit-box-shadow: 0 4px 16px rgba(0,0,0,0.2);
     -moz-box-shadow: 0 4px 16px rgba(0,0,0,0.2);
       box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+  width:60%;
+  min-width: 280px;
+  margin : auto;
 }
 
 
@@ -831,7 +678,7 @@ select.btn-mini + .caret {
 }
 
 .delete:hover {
-  color : #E51400;
+  color : #FE9C03;
   cursor:pointer;
 }
 
@@ -848,7 +695,9 @@ select.btn-mini + .caret {
 */
 
 .list-container {
+  /*
   font-family: "Segoe UI Light";
+  */
   display:block;
   /*
   margin:auto; 
@@ -868,6 +717,7 @@ select.btn-mini + .caret {
   padding:10px 0; 
   overflow:hidden;
   position: relative;
+  margin-bottom: 0;
   
   }
 
@@ -891,11 +741,18 @@ select.btn-mini + .caret {
 .list-large .picture  {
   margin-right: 10px;
   float: left;
-  width: 80px;
-  height: 110px;
-  border-right: 1px solid yellow;
-  padding-top: 20px;
-  
+  width: 64px;
+  height: 114px;
+  border-right: 1px solid #ccc;
+  padding: 10px;
+}
+
+.list-large .picture img {
+  margin-top: 22px;
+}
+
+.list-large address {
+  margin-bottom: 2px;
 }
 
 .list-large .text {
@@ -920,12 +777,14 @@ select.btn-mini + .caret {
   margin-right: 0.3em;
 }
 
+/*
 .list-large li:nth-child(3n-2) .picture  {color:#E51400;}
 .list-large li:nth-child(4n-2) .picture {color:#76608A;}
+*/
 @media only screen and (min-width: 760px)  {
 
   .list-container {
-    font-family: "Segoe UI Light";
+    
     display:block;
     margin:auto; 
     width:86%;
@@ -935,15 +794,19 @@ select.btn-mini + .caret {
   .list-large li    {
     float:left; 
     line-height:normal; 
-    margin:9px 10px 20px 10px; 
+    margin:9px 10px 10px 10px; 
     padding:10px; 
     overflow:visible; 
     width:220px; 
-    height: 300px;
+    height: 280px;
     -moz-box-sizing:border-box; 
       -webkit-box-sizing:border-box; 
         box-sizing:border-box;
     border:1px solid #666;
+
+    -webkit-box-shadow: 2px 2px 4px 0 rgba(0, 0, 0, 0.15);
+      -moz-box-shadow: 2px 2px 4px 0 rgba(0, 0, 0, 0.15);
+        box-shadow: 2px 2px 4px 0 rgba(0, 0, 0, 0.15);
     
 
     /*
@@ -968,6 +831,7 @@ select.btn-mini + .caret {
     position:relative; 
     text-align:center; 
     text-decoration:none;
+   
   }
   /*
   .list-large a:hover {opacity:0.8;}
@@ -978,13 +842,20 @@ select.btn-mini + .caret {
       margin:auto; 
       margin-top:6px; 
       margin-bottom:6px; 
-      max-width:110px; 
+      max-width:64px; 
       border: none;
-      max-height: 100px; 
+      max-height: 64px; 
+
     }
 
 
-   
+.list-large .picture img {
+  margin-top: 0;
+}
+
+.list-large address {
+  margin-bottom: 2px;
+}   
 
   .list-large .text {color:#D1D1D1;; display:block; 
     /*font-size:10px; font-size:1rem; */

@@ -1,0 +1,156 @@
+extends ../../../views/index
+
+block content
+	link(rel='stylesheet', href='/css/forms.css')
+	link(rel='stylesheet', href='/js/libs/bootstrap-fileupload.min.css')
+	script(src="/js/libs/bootstrap-fileupload.min.js")
+	include includes/customerInfosModal	
+
+	mixin link(caption, href, fieldValue)
+		.content-row
+			ul.inline
+				li.caption  #{caption} : 
+					li.text
+					if (fieldValue)
+						a(href="#{href}", target="_blank") #{fieldValue} 
+					else
+						p.placeholder 
+							= caption 
+	mixin textline(caption, fieldValue)
+		.content-row
+			ul.inline
+				li.caption #{caption}
+					|  :   
+				li.text
+					if (fieldValue)
+						| #{fieldValue}
+					else
+						p.placeholder 
+							= caption 
+
+	mixin address(address)
+		.content-row
+			ul.inline
+				li.span6
+					div
+						div 
+							strong Adresse de #{address.addressType} 
+						div.text 
+							address
+								| #{address.street}
+								br
+								| #{address.zipCode}, #{address.city}
+								br
+								| #{address.country} 
+				li
+					a.maps(id="#{address._id}", href="#") 
+						i.icon-location-2
+						|  Google maps
+				li
+					a(href="#") 
+						i.icon-pencil-6
+						|  Modifier
+				li
+					a(href="#") 
+						i.icon-minus-3
+						|  Supprimer
+
+	mixin contact(contact)
+		.content-row
+			ul.inline
+				li.span8
+					div
+						div 
+							strong 
+								i.icon-user-6
+								|   #{contact.name.first} #{contact.name.last}
+						div.text 
+							address
+								a(href="mailto:titi@toto.com") #{contact.email}
+								br
+								i.icon-phone-2 :
+								|  #{contact.phone}
+								br
+								i.icon-mobile-2 :
+								|  #{contact.mobile} 
+				li
+					a(href="#") 
+						i.icon-pencil-6
+						|  Modifier
+				li
+					a(href="#") 
+						i.icon-minus-3
+						|  Supprimer
+
+	.container(style="margin-top: 15px;")
+
+		div.header
+			div.section-title.clearfix
+				.win-commandlayout.win-ui-dark.pull-left
+					a(href="/sales/customers").win-command.win-command-small
+						span.win-commandicon.win-commandring.icon-arrow-left-14
+						span.title -  Détails client
+		.row-fluid
+			.container-content
+				.content-heading.image
+					img(src="#{customer.logo}")
+					div.card-heading-header
+						input#customerId(type="hidden", value="#{customer._id}")
+						h3 #{customer.customerName}
+						span #{customer.description}
+
+				.content-body
+					h4.fg-color-blue Coordonnées
+					section
+						+link('Site web', customer.website, customer.website)
+						+link('Email', 'mailto:'+customer.email, customer.email)
+						+textline('Téléphone', customer.phone)		
+						+textline('Mobile', customer.mobile)	
+						+textline('Secteur d\'activité', customer.industry)	
+						+textline('Numéro TVA', customer.gstNumber)
+						.content-row
+							ul.inline
+								li
+									strong
+										a(href="#modalInfos", data-toggle="modal").pull-right
+											i.icon-pencil-6
+											|  Modifier
+					
+					h4.fg-color-green Adresses
+					section
+						.content-row.clearfix
+							if (customer.addresses)
+								- each address in customer.addresses
+									+address(address)
+						.content-row
+							span 
+								strong
+									a(href="#")
+										i.icon-plus-3 
+										| Ajouter
+
+					h4.fg-color-pink Contacts
+					section
+						.content-row.clearfix
+							if (customer.contacts)
+								- each contact in customer.contacts
+									+contact(contact)
+						.content-row
+							span 
+								strong
+									a(href="#")
+										i.icon-plus-3 
+										| Ajouter
+block script
+	script.
+		$(document).ready(function (){
+			
+			//Localisation 
+			$(".maps").on('click', function(e){
+				console.log("maps ...");
+				var addressId = e.currentTarget.id;
+				window.location.href="/sales/customer/address/maps/#{customer._id}/"+addressId;
+				
+			});
+		});
+

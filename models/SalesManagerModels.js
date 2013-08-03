@@ -11,6 +11,17 @@ var conn = mongoose.connect('mongodb://localhost/SalesManagerDB', {server:{poolS
 });
 
 /**
+*  Counter
+*/
+var CounterSchema = new mongoose.Schema({
+    account_id : {type: mongoose.Schema.ObjectId, ref:'Account'},
+    Year : {type : String,  required : true, trim: true},
+    entity : {type : String,  required : true, trim: true},
+    counter : {type : Number, required : true}
+})
+
+var Counter = mongoose.model('Counter', CounterSchema);
+/**
  * PhoneType  ['Fixe', 'mobile', ...]
  */
 var PhoneTypeSchema = new mongoose.Schema({
@@ -138,10 +149,9 @@ var ContactSchema = new mongoose.Schema({
       first : {type : String, required : true},
       last : {type : String, required : true}
     },
-    phones : [{
-        phoneType : {type:String, trim:true},
-        number : {type : String, unique: true, trim: true}
-    }],
+    phone : {type:String, trim:true},
+    mobile : {type:String, trim:true},
+    
     description : {type : String,  trim: true},
     email : {type : String, trim : true}
 });
@@ -162,16 +172,17 @@ var BankSchema = new mongoose.Schema({
 var CustomerSchema = new mongoose.Schema({
     account_id : {type: mongoose.Schema.ObjectId, ref:'Account'},
     customer_owner : {type: mongoose.Schema.ObjectId, ref:'User'},
-    customerCode : {type : String, unique : true, trim: true},
     customerName : {type : String, required : true, trim: true},
+    logo        : {type : String,  trim: true},
     description  : {type : String,  trim: true},
     website      : {type : String,  trim: true},
-    status       : {type:String, trim:true},
-    industry     : {type:String, trim:true},
-    gstCode      : {type:String, trim:true},
-    bank : [BankSchema],
-    addresses:[AddressSchema],
-    contacts:[{type: mongoose.Schema.ObjectId, ref:'Contact'}]
+    email        : {type : String,  trim: true},
+    phone        : {type : String,  trim: true},
+    mobile       : {type : String,  trim: true},
+    industry     : {type : String, trim:true},
+    gstNumber      : {type : String, trim:true},
+    addresses    : [AddressSchema],
+    contacts     :[{type : mongoose.Schema.ObjectId, ref:'Contact'}]
 });
 
 var Customer = conn.model('Customer', CustomerSchema);
@@ -213,15 +224,17 @@ var InvoiceModel = conn.model('Invoice', InvoiceSchema);
  * QuotationLine
  */
 var QuotationLineSchema = new mongoose.Schema({
-    productCode : {type : String,  trim: true},
+    product_id : {type: mongoose.Schema.ObjectId, ref:'Product'},
     productName : {type : String,  trim: true},
+    productDescription : {type : String,  trim: true},
     productSalesPrice : {type:Number, required : true, default : 0},
+    productUnit : {type : String,  trim: true},
     quantity : {type:Number, required : true, default : 0},
     amount : {type:Number, required : true, default : 0},
     productSalesDiscount : {type:Number, required : true, default : 0},
     amountAfterDiscount : {type:Number, required : true, default : 0},
-    productGST : {type:Number, required : true, default : 0},
-    quotation_id : {type: mongoose.Schema.ObjectId, ref:'Quotation'},
+    productGST : {type:Number, required : true, default : 0}
+    
 });
 
 var QuotationLineModel = conn.model('QuotationLine', QuotationLineSchema);
@@ -232,14 +245,20 @@ var QuotationLineModel = conn.model('QuotationLine', QuotationLineSchema);
 var QuotationSchema = new mongoose.Schema({
     account_id : {type: mongoose.Schema.ObjectId, ref:'Account'},
     customer_id : {type: mongoose.Schema.ObjectId, ref:'CustomerModel'},
-    number : {type : String,  trim: true},
-    date : {type : String, required : true},
-    reference : {type : String, required : true},
-    price : {type:Number, required : true, default : 0},
+    customerName : {type : String,  trim: true},
+    customerAddress :  {type : String,  trim: true},
+    quotation_number : {type : String,  trim: true},
+    date : {type : String, required : true,  trim: true},
+    reference : {type : String, trim : true},
+    
     amount : {type:String, required : true, default : 0},
-    gst : {type:Number, required : true, default : 0},
-    total : {type:Number, required : true, default : 0},
-    status : {type:String, required : true, default : "pending"}
+    discount : {type:Number, required : true, default : 0},
+    amountAfterDiscount : {type:Number, required : true, default : 0},
+    GST : {type:Number, required : true, default : 0},
+    amountAll : {type:Number, required : true, default : 0},
+    status : {type:String, required : true, default : "pending"},
+    quotation_lines:[QuotationLineSchema]
+
 });
 
 var Quotation = conn.model('Quotation', QuotationSchema);
@@ -251,8 +270,6 @@ var Quotation = conn.model('Quotation', QuotationSchema);
 
 var ProductSchema = new mongoose.Schema({
     account_id : {type: mongoose.Schema.ObjectId, ref:'Account'},
-    productCode : {type : String, unique : true, trim: true},
-    productCategory : {type : String, required : true, trim: true},
     productName : {type : String, unique : true, trim: true},
     productDescription  : {type : String,  trim: true},
     productCostPrice : {type : Number,  trim: true, default : 0},
@@ -308,7 +325,7 @@ var pagesNumber = function(entity, criteria, linePerPage, callback){
             callback(null, pages);
         }
     })
-*/
+    */
 
     getCount(entity, criteria, function(err, count){
         if(err){
@@ -333,14 +350,21 @@ module.exports.changePassword = function(accountId, newpassword){
 };
 
 module.exports.login = function(email, password, callback){
-    console.log("email="+email+"  - password="+password);
+    console.log("Login --- email="+email+"  - password="+password);
     var shaSum = crypto.createHash('sha256');
     shaSum.update(password);
 
     //UserModel.findOne({email:email, password:shaSum.digest('hex')}, function(err, doc){
     User.findOne({email:email, password:password}, function(err, doc){
+        if (err || !doc) {
+            console.log("Erreur="+err);
+            callback(err, null)
+        } else {
+            console.log("doc="+doc);
+            callback(null, doc);
+        }
         //callback(null!=doc, userID, accountID);
-        callback(null!=doc, doc);
+        
     });
 };
 
@@ -372,7 +396,18 @@ module.exports.forgotPassword = function(email, resetPasswordUrl, callback) {
     });
 };
 
-
+//Get invoices / Quotes numbers
+module.exports.getCounter = function(criteria, callback){
+    var query = Counter.findOne(criteria, 'counter', function(err, counter){
+            if (err) {
+                console.log("Erreur :"+err);
+                callback(err, null);
+            } else {
+                console.log("Counter ="+ counter);
+                callback(null, counter);
+            }
+    });
+}
 
 module.exports.getList = function(entity, accountId, page, count, callback){
     console.log("Récupération des informations concernant l'entité :"+entity);
@@ -402,6 +437,7 @@ module.exports.getList = function(entity, accountId, page, count, callback){
         }    
     });
 }
+
 
 module.exports.getReferenceList = function(entity, accountId, callback){
     console.log("Récupération des informations concernant l'entité :"+entity);
@@ -485,15 +521,7 @@ function mapreduce(){
             value = {modules : [this.module_id]};
             emit(key, value);
         }
-        /*
-        var output = {accountId:this.account_id, 
-            accountName:Account.findOne({_id:this.account_id}).accountName, 
-            moduleId: this.module_id, moduleName: ModuleModel.findOne({_id:this.module_id}).moduleName}
         
-        var output = {accountId:this.account_id, 
-            moduleId: this.module_id}
-        emit(this._id, output);
-        */
     }
     o.reduce = function(k, values){
         var module_list = {modules:[]};
@@ -577,7 +605,7 @@ module.exports.getDocument = function(entity, id, callback){
     
 }
 
-module.exports.getSubDocument = function(entity, subdoc, id, callback){
+module.exports.getSubDocumentById = function(entity, subdoc, id, callback){
     
     console.log("id="+id);
     var criteria = {};
@@ -589,6 +617,29 @@ module.exports.getSubDocument = function(entity, subdoc, id, callback){
             var subDocs = doc[subdoc];
             subDocs.forEach(function(subDoc){
                 if (subDoc._id == id){
+                    _subDoc = subDoc;
+                    return;
+                }
+            });
+            callback(null, _subDoc);
+        } else {
+            console.log("Erreur="+err);
+            callback(err, null);
+        } 
+    })
+}
+
+module.exports.getSubDocument = function(entity, parentId, subdoc,  fieldName, fieldValue, callback){
+    
+    console.log("parentId="+parentId);
+    console.log(fieldName+" = "+fieldValue);
+    var obj = eval(entity);
+    var _subDoc = null;
+    obj.findById(parentId, function(err, doc){
+       if(!err){
+            var subDocs = doc[subdoc];
+            subDocs.forEach(function(subDoc){
+                if (subDoc[fieldName] == fieldValue){
                     _subDoc = subDoc;
                     return;
                 }
@@ -673,6 +724,7 @@ module.exports.getCustomer = function(id, callback){
             promise.error(err);
             return;
         }
+        console.log(" ++++++ Customer ="+customer);
         customer.populate('contacts').populate('customer_owner', 'name _id', function(err, customer){
             promise.complete(customer);
         })
@@ -681,6 +733,16 @@ module.exports.getCustomer = function(id, callback){
     return promise;
 }
 
+module.exports.getCustomerInfos = function(id, callback){
+    Customer.findOne({_id:id}).populate('contacts').exec(function(err, customer){
+        if (err) {
+            callback(err, null);
+        } else {
+            console.log("=====> customer Infos :"+customer);
+            callback(null, customer);
+        }
+    })
+}
 
 module.exports.getCustomers2= function(accountId, fieldName, fieldValue, callback){
     console.log("getCustomers2");
@@ -693,8 +755,8 @@ module.exports.getCustomers2= function(accountId, fieldName, fieldValue, callbac
         var query = Customer.where('account_id').equals(accountId);
     }
     
-    query.sort('customerCode');
-    query.select('_id customerCode customerName logo customer_owner status');
+    query.sort('customerName');
+    query.select('_id customerName website email phone mobile addresses logo customer_owner industry');
     query.populate('customer_owner', 'name');
     query.exec(function (err, docs) {
         if (err) { 
@@ -707,6 +769,7 @@ module.exports.getCustomers2= function(accountId, fieldName, fieldValue, callbac
     });
 
 }
+
 module.exports.getCustomerDetails = function(id, callback){
     var details = {};
     var q = QuotationModel.count({customer_id:id, status:'pending'});
@@ -747,19 +810,19 @@ module.exports.getCustomerDetails = function(id, callback){
 }
 
 //Products
-module.exports.getProducts= function(accountId, fieldName, fieldValue, callback){
-    console.log("getCustomers2");
+module.exports.getProducts= function(accountId, fieldName, fieldValue, active, callback){
+    console.log("getProducts");
     //var customers = new Array();
     if (fieldName && fieldValue){
         var criteria = new RegExp('^'+fieldValue, 'i');
         //console.log("getCustomers2 criteria="+criteria);  
-        var query = Product.where(fieldName, criteria).where('account_id').equals(accountId);  
+        var query = Product.where(fieldName, criteria).where('productActive').equals(active).where('account_id').equals(accountId);  
     } else {
-        var query = Product.where('account_id').equals(accountId);
+        var query = Product.where('productActive').equals(active).where('account_id').equals(accountId);
     }
     
-    query.sort('productCode');
-    query.select('_id productCode productCategory productName productDescription productSalesPrice productStock');
+    query.sort('productName');
+    query.select('_id productName productName productDescription productSalesPrice productActive');
     query.exec(function (err, docs) {
         if (err) { 
             callback(err, null)
@@ -773,19 +836,19 @@ module.exports.getProducts= function(accountId, fieldName, fieldValue, callback)
 }
 
 //Products
-module.exports.getProductCodeList= function(accountId, fieldValue, callback){
-    console.log("getProductCodeList");
+module.exports.getProductNameList= function(accountId, fieldValue, callback){
+    console.log("getProductNameList");
     //var customers = new Array();
     if (fieldValue){
         var criteria = new RegExp('^'+fieldValue, 'i');
         console.log(" criteria="+criteria);  
-        var query = Product.where("productCode", criteria).where('productActive').equals(true).where('account_id').equals(accountId);  
+        var query = Product.where("productName", criteria).where('productActive').equals(true).where('account_id').equals(accountId);  
     } else {
         var query = Product.where('productActive').equals(true).where('account_id').equals(accountId);
     }
     
-    query.sort('productCode');
-    query.select('_id productCode');
+    query.sort('productName');
+    query.select('_id productName');
     query.exec(function (err, docs) {
         if (err) { 
             callback(err, null)
@@ -798,7 +861,33 @@ module.exports.getProductCodeList= function(accountId, fieldValue, callback){
 
 }
 
-var getQuotations= function(accountId, callback){
+//Code lists
+module.exports.getCustomerNameList= function(accountId, fieldValue, callback){
+    console.log("getCustomerNameList");
+    //var customers = new Array();
+    if (fieldValue){
+        var criteria = new RegExp('^'+fieldValue, 'i');
+        console.log(" criteria="+criteria);  
+        var query = Customer.where("customerName", criteria).where('account_id').equals(accountId);  
+    } else {
+        var query = Customer.where('account_id').equals(accountId);
+    }
+    
+    query.sort('customerName');
+    query.select('_id customerName');
+    query.exec(function (err, docs) {
+        if (err) { 
+            callback(err, null)
+        } else {
+            callback(null, docs);
+
+        } 
+                    
+    });
+
+}
+
+var getQuotes= function(accountId, callback){
     //console.log("getCustomers2");
     var quotations = new Array();
     var query = model.Quotation.where('account_id').equals(accountId);

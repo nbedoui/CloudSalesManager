@@ -1,7 +1,7 @@
 extends param
 
 block title
-	span  TVA
+	span.title  TVA
 block input
 	input#inputItem.input-medium.fg-color-white(required, type="text", name="tauxGST", 
 					pattern="[-+]?[0-9]*[.,]?[0-9]+", 
@@ -14,7 +14,7 @@ block table
 		thead
 			tr
 				th 
-					center TVA
+					center.fg-color-white TVA
 				th 
 					center &nbsp;
 		tbody#param-list 
@@ -27,4 +27,4 @@ block template
 		td
 			center
 				div.delete(id!="<%=model._id%>")
-					i.icon-minus-2
+					i.icon-cross

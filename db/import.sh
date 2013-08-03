@@ -8,6 +8,7 @@ mongoimport --db SalesManagerDB --collection modulesauths --file moduleauths.jso
 mongoimport --db SalesManagerDB --collection moduleauths --file moduleauths.json
 mongoimport --db SalesManagerDB --collection modules --file modules.json
 mongoimport --db SalesManagerDB --collection phonetypes --file phonetypes.json
+mongoimport --db SalesManagerDB --collection products --file products.json
 mongoimport --db SalesManagerDB --collection quotation --file quotation.json
 mongoimport --db SalesManagerDB --collection quotations --file quotations.json
 mongoimport --db SalesManagerDB --collection status --file status.json

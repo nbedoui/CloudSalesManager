@@ -3,10 +3,12 @@ extends ../../../views/index
 block content
     .container(style="margin-top: 15px;")
         div.header
-            div.section-title
-                a(href="/")
-                    span.win-backbutton
-                    span  Gestion des paramétres
+            div.section-title.clearfix
+                .win-commandlayout.win-ui-dark.pull-left
+                    a(href="/").win-command.win-command-small
+                        span.win-commandicon.win-commandring.icon-arrow-left-14
+                        span.title   Gestion des paramétres
+
         .row-fluid
                 a(href="/params/gst")#gst.tile.wide.imagetext.bg-color-amber
                         .image-wrapper

@@ -1,67 +1,447 @@
 extends ../../../views/index
 
 block content
+    style.
+        span, div, form, a {
+            margin: 0;
+            padding: 0;
+            border: 0;
+            font: inherit;
+            font-size: 100%;
+            vertical-align: baseline;
+
+        }
+
+        
+
+        input {
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+            -webkit-box-shadow: none;
+            -moz-box-shadow: none;
+            box-shadow: none;
+            height: 25px;
+            border: none;
+            background: transparent;
+            font-size: 12px;
+            color: #000;
+            resize: none;
+        }
+
+        .label {
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+            display: block;
+            float: left;
+            width: 100px;
+            padding: 1px 0px 1px 0px;
+            margin: 8px 0px 0px 0px;
+            font-size: 12px;
+            color: #343434;
+            font-weight: bold;
+            background-color : transparent;
+            cursor : default;
+        }
+
+        .grey-select {
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+            -webkit-border-radius: 4px;
+            -moz-border-radius: 4px;
+            -ms-border-radius: 4px;
+            -o-border-radius: 4px;
+            border-radius: 4px;
+            border: 1px solid #b1b1b1;
+            -webkit-box-shadow: 0 1px 2px 0 rgba(0,0,0,0.1),inset 0 0 100px 2px rgba(255,255,255,0.5);
+            -moz-box-shadow: 0 1px 2px 0 rgba(0,0,0,0.1),inset 0 0 100px 2px rgba(255,255,255,0.5);
+            box-shadow: 0 1px 2px 0 rgba(0,0,0,0.1),inset 0 0 100px 2px rgba(255,255,255,0.5);
+            background-color: #fdfdfd;
+            background-image: url("data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgi…3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI2dyYWQpIiAvPjwvc3ZnPiA=");
+            background-size: 100%;
+            background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #fdfdfd), color-stop(51%, #f8f8f8), color-stop(51%, #ededed), color-stop(100%, #ededed));
+            background-image: -webkit-linear-gradient(top, #fdfdfd 0%, #f8f8f8 51%, #ededed 51%, #ededed 100%);
+            background-image: -moz-linear-gradient(top, #fdfdfd 0%, #f8f8f8 51%, #ededed 51%, #ededed 100%);
+            background-image: -o-linear-gradient(top, #fdfdfd 0%, #f8f8f8 51%, #ededed 51%, #ededed 100%);
+            background-image: linear-gradient(top, #fdfdfd 0%,#f8f8f8 51%,#ededed 51%,#ededed 100%);
+            position: relative;
+            border-top-color: #b1b1b1;
+            border-bottom-color: #a2a2a2;
+        }
+
+        .grey-select select {
+            filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=0);
+            opacity: 0;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #fff;
+
+           
+        }
+        .clearbox {
+            min-height: 35px;
+            margin-bottom: 10px;
+            margin-left: 4px;
+            margin-right: 4px;
+            padding: 0;
+            border-bottom: 1px dotted #d2d3d5;
+        }
+
+        .clearbox {
+            position: relative;
+            float: left;
+            width: 425px;
+        }
+
+        .clearbox.title {
+            padding-bottom: 6px;
+        }
+        .content {
+            max-width : 800px;
+            margin : auto;
+        }
+
+        .inner-content {
+            -webkit-box-sizing: border-box;-moz-box-sizing: border-box;box-sizing: border-box;
+            -webkit-border-radius: 5px;
+            -moz-border-radius: 5px;
+            -ms-border-radius: 5px;
+            -o-border-radius: 5px;
+            border-radius: 5px;
+            -webkit-box-shadow: 0px 1px 1px 0px rgba(0,0,0,0.1);
+            -moz-box-shadow: 0px 1px 1px 0px rgba(0,0,0,0.1);
+            box-shadow: 0px 1px 1px 0px rgba(0,0,0,0.1);
+            position: relative;
+            width: 100%;
+            float: left;
+            background-color: #fff;
+            margin-bottom: 25px;
+            border: 1px solid #c2c2c2;
+            border-bottom-color: #ccc;
+            max-width : 800px;
+
+        }
+        
+        .create-new-summary {
+            border-bottom: 1px solid #b1b6c3;
+            -moz-border-radius-topleft: 4px;
+            -webkit-border-top-left-radius: 4px;
+            border-top-left-radius: 4px;
+            -moz-border-radius-topright: 4px;
+            -webkit-border-top-right-radius: 4px;
+            border-top-right-radius: 4px;
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+            float: left;
+            width: 100%;
+            padding: 15px 16px 5px 16px;
+            background-color: #fff;
+        }
+
+        .create-new-summary input[type=text], 
+        .create-new-summary textarea, 
+        .create-new-summary input, 
+        .create-new-summary input[type=email], 
+        .create-new-summary input[type=tel], 
+        .create-new-summary input[type=url] {
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+            -webkit-box-shadow: none;
+            -moz-box-shadow: none;
+            box-shadow: none;
+            width: 550px;
+            height: 25px;
+            border: none;
+            background: transparent;
+            font-size: 14px;
+            color: #000;
+            resize: none;
+        }
+        .dashed-box {
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+            -webkit-border-radius: 4px;
+            -moz-border-radius: 4px;
+            -ms-border-radius: 4px;
+            -o-border-radius: 4px;
+            border-radius: 4px;
+            background-color: #fafafa;
+            border: 1px dashed #d5d5d5;
+        }
+
+        .photo-details {
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+            -webkit-border-radius: 4px;
+            -moz-border-radius: 4px;
+            -ms-border-radius: 4px;
+            -o-border-radius: 4px;
+            border-radius: 4px;
+            position: relative;
+            float: left;
+            width: 212px;
+            height: 90px;
+            padding: 9px;
+            margin-bottom: 10px;
+        }
+
+        .photo-details .img-wrap {
+            display: block;
+            position: relative;
+            float: left;
+        }
+        
+        .photo-details.logo {
+            width: 220px;
+        }
+
+        .photo-details.logo .img-wrap {
+            min-height: 70px;
+        }
+       
+        .photo-details.logo img {
+            max-width: 130px;
+            height: auto;
+            max-height: 70px;
+        }
+
+        .photo-details .file-options-wrap {
+            position: absolute;
+            right: 15px;
+            top: 35%;
+            float: left;
+            font-size: 12px;
+        }
+
+        .photo-details .file {
+            float: left;
+            position: relative;
+            margin-left: 5px;
+            cursor: pointer;
+            color: #0074b6;
+        }
+
+        .photo-details .file:hover{text-decoration:underline;cursor:pointer}
+        
+
+        .photo-details .file-options-wrap .upload-link {
+            font-weight: bold;
+        }
+
+        .photo-details .file input {
+            filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=0);
+            opacity: 0;
+            position: absolute;
+            top: -15px;
+            left: 5px;
+            width: 100%;
+            cursor: pointer;
+        }
+        .quote-form-details, .contact-form-details, .list .total, .view-quote-wrapper {
+            -webkit-box-shadow: 0 0 0 1px #b1b6c3,inset 0 1px 0 0 rgba(86,112,134,0.15);
+            -moz-box-shadow: 0 0 0 1px #b1b6c3,inset 0 1px 0 0 rgba(86,112,134,0.15);
+            box-shadow: 0 0 0 1px #b1b6c3,inset 0 1px 0 0 rgba(86,112,134,0.15);
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+            position: relative;
+            background-color: #e6ebf3;
+            display: block;
+            float: left;
+            width: 100%;
+        }
+        .contact-form-details .section{
+            -webkit-box-sizing:border-box;
+            -moz-box-sizing:border-box;
+            box-sizing:border-box;
+            clear:both;
+            float:left;
+            width:100%
+        }
+
+        .quote-form-details .extras, .contact-form-details .extras, #invoice-settings .extras {
+            padding: 17px 28px 16px 25px;
+        }
+        .contact-form-details .fields{float:right;width:618px;margin-bottom:5px}
+        .contact-form-details label{float:left;height:16px;margin-top:5px;line-height:15px;padding-left:26px;width:90px}
+        .contact-form-details label.label-email{background:url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAAJCAYAAADpeqZqAAAAmElEQVR42pXLsQqCUBiGYZe27sagwcWuoFVobewWuoQmwbnVEKFyjaApRAjO4GAQiIsQ7S7y9xonkCA6DQ98fPBa4e5whvwh6qIpHoZBBbeLFFzcfgQXTHCy9FFgjPRLkMBBjfIVaXMMsf8IfAywgvSjO0ZQcLDAGjN4yGCj7UcBrno32GCJEKLF2IKIGjnEwPEdKYihFskT3dZWUYGIWw4AAAAASUVORK5CYII=") 0 center no-repeat}
+        .contact-form-details label.label-website{
+        
+        background:url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAANCAYAAABy6+R8AAABEklEQVR42nXSMUtCYRTG8RtkUH6DaGhoiEpoaPPWFmQ0NrX0AZyaxMGt1SmloCEI6aYg1m3VpUioWQh0sigaqqWGBO30f+HcOFxo+HGH85z3hfe5noj8qYYtHwF6eMML6ti0uSg8jjLauMYELiCqiRom7dIxDjGDI+xC0ME7lvGNqsu7hTRaGNMDtjHECDc4wC0aeMSWC51hRRem8QFReSQxiyxW0XDBVyziCvsQo4JzvekTS+h6OiziBCHEyGENBSxgD1/RTRXz7PPoQ5CKVZLEk6e9XJrBHIYQZJDCus52EESFCk7dwPRj3WEKXfjR6SX8YAP3kJgmQpRsuQmU8aBdSJzOEy7/37/3jIF+A/g29wsPVNWw+Pod9wAAAABJRU5ErkJggg==") 0 center no-repeat
+        
+        }
+        
+        .contact-form-details label.label-phone{background:url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAQCAYAAAAvf+5AAAAATklEQVQoU2P4//8/w8pNe2+DaHyYAarwP9EKgVgQiDlxKgRK7oMqxIcPwkzjx2US1KYPRLmPhgqBWBiPImFkhYQwqtV42EPGxM1EmLgLAJaE3velfS6DAAAAAElFTkSuQmCC") 0 center no-repeat}
+        .contact-form-details label.label-address{background:url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAOCAYAAAAmL5yKAAAAc0lEQVQoz2NYuWkvAw58HIiP4ZFn+P//PwMDPgWEMLIBlUD8H4o/QMVgfGQ2DP8D4jyYAS1oksQYAMMVIMkOCgwoh3mhhQwvFBMKRGQDyIoFXC64C8RylBgAwteBmJVcA54CsQWpLqA4DAbGgMNAfISQAQAO8S06u6vhVAAAAABJRU5ErkJggg==") 0 center no-repeat}
+        .contact-form-details label.label-facebook{background:url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAOCAYAAAAfSC3RAAAAfElEQVQoz2NYuWmvJxA/A+L/RGKQWk8GHJp+A/EjIP6ESzMDFsG9QCz2//9/kBwLEE/CphmbRkOoJgsg9gDizcRq5IRqfIjPr8gaP4E0oGOg+G1CGj8CsQCSBl4gVibGRhD+gKTxMLFOHc4an5Gh8TlIgReIQUIifwLSAwD6f0y2BuXXRwAAAABJRU5ErkJggg==") 0 center no-repeat}
+        .contact-form-details label.label-twitter{background:url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAANCAYAAAB2HjRBAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyRpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNiAoTWFjaW50b3NoKSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDpDQkExQ0ZEOENEM0IxMUUxQkY4NkMwRkM5NDYxMTNCRCIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDpDQkExQ0ZEOUNEM0IxMUUxQkY4NkMwRkM5NDYxMTNCRCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkNCQTFDRkQ2Q0QzQjExRTFCRjg2QzBGQzk0NjExM0JEIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOkNCQTFDRkQ3Q0QzQjExRTFCRjg2QzBGQzk0NjExM0JEIi8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+AhdXQQAAARJJREFUeNpi/P//PwMhsGrzvkQgpQTEB8J8nfZCxeQZV27aaw9kuwIFa7Bo4gBSx4HYAEl4E5TuZwISCkBcDVQ4H4uldWgaQcAPillYgMQRqGAC0ABHIN0LxOuBLnkCdSo2sBCI94GczQVkzAXiEJBpSApOAbEUEMtg0RwMNHwdSLEFVCM6MMMThp9BBBPQhH1A+iyarfjALyA+CtYMFXAD4oNA/J8IzauAFn5D1vwDiAWBmJEIzbUwBlgz0CSQU+yAuBOIn+LRGAdU+wCuGRg9vFADPgKpXUD8G4fGfKCaxcgCoEAyBxpQCaSdcGg6DMSVQI1H0SUYQWkbqFkOGjWqQCwKtf0eKGkCNV3C5QeAAAMA5JpOlHNmzDUAAAAASUVORK5CYII=") 0 center no-repeat}
+        .contact-form-details .twitter,
+        .contact-form-details .facebook{height:29px;margin-bottom:10px}
+        .contact-form-details .twitter .placeholder,
+        .contact-form-details .facebook .placeholder{cursor:pointer;font-size:12px;color:#9e9e9e;height:29px;margin-left:8px;line-height:26px}
+        .contact-form-details .add_child{clear:both;float:left;margin-left:98px;margin-bottom:10px;font-size:12px;color:#9e9e9e}
+        .contact-form-details .add_child:focus{color:#0074b6;outline:none}
+        .contact-form-details .add_child:hover{text-decoration:none}
+        .contact-form-details .add_child.alone{clear:none;height:29px;margin-left:8px;line-height:26px}
+        .contact-form-details .section.twitter .placeholder:focus,
+        .contact-form-details .section.facebook .placeholder:focus{color:#0074b6;outline:none}
+        .contact-form-details .remove_child{filter:progid:DXImageTransform.Microsoft.Alpha(Opacity=60);opacity:0.6;text-indent:-9999px;float:right;display:block;width:14px;height:29px;background:url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAANCAYAAAEF7NTqAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAANJJREFUKJF9kU0KwjAQhQO9gSAIgitXAQ8QKAS8luAlCt7AleDWrTfwBgWhUHBV6KpQqBN9L0xCdfE1mf/pi/HeG+H8+QQjuaQh7QhcQEydaIxCLfQ0rjSSNBo5RgceSLzRpyu77IxtrfAEloFqZlbFVlthJ5TCinPiRnpbXpywFDaYMf2dYVDRAqfXLYSDMPxQZEC8YJFTwTvsF+xe2Pvv2zDHhaJGOcLzrNX0cC4gN3OavKjj3gqL/2FOayAiHSfIxM41JDuqnFILMSdhIidXfgN0/eHQ1l/rTwAAAABJRU5ErkJggg==") center center no-repeat}
+        .contact-form-details .remove_child:hover{filter:progid:DXImageTransform.Microsoft.Alpha(Opacity=100);opacity:1}
+        .contact-form-details input[type=text],
+        .contact-form-details textarea,
+        .contact-form-details input[type=email],
+        .contact-form-details input[type=tel],
+        .contact-form-details input[type=url]{float:left;width:465px;font-size:12px}
+        .contact-form-details input[type=text],
+        .contact-form-details input[type=email],
+        .contact-form-details input[type=tel],
+        .contact-form-details input[type=url]{height:29px;padding:0 5px}
+        .contact-form-details textarea{padding:5px}
+        .contact-form-details .twitter input[type=text],
+        .contact-form-details .facebook input[type=text]{display:none}
+        .contact-form-details .fields input[type=text],
+        .contact-form-details .fields input[type=email],
+        .contact-form-details input[type=tel],
+        .contact-form-details input[type=url]{
+            -moz-border-radius-topright:0;
+            -webkit-border-top-right-radius:0;
+            border-top-right-radius:0;
+            -moz-border-radius-bottomright:0;
+            -webkit-border-bottom-right-radius:0;
+            border-bottom-right-radius:0;
+            border-right-width:0;
+            margin-bottom : 0px;
+                }
+        .contact-form-details .fields .fancy-select{-moz-border-radius-topleft:0;-webkit-border-top-left-radius:0;border-top-left-radius:0;-moz-border-radius-bottomleft:0;-webkit-border-bottom-left-radius:0;border-bottom-left-radius:0;float:left;width:130px;height:29px}
+        .contact-form-details .fields .fancy-select .text{padding:8px 12px;margin-right:6px; font-size:12px;}
+        .contact-form-details .fields .fancy-select select{height:29px;background:transparent}
+        .contact-form-details #client_street_addresses .fields .fancy-select,
+        .contact-form-details #clientcompany_street_addresses .fields .fancy-select{-moz-border-radius-topleft:4px;-webkit-border-top-left-radius:4px;border-top-left-radius:4px;-moz-border-radius-bottomleft:4px;-webkit-border-bottom-left-radius:4px;border-bottom-left-radius:4px;-moz-border-radius-bottomleft:0;-webkit-border-bottom-left-radius:0;border-bottom-left-radius:0;-moz-border-radius-bottomright:0;-webkit-border-bottom-right-radius:0;border-bottom-right-radius:0;width:595px}
+        .contact-form-details #client_street_addresses .fields textarea,
+        .contact-form-details #clientcompany_street_addresses .fields textarea{-moz-border-radius-topleft:0;-webkit-border-top-left-radius:0;border-top-left-radius:0;-moz-border-radius-topright:0;-webkit-border-top-right-radius:0;border-top-right-radius:0;width:595px;max-width:595px;height:65px;margin-top:-2px;border-top-width:0}
+        .contact-form-details #client_street_addresses .fields .remove_child,
+        .contact-form-details #clientcompany_street_addresses .fields .remove_child{margin-top:-30px}
+        .contact-form-details div.extras{-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box;float:left;width:100%;position:relative;padding-right:13px}
+        .contact-form-details div.extras:after{display:block;content:"";background-image:url("data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4gPHN2ZyB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJncmFkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iNTAlIiB4Mj0iMTAwJSIgeTI9IjUwJSI+PHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0icmdiYSgxOTgsMjA2LDIxNiwwKSIvPjxzdG9wIG9mZnNldD0iNSUiIHN0b3AtY29sb3I9IiNjNmNlZDgiLz48c3RvcCBvZmZzZXQ9IjYwJSIgc3RvcC1jb2xvcj0iI2M2Y2VkOCIvPjxzdG9wIG9mZnNldD0iOTUlIiBzdG9wLWNvbG9yPSIjYzZjZWQ4Ii8+PHN0b3Agb2Zmc2V0PSIxMDAlIiBzdG9wLWNvbG9yPSJyZ2JhKDE5OCwyMDYsMjE2LDApIi8+PC9saW5lYXJHcmFkaWVudD48L2RlZnM+PHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNncmFkKSIgLz48L3N2Zz4g");background-size:100%;background-image:-webkit-gradient(linear, 0% 50%, 100% 50%, color-stop(0%, rgba(198,206,216,0)), color-stop(5%, #c6ced8), color-stop(60%, #c6ced8), color-stop(95%, #c6ced8), color-stop(100%, rgba(198,206,216,0)));background-image:-webkit-linear-gradient(left, rgba(198,206,216,0) 0%, #c6ced8 5%, #c6ced8 60%, #c6ced8 95%, rgba(198,206,216,0) 100%);background-image:-moz-linear-gradient(left, rgba(198,206,216,0) 0%, #c6ced8 5%, #c6ced8 60%, #c6ced8 95%, rgba(198,206,216,0) 100%);background-image:-o-linear-gradient(left, rgba(198,206,216,0) 0%, #c6ced8 5%, #c6ced8 60%, #c6ced8 95%, rgba(198,206,216,0) 100%);background-image:linear-gradient(left, rgba(198,206,216,0) 0%,#c6ced8 5%,#c6ced8 60%,#c6ced8 95%,rgba(198,206,216,0) 100%);height:1px;width:100%;position:absolute;bottom:0;left:0}
+        .contact-form-details div.extras:before{display:block;content:"";background-image:url("data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4gPHN2ZyB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJncmFkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iNTAlIiB4Mj0iMTAwJSIgeTI9IjUwJSI+PHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0icmdiYSgyMjIsMjI3LDIzMywwKSIvPjxzdG9wIG9mZnNldD0iMjAlIiBzdG9wLWNvbG9yPSIjZGVlM2U5Ii8+PHN0b3Agb2Zmc2V0PSI2MCUiIHN0b3AtY29sb3I9IiNkZWUzZTkiLz48c3RvcCBvZmZzZXQ9IjgwJSIgc3RvcC1jb2xvcj0iI2RlZTNlOSIvPjxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0icmdiYSgyMjIsMjI3LDIzMywwKSIvPjwvbGluZWFyR3JhZGllbnQ+PC9kZWZzPjxyZWN0IHg9IjAiIHk9IjAiIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjZ3JhZCkiIC8+PC9zdmc+IA==");background-size:100%;background-image:-webkit-gradient(linear, 0% 50%, 100% 50%, color-stop(0%, rgba(222,227,233,0)), color-stop(20%, #dee3e9), color-stop(60%, #dee3e9), color-stop(80%, #dee3e9), color-stop(100%, rgba(222,227,233,0)));background-image:-webkit-linear-gradient(left, rgba(222,227,233,0) 0%, #dee3e9 20%, #dee3e9 60%, #dee3e9 80%, rgba(222,227,233,0) 100%);background-image:-moz-linear-gradient(left, rgba(222,227,233,0) 0%, #dee3e9 20%, #dee3e9 60%, #dee3e9 80%, rgba(222,227,233,0) 100%);background-image:-o-linear-gradient(left, rgba(222,227,233,0) 0%, #dee3e9 20%, #dee3e9 60%, #dee3e9 80%, rgba(222,227,233,0) 100%);background-image:linear-gradient(left, rgba(222,227,233,0) 0%,#dee3e9 20%,#dee3e9 60%,#dee3e9 80%,rgba(222,227,233,0) 100%);height:1px;width:100%;position:absolute;bottom:-1px;left:0}
+        .contact-form-details div.extras:before,
+        .contact-form-details div.extras:after{width:95%;margin-left:10px;margin-bottom:10px}
+        
+        
     .container(style="margin-top: 15px;")
         div.header
             div.section-title
                 a(href="/sales/customers")
                     span.win-backbutton
                     span  Nouveau client
-        .row-fluid
-            div.dialogPanel#customerPanel
-                div.dialogHeader
-                    H4.fg-color-white Informations du client    
-                div.tab-content
-                    div.tab-pane#infos.active
-                        form.form-horizontal(method="POST", action="/sales/insertCustomer")
-                            fieldset
-                                div.control-group
-                                    label.control-label(for="customerCode") Code client :
-                                    div.controls
-                                        input#customerCode(type="text", name="customerCode", required, placeholder="Code client")
-                                div.control-group
-                                    label.control-label(for="customerName") Nom du client : 
-                                    div.controls
-                                        input#customerName(type="text", name="customerName", required, placeholder="Nom du client")
-                                div.control-group
-                                    label.control-label(for="website") Site web : 
-                                    div.controls
-                                        input#website(type="url", name="website", placeholder="http://xyz.com")
-                                div.control-group
-                                    label.control-label(for="description") Description : 
-                                    div.controls
-                                        textarea#description(type="text", name="description", placeholder="Description")
-                                div.control-group
-                                    label.control-label(for="industryList") Activité :
-                                    div.controls
-                                        select.btn.btn-mini#industryList(name="industry")
-                                            if (model.industryList)
-                                                - each industry in model.industryList
-                                                    option(value="#{industry.industry}") #{industry.industry}
-                                        span.caret
-                                div.control-group
-                                    label.control-label(for="statusList") Statut : 
-                                    div.controls
-                                        select.btn.btn-mini#statusList(name="status")
-                                            if (model.statusList)
-                                                - each status in model.statusList
-                                                    option(value="#{status.status}") #{status.status}
-                                        span.caret
-                                div.controls
-                                    button.btn.btn-small.btn-primary(type="submit") Enregistrer
+        
+        .row-fluid.content
+            form
+                .inner-content
+                    .create-new-summary
+                        div.pull-left.dashed-box.photo-details.logo
+                            span.img-wrap
+                                img(alt="customer logo", src="/images/client_company_large.png")
+                            .file-options-wrap
+                                .file#upload-div
+                                    span.upload-link Nouveau logo
+                                    input#client_company_logo(type="file", name="client_company[logo]", tabindex="-1")
+                                    .note
+                        div.clearbox.title
+                            input.contact-title(type="text", name="customerName", placeholder="Nom...", autofocus="autofocus")
+                    .contact-form-details
+                        .extras
+                            .section.clientcompany_web_address#clientcompany_web_address
+                                .label
+                                    .icon 
+                                    label.label.label-website Website
+                                ul.fields_for_clientcompany_web_addresses#websites
+                                    li.fields
+                                        span.hidden-id
+                                            input#clientcompany_web_addresses_attributes_0_id(name="client_company[web_addresses_attributes][0][id]", type="hidden")
+                                        span.relative-container
+                                            input#client_company_web_addresses_attributes_0_value.on-blue( type="url", name="client_company[web_addresses_attributes][0][value]", size="30")
+                                        div.grey-select.on-blue.select-wrap.fancy-select
+                                            select#client_company_web_addresses_attributes_0_category(name="client_company[web_addresses_attributes][0][category]")
+                                                option(value="website") Website
+                                                option(value="company") Company
+                                                option(value="blog") Blog
+                                                option(value="portfolio") Portfolio
+                                                option(value="other") Other
+                                            span.text Website
+                                        input.hidden_destroy_attribute#client_company_web_addresses_attributes_1374864852369__destroy(name="client_company[web_addresses_attributes][1374864852369][_destroy]", type="hidden", value="false")
+                                        a.remove_child Delete
+                                    
 
+
+                                a.add_child.alone(data-association="clientcompany_web_address", tabindex="0", href="#") Add website
+
+                            .section.clientcompany_email_address#clientcompany_email_address
+                            .section.clientcompany_phone_numbers#clientcompany_phone_numbers
+                            .section.clientcompany_street_address#clientcompany_street_address
+                            .section.clientcompany_facebook#clientcompany_facebook
+                            .section.clientcompany_twitter#clientcompany_twitter
+
+                                
+
+                            
+
+           
+
+                    //<div class="dashed-box photo-details  logo">
+                        <span class="img-wrap">
+                        <img alt="Client_company_large" src="https://d2yfu8hh8wxlw0.cloudfront.net/assets/defaults/client_company_large.png" />
+                        </span>
+                        <div class="file-options-wrap">
+                        <div class="file" id="upload-div">
+                        <span class="upload-link">Upload new photo</span>
+                        <input id="client_company_logo" name="client_company[logo]" tabindex="-1" type="file" />
+                        <div class="note"></div>
+                        </div>
+                        </div>
+                        </div>
+
+                //form#new_client_company.new_client_company(accept-character="UTF-8", action=("#"), enctype="mulyipart/form-data", method="POST")
+                    .inner-content
+                        .create-new-summary.contact
+                            
+                            .dashed-box.photo-details.logo
+                                
+                            .clearbox.title
+                                input.contact-title(type="text", name="customerName", placeholder="Nom...", autofocus="autofocus")
+                        .contact-form-details
                     
                                         
 
 block script
-    script.
-        $(document).ready(function (){
-            $("#test").on('click', function(e) {
-                $('#customerPanel').fadeOut();
-                setTimeout("nav('/login')",1000);
-                return false;
-            });
-        });
-        function nav(href){
-            location.href=href;
-        };
+    script(src="http://underscorejs.org/underscore-min.js") 
+    script(src="http://backbonejs.org/backbone-min.js")
+    /Templates
+    script#customerWebsite-template(type="text/template")
+
+            span.hidden-id
+                input#clientcompany_web_addresses_attributes_0_id(name="client_company[web_addresses_attributes][0][id]", type="hidden")
+            span.relative-container
+                input#client_company_web_addresses_attributes_0_value.on-blue( type="url", name="client_company[web_addresses_attributes][0][value]", size="30")
+            div.grey-select.on-blue.select-wrap.fancy-select
+                select#client_company_web_addresses_attributes_0_category(name="client_company[web_addresses_attributes][0][category]")
+                    option(value="website") Website
+                    option(value="company") Company
+                    option(value="blog") Blog
+                    option(value="portfolio") Portfolio
+                    option(value="other") Other
+                span.text Website
+            input.hidden_destroy_attribute#client_company_web_addresses_attributes_1374864852369__destroy(name="client_company[web_addresses_attributes][1374864852369][_destroy]", type="hidden", value="false")
+            a.remove_child Delete
+
+    script(src="/js/modules/sales/newCustomer.js")
+       

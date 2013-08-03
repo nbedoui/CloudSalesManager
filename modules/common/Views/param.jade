@@ -6,26 +6,44 @@ block content
 	.container(style="margin-top: 15px;")
 		div.header
 			div.section-title
-				a(href="/params")
-					span.win-backbutton
-				block title
+				.win-commandlayout.win-ui-dark.pull-left
+					a(href="/params").win-command.win-command-small
+						span.win-commandicon.win-commandring.icon-arrow-left-14
+						block title
 					
 		.container-fluid#paramList-container
 			.row-fluid
 				.win-commandlayout.win-ui-dark.pull-right
-					button#searchBtn.win-command
+					//a#searchBtn.win-command.win-command-small
 						span.win-commandicon.win-commandring.icon-search-4
 						span.win-label Rech.
-					button#addItem.win-command
-						span.win-commandicon.win-commandring.icon-plus-4
+					a#addBtn.win-command.win-command-small
+						span.win-commandicon.win-commandring.icon-plus-5
 						span.win-label Ajouter
-					hr.win-command
-					button#prevBtn.win-command
-						span.win-commandicon.win-commandring.icon-arrow-left-9
+					a#reloadBtn.win-command.win-command-small
+						span.win-commandicon.win-commandring.icon-reload
+						span.win-label Recharger
+
+					a#prevBtn.win-command.win-command-small
+						span.win-commandicon.win-commandring.icon-arrow-left-12
 						span.win-label Préc.
-					button#nextBtn.win-command
-						span.win-commandicon.win-commandring.icon-arrow-right-8
+					a#nextBtn.win-command.win-command-small
+						span.win-commandicon.win-commandring.icon-arrow-right-11
 						span.win-label Suiv.
+
+			
+			.row-fluid#searchPanel(style="display:none")
+				form.well.form-inline
+					select#searchFieldName
+						option(value="productName") Nom
+						option(value="productCategory") Catégorie
+						option(value="item 3") Item 3
+					span 
+						| = 
+					.input-append
+						input#searchFieldValue.search-query(type="text", placeholder="Saisir le critère")
+						button#search.btn(type="button")
+							i.icon-search
 			.row-fluid
 					span#error.alert.alert-error.pull-right(style="display:none")
 					div#inputPanel.well(style="display:none")

@@ -9,7 +9,8 @@ html
 		link(rel='stylesheet', href='/css/iconmoon.css')
 		link(rel='stylesheet', href='/bootstrap/css/bootstrap.css')
 		link(rel='stylesheet', href='/bootstrap/css/bootstrap-responsive.css')
-		
+		script(src="http://code.jquery.com/jquery-1.10.1.min.js")
+        
 
         
 		style.
@@ -24,16 +25,123 @@ html
 				outline: 1px solid orange;
 			}
 
+			/* The CSS */
+			.selectBox {
+				border:1px solid #ccc;
+				width:240px;
+				height:30px;
+				line-height : 30px;
+				overflow:hidden;
+
+			}
+			.selectBox select {
+				padding:3px;
+				margin: 0;
+				-webkit-border-radius:1px;
+				-moz-border-radius:1px;
+				border-radius:1px;
+				background-color: transparent;
+				color:#888;
+				border:none;
+				outline:none;
+				display: inline-block;
+				-webkit-appearance:none;
+				-moz-appearance:none;
+				appearance:none;
+				cursor:pointer;
+			}
+
+			.selectBox span {
+				height : 30px;
+			}
+
+			
+
 		link(href="/css/flip-scroll.css", rel="stylesheet")	
 			
 		script(src="https://maps.googleapis.com/maps/api/js?sensor=false&libraries=places", type="text/javascript")
 
 	body
 		div.container-fluid
-			//input#addressInput(type="text", name="address", placeholder="lieu...", style="width:300px")
-			textarea#addressInput(name="address", placeholder="lieu...", style="width:300px")
-			//AIzaSyBR6l-fFZZQO_ntNkY-0cNXVQK0a2LGIx0
+			
+			textarea#addressInput(name="address", placeholder="Nom du client...", style="width:300px")
+			div
+				label Country
+				select#country
+					option(value="fr") France
+					option(value="tn") Tunisie
+			div
+				div.selectBox
+					select
+						option(selected) Select box
+						option Short option
+						option This Is A Longer Option
+					span
+						i.icon-search
+			div
+				label Name : 
+				input#customerName(type="text")
+			div
+				label Website : 
+				input#website(type="text")
+			div
+				label Phone : 
+				input#phone(type="text")
+			div
+				label Street
+				input#street(type="text")
+			div
+				label City
+				input#city(type="text")
+			div
+				label Postal Code / Region
+				input#postal_code(type="text")
+				input#region(type="text")
+			
+
+
 		script.
-			var input = document.getElementById("addressInput");
-			var autocomplete = new google.maps.places.Autocomplete(input);
+
+			
+
+
+			var formatAddress = function(place){
+				var address = {};
+				for (index in place.address_components){
+					var type = place.address_components[index].types[0];
+					address[type] = place.address_components[index].long_name;
+					
+				}
+				return address;
+				
+			}
+
+			$(function(){
+				var country = $("#country option:selected").val();
+				$("#country").on('change', function(e){
+					country = $("#country option:selected").val(); 
+					console.log("country = "+country);
+				})
+				console.log("country = "+country);
+				var input = document.getElementById("addressInput");
+				var options = {
+					types: ['establishment']
+				};
+				var autocomplete = new google.maps.places.Autocomplete(input, options);
+				google.maps.event.addListener(autocomplete, 'place_changed', function(){
+					var place = autocomplete.getPlace();
+					console.log("Place = "+JSON.stringify(place));
+					var address = formatAddress(place);
+					console.log(JSON.stringify(address));
+					$('#customerName').val(place.name);
+					$('#website').val(place.website);
+					$('#phone').val(place.international_phone_number);
+					$('#street').val(address.street_number+','+address.route);
+					$('#city').val(address.locality);
+					$('#postal_code').val(address.postal_code);
+					$('#region').val(address.administrative_area_level_1);
+				})
+
+				var dd = new DropDown($('#dd'));
+			});
 					

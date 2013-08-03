@@ -1,57 +1,121 @@
 extends ../../../views/index
 
 block content
-	#content 
-		header.page-header
-			a(href="/sales/customers")
-				img(src="/images/backbutton24x24.png", style="margin-left:1%;")
-			span.section-title   Infos Client : 
-		section.sub-content
-			span(style="display:block; margin-left:100px;") Client : #{model.customerName}
-			.show-grid
-				.row-fluid
-					a(href="/sales/quotations/customer=#{model._id}").tile.wide.imagetext.bg-color-magenta
-						.image-wrapper
-							.icon-documents(style="font-size:48px;")
-						.column-text
-							.text-header3 Liste des Devis
-						.app-label Devis
-						.app-count 1
-					#factures.tile.wide.imagetext.bg-color-purple
-						.image-wrapper
-							.icon-documents(style="font-size:48px;")
-						.column-text
-							.text-header3 Liste des Factures
-						.app-label Factures
-						.app-count 2
-					#finance.tile.wide.imagetext.bg-color-teal
-						.image-wrapper
-							.icon-documents(style="font-size:48px;")
-						.column-text
-							.text-header3 Etat financier
-						.app-label Finances
-						.app-count 3
-					#statistic.tile.wide.imagetext.bg-color-redLight
-						.image-wrapper
-							.icon-documents(style="font-size:48px;")
-						.column-text
-							.text-header3 Statistiques
-						.app-label Statitiques
-						.app-count 4
-					a(href="/sales/customerDetails/customer=#{model._id}").tile.wide.imagetext.bg-color-grayDark
-						.image-wrapper
-							.icon-documents(style="font-size:48px;")
-						.column-text
-							.text-header3 Modifier les informations
-						.app-label Détails
-						.app-count 5
+	link(rel='stylesheet', href='/css/forms.css')
+		
+
+	.container(style="margin-top: 15px;")
+		div.header
+			div.section-title.clearfix
+				.win-commandlayout.win-ui-dark.pull-left
+					a(href="/sales/customers").win-command.win-command-small
+						span.win-commandicon.win-commandring.icon-arrow-left-14
+						span.title -  Détails client
+
+		.row-fluid
+			.container-content
+				.content-heading.image
+					img(src="#{model.customer.logo}")
+					div.card-heading-header
+						if (model.customer.website)
+							input#customerName(text="text", value="#{model.customer.customerName}")
+						else
+							input#customerName(text="text", placeholder="Nom du client...") 
+					div	
+						if (model.customer.description)
+							textarea#description(text="text") #{model.customer.description}
+						else
+							textarea#description(text="text", placeholder="Nom du client...") 
+
+				.content-body
+					h4.fg-color-blue Coordonnées
+					section
+						.content-row
+							ul.inline
+								li.caption Site web : 
+								li.text
+									if (model.customer.website)
+										input#website(text="url", placeholder="Site web...", value="#{model.customer.website}")
+									else
+										input#website(text="url", placeholder="Site web...") 
+								
+							
+						.content-row
+							ul.inline
+								li.caption Email :
+								li.text
+									if (model.customer.email)
+										input#email(text="url", placeholder="Email...", value="#{model.customer.email}")
+									else
+										input#email(text="url", placeholder="Email...", value="") 
+								
+						.content-row
+							ul.inline
+								li.caption Téléphone : 
+								li.text
+									if (model.customer.phone)
+										input#phone(text="text", placeholder="Téléphone...", value="#{model.customer.phone}")
+									else
+										input#phone(text="text", placeholder="Téléphone...")
+								
+						.content-row
+							ul.inline
+								li.caption Mobile : 
+								li.text 
+									if (model.customer.mobile)
+										input#mobile(text="text", placeholder="Mobile...", value="#{model.customer.mobile}")
+									else
+										input#mobile(text="text", placeholder="Mobile...")
+					h4.fg-color-red Activité
+					section
+						.content-row
+							ul.inline
+								li.caption Secteur d'activité : 
+								li.text
+									select.btn.btn-mini#industryList(name="industry")
+										if (model.industryList)
+											- each industry in model.industryList
+												option(value="#{industry.industry}", selected=(industry.industry == model.customer.industry)) #{industry.industry}
+					h4.fg-color-green Adresses
+					section.clearfix
+						if (model.customer.addresses)
+							- each address in model.customer.addresses
+								.content-row
+									div.span9
+										div 
+											strong Adresse de facturation 
+										div.text 
+											address
+												| #{address.street}
+												br
+												| #{address.zipCode}, #{address.city}
+												br
+												| #{address.country} 
+									
+					h4.fg-color-pink Contacts
+					section.clearfix
+						if (model.customer.contacts)
+							- each contact in model.customer.contacts
+								.content-row
+									ul.inline
+										li
+											strong.fg-color-grayDark
+												i.icon-user-6
+												|   #{contact.name.first} #{contact.name.last}
+										li 
+											a(href="mailto:titi@toto.com") #{contact.email}
+										li	
+											i.icon-phone-2 :
+											|  #{contact.phone}
+										li	
+											i.icon-mobile-2 :
+											|  #{contact.mobile}
+					
+
 block script
 	script.
-		if (localStorage){
-			localStorage['customer_id'] = '#{model._id}';
-			localStorage['customerName'] = '#{model.customerName}';
-			console.log("localStorage is OK :  "+localStorage['customer_id']+" - "+localStorage['customerName']);
-			} else 
-			{
-			console.log("localStorage is not OK");
-			}
+		$(document).ready(function (){
+			
+			
+		});
+

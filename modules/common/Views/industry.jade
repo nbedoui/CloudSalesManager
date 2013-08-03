@@ -1,7 +1,7 @@
 extends param
 
 block title
-	span  Industry
+	span.title  Industry
 
 block input
 	input#inputItem.input-large.fg-color-white(required, type="text", name="paramName",
@@ -12,7 +12,7 @@ block table
 		thead
 			tr
 				th 
-					center Industry
+					center.fg-color-white Industry
 				th 
 					center &nbsp;
 		tbody#param-list 
@@ -25,6 +25,6 @@ block template
 		td
 			center
 				div.delete(id!="<%=model._id%>")
-					i.icon-minus-2
+					i.icon-cross
 	
 		

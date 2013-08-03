@@ -3,32 +3,42 @@ extends ../../views/index
 block content
     .container(style="margin-top: 15px;")
         div.header
-            div.section-title
-                a(href="/")
-                    span.win-backbutton
-                    span  Ventes
+            div.section-title.clearfix
+                .win-commandlayout.win-ui-dark.pull-left
+                    a(href="/").win-command.win-command-small
+                        span.win-commandicon.win-commandring.icon-arrow-left-14
+                        span.title   Ventes
+        
         .row-fluid.menu
-            a(href="/sales/customers")#customers.tile.wide.imagetext.bg-color-teal
-                .image-wrapper
-                    .icon-office
-                .column-text
-                    .text-header3 Liste clients
-                .app-label Clients
-                .app-count 1
-            a(href="/sales/invoices")#invoices.tile.wide.imagetext.bg-color-pink
-                .image-wrapper
-                    .icon-newspaper
-                .column-text
-                    .text-header3 Factures
-                .app-label Factures
-                .app-count 2
-            a(href="/sales/quotation")#quotations.tile.wide.imagetext.bg-color-purple
+            a(href="/sales/quotes")#quotes.tile.wide.imagetext.bg-color-purple
                 .image-wrapper
                     .icon-docs
                 .column-text
                     .text-header3 Devis
                 .app-label Devis
+                .app-count 1
+            a(href="/sales/newQuote")#quotes.tile.wide.imagetext.bg-color-purple
+                .image-wrapper
+                    .icon-docs
+                .column-text
+                    .text-header3 Nouveau Devis
+                .app-label Devis
+                .app-count 1
+            a(href="/sales/quotation")#quotations.tile.wide.imagetext.bg-color-magenta
+                .image-wrapper
+                    .icon-docs
+                .column-text
+                    .text-header3 Nouveau BL
+                .app-label Bon de livraison
+                .app-count 2
+            a(href="/sales/invoices")#invoices.tile.wide.imagetext.bg-color-pink
+                .image-wrapper
+                    .icon-newspaper
+                .column-text
+                    .text-header3 Nouvelle Facture
+                .app-label Facture
                 .app-count 3
+            
             a(href="/sales/products")#products.tile.wide.imagetext.bg-gradient-green
                 .image-wrapper
                     .icon-barcode
@@ -36,3 +46,10 @@ block content
                     .text-header3 Produits / Services
                 .app-label Produits
                 .app-count 4
+            a(href="/sales/customers")#customers.tile.wide.imagetext.bg-color-teal
+                .image-wrapper
+                    .icon-office
+                .column-text
+                    .text-header3 Liste clients
+                .app-label Clients
+                .app-count 5

@@ -7,7 +7,7 @@
 	//Models 
 	var Customer = Backbone.Model.extend({
 		urlRoot:'/list/customers',
-		logo:'/images/customer.png'
+		logo:'/images/client_company_large.png'
 	});
 
 	var CustomersList = Backbone.Collection.extend({
@@ -19,19 +19,19 @@
 
 	//Views
 	var CustomerView = Backbone.View.extend({
-		tagName : 'div',
+		tagName : 'li',
 		events : {
-			'click .flip':'flip',
-			'click .roll':'flip',
-            'click .card':'selectCard',
+			'click .card':'selectCard',
             'click .customerDetails':'customerDetails'
 		},
 		customerDetails : function(e){
 			e.preventDefault();
+			console.log("customerDetails...");
 			var id = e.currentTarget.id;
-			var idCustomer = id.split('-')[1];
+			//var idCustomer = id.split('-')[1];
+			var idCustomer = id;
 			console.log(" idCustomer:"+idCustomer);
-			window.location.href="/sales/customerDetails/"+idCustomer+"/infos";
+			window.location.href="/sales/customerInfos/"+idCustomer;
 		},
 		selectCard : function(e){
 			e.preventDefault();
@@ -41,28 +41,14 @@
 			console.log(" idCustomer:"+idCustomer);
 			$("#"+idCustomer).toggleClass("selected");
 		},
-		flip : function(e){
-			e.preventDefault();
-			var id = e.currentTarget.id;
-			var idCustomer = id.split('-')[1];
-			console.log("id="+id+" idCustomer:"+idCustomer);
-			$("#card-"+idCustomer).toggleClass("flipped");
-		},
 		initialize : function(){
 			this.template = _.template($('#customer-template').html());
 		},
 		render : function(){
-			var colors = ["#F3B200", "#77B900", "#2572EB", "#AD103C", "#632F00", "#B01E00", "#C1004F", "#7200AC", "#4617B4",
-						  "#006AC1", "#008287", "#199900", "#00C13F", "#FF981D", "#FF2E12", "#FF1D77", "#AA40FF", "#1FAEFF",
-						  "#4294DE", "#008E8E", "#7BAD18", "#C69408", "#DE4AAD", "#00A3A3"] 
 			var data = this.model.toJSON();
 			this.$el.append(this.template({model: data}));
 			this.$el.attr('id', data._id);
-            this.$el.addClass("tile wcard high");
-            var index = Math.floor(Math.random()*24);
-            color = colors[index]; 
-            this.$el.css("background", color);
-			return this;
+            return this;
 		}
 	})
 
@@ -76,7 +62,6 @@
 			'click #homeBtn':'command',
 			'click #searchBtn':'command',
             'click #addBtn':'command',
-            'click #deleteBtn':'command',
             'click #prevBtn':'command',
             'click #nextBtn':'command'
 
@@ -136,7 +121,6 @@
 		},
         command : function(e){
         	var idBtn = arguments[0].currentTarget.id;
-            var idCustomer = $(".mediumListIconTextItem.selected").attr('id');
                     
             switch(idBtn) {
                 case "searchBtn" : {
@@ -147,11 +131,6 @@
                 case "addBtn" : {
                 	console.log("Ajouter un client");
                 	window.location.href = '/sales/newCustomer';
-                }
-                break;
-                case "deleteBtn" : {
-                    console.log("Delete customer id="+idCustomer);
-                    //window.location.hash = 'customer/'+idCustomer;
                 }
                 break;
                 case "prevBtn" : {

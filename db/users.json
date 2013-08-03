@@ -1,1 +1,2 @@
 { "_id" : { "$oid" : "514875d1f4fcecab06000006" }, "email" : "nabil.bedoui@marwael.fr", "password" : "marwael", "active" : true, "account_id" : { "$oid" : "5173c6ed96e2cdb3d2155f1d" }, "phones" : [], "name" : { "first" : "Nabil", "last" : "BEDOUI" }, "__v" : 0 }
+{ "_id" : { "$oid" : "51d1dd443004494fbfc3937f" }, "email" : "j.dias@hdimmobilier.com", "password" : "hdimmo", "active" : true, "account_id" : { "$oid" : "51791974461d59195d8fa4e8" }, "phones" : [], "name" : { "first" : "José", "last" : "DIAS" } }

@@ -7,37 +7,54 @@ block content
 	.container(style="margin-top: 15px;")
 		div.header
 			div.section-title
-				a(href="/sales")
-					span.win-backbutton
-					span  Produits / Services
+				.win-commandlayout.win-ui-dark.pull-left
+					a(href="/sales").win-command.win-command-small
+						span.win-commandicon.win-commandring.icon-arrow-left-14
+						span.title - Produits / Services   
+
 		
 		div#products-container.row-fluid(style="height:650px;").fg-color-white
 			.row-fluid
 				.win-commandlayout.win-ui-dark.pull-right
-					button#searchBtn.win-command
+					a#searchBtn.win-command.win-command-small
 						span.win-commandicon.win-commandring.icon-search-4
 						span.win-label Rech.
-					button#addBtn.win-command
-						span.win-commandicon.win-commandring.icon-plus-4
+					a#addBtn.win-command.win-command-small
+						span.win-commandicon.win-commandring.icon-plus-5
 						span.win-label Ajouter
-					hr.win-command
-					button#prevBtn.win-command
-						span.win-commandicon.win-commandring.icon-arrow-left-9
+					a#reloadBtn.win-command.win-command-small
+						span.win-commandicon.win-commandring.icon-reload
+						span.win-label Recharger
+
+					a#prevBtn.win-command.win-command-small
+						span.win-commandicon.win-commandring.icon-arrow-left-12
 						span.win-label Préc.
-					button#nextBtn.win-command
-						span.win-commandicon.win-commandring.icon-arrow-right-8
+					a#nextBtn.win-command.win-command-small
+						span.win-commandicon.win-commandring.icon-arrow-right-11
 						span.win-label Suiv.
+
+			
 			.row-fluid#searchPanel(style="display:none")
 				form.well.form-inline
-					select.btn.btn-mini#searchFieldName
+					select#searchFieldName
 						option(value="productName") Nom
 						option(value="productCategory") Catégorie
 						option(value="item 3") Item 3
 					span 
 						| = 
-					input#searchFieldValue(type="search", placeholder="Saisir le critère", style="-webkit-appearance:none;")
-					button.add-on.btn.btn-small(type="button")#search Go
+					.input-append
+						input#searchFieldValue.search-query(type="text", placeholder="Saisir le critère")
+						button#search.btn(type="button")
+							i.icon-search
+
 			.row-fluid(style="height:500px;").fg-color-white
+				.win-commandlayout.win-ui-dark(style="text-align:center")
+					a.active#1.win-command
+						span.win-commandicon.icon-happy
+						span.win-label En vente
+					a.active#0.win-command
+						span.win-commandicon.icon-sad
+						span.win-label Plus en vente
 				section.list-container
 					ul#products-list.list-large.clearfix
 
@@ -51,12 +68,19 @@ block script
 		a(href="#", id!="<%=model._id%>").productDetails
 			span.picture
 				img(src="/images/product.png")
-			H4(itemprop="name") <%=model.productCode%> - <%=model.productName%>
-			strong(itemprop="category") Catégorie : <%=model.productCategory%>
+			H4(itemprop="name") <%=model.productName%>
 			span.text.ellipsis(itemprop="description") 
 				| <%=model.productDescription%>
 			span.text.price Prix (HT) : <%=model.productSalesPrice%> €
-			span.text <%=model.productStock%> dispo.
+
+			<% if (model.productActive == true) { %>
+			span.text.fg-color-green 
+				i.icon-happy
+			<% } else { %>
+			span.text.fg-color-red 
+				i.icon-sad
+			<% }%>
+			
 	script(src="/js/modules/sales/products.js")
 
 

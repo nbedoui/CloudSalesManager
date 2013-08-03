@@ -104,7 +104,7 @@ exports.productsList = function(req, res){
         
 
         console.log("accountid="+req.session.accountId);
-       app.model.getProducts(req.session.accountId, fieldName, fieldValue, function(err, result){
+       app.model.getProducts(req.session.accountId, fieldName, fieldValue, req.body.active, function(err, result){
             if (!err){
                 res.send(result);
             } else {
@@ -118,18 +118,18 @@ exports.productsList = function(req, res){
     }
 }
 
-exports.productsCodeList = function(req, res){
+exports.productsNameList = function(req, res){
     if (req.session.loggedIn){
         var fieldValue = null;
         if (req.body.q) { 
             fieldValue = req.body.q;
 
-            console.log("ProductCode :"+fieldValue);
+            console.log("ProductName :"+fieldValue);
         }
         
 
         console.log("accountid="+req.session.accountId);
-       app.model.getProductCodeList(req.session.accountId, fieldValue, function(err, result){
+       app.model.getProductNameList(req.session.accountId, fieldValue, function(err, result){
             if (!err){
                 res.send(result);
             } else {

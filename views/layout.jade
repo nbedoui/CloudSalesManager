@@ -12,18 +12,31 @@ html
         meta(name="viewport", content="width=device-width, initial-scale=1.0")
 
 
-        link(rel='stylesheet', href='/css/iconmoon.css')
         link(rel='stylesheet', href='/css/reference.css')
         
         
-        link(rel='stylesheet', href='/css/metro-bootstrap.css')
-        link(rel='stylesheet', href='/bootstrap/css/bootstrap-responsive.css')
         
+        <!-- remove or comment this line if you want to use the local fonts -->
+        link(href='http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700', rel='stylesheet', type='text/css')
+
+
+        link(rel="stylesheet", type="text/css", href="/css/assets/css/bootmetro.css")
+        link(rel="stylesheet", type="text/css", href="/css/assets/css/bootmetro-responsive.css")
+        link(rel="stylesheet", type="text/css", href="/css/assets/css/bootmetro-icons.css")
+        //link(rel="stylesheet", type="text/css", href="/css/assets/css/bootmetro-ui-light.css")
+        //link(rel="stylesheet", type="text/css", href="/assets/css/datepicker.css")
+
+        //link(rel='stylesheet', href="/bootplus/css/bootplus.css", media="screen")
+        //link(rel='stylesheet', href="/bootplus/css/bootplus-responsive.css", media="screen")
         
         link(rel='stylesheet', href='/css/mw.css')
         script(src="http://code.jquery.com/jquery-1.10.1.min.js")
-        script(src="/bootstrap/js/bootstrap.js")
-        script(src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false")
+        script(src="/css/assets/js/bootstrap.js")
+        script(src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&libraries=places")
+        script(src="/js/libs/holder.min.js")
+
+        
+    
 
 body.body
     block page

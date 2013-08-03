@@ -9,7 +9,8 @@
     "express": "*",
     "jade": "*",
     "underscore":"*",
-    "mongoose":"*"
+    "mongoose":"*",
+    "moment":"*"
   }
 }
 

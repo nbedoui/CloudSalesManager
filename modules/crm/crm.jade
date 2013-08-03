@@ -1,101 +1,264 @@
-doctype 5
+extends ../../views/index
 
-html
-   link(rel='stylesheet', href='/css/metro-bootstrap.css')
-   link(rel='stylesheet', href='/bootstrap/css/bootstrap-responsive.css')
-   script(src="http://code.jquery.com/jquery-1.10.1.min.js")
-   script(src="/bootstrap/js/bootstrap.js").
-      
+block content
+  script(src="https://maps.googleapis.com/maps/api/js?sensor=false&libraries=places", type="text/javascript")
+  style.
+    style
+      .button{
+         color:white;
+      }
+      .form-line> textarea
+      {
+         width: 350px;
+         height:100px;
+         background-color:transparent;
+         color:#fff;
+      }
+      .pac-container {
+         background-color: #333;
+         border: 1px solid #ccc;
+         overflow: hidden;
+      }
 
-   style
-      .panel {
-          width: 300px;
-          height: 300px;
-          margin: auto;
-          position: relative;
+      .pac-item:hover, .pac-selected {
+         background-color: #f0f0ff;
+         color: #333;
       }
-       
-      .card {
-          width: 100%;
-          height: 100%;
-          -o-transition: all .5s;
-          -ms-transition: all .5s;
-          -moz-transition: all .5s;
-          -webkit-transition: all .5s;
-          transition: all .5s;
-          -webkit-backface-visibility: hidden;
-          -ms-backface-visibility: hidden;
-          -moz-backface-visibility: hidden;
-          backface-visibility: hidden;
-          position: absolute;
-          top: 0px;
-          left: 0px;
-      }
-       
-      .front {
-          z-index: 2;
-          /*
-          background-image: url(http://img.afreecodec.com/images/v3/wp-content/uploads/2011/05/00_chrome_icon.jpg);
-         */
-      }
-       
-      .back {
-          z-index: 1;
-          -webkit-transform: rotateX(-180deg);
-          -ms-transform: rotateX(-180deg);
-          -moz-transform: rotateX(-180deg);  
-          transform: rotateX(-180deg);
-          /*  
-          background-image: url(http://www.digitaltrends.com/wp-content/uploads/2011/03/ie-9-icon.jpg);
-         */
-      }
-       
-      .panel:hover .front {
-          z-index: 1;
-          -webkit-transform: rotateX(180deg);
-          -ms-transform: rotateX(180deg);
-          -moz-transform: rotateX(180deg);
-          transform: rotateX(180deg);
-      }
-       
-      .panel:hover .back {
-          z-index: 2;   
-          -webkit-transform: rotateX(0deg);
-          -ms-transform: rotateX(0deg);
-          -moz-transform: rotateX(0deg);
-          transform: rotateX(0deg);
-      }
-     
-   body
 
-      .panel
-         .front.card
-            span Hello
-         .back.card
-            span Bye bye
+      #product-detail {
+         opacity : 1;
+         bottom : 0;
+         margin-left : 6px;
+         color : #fff;
 
+         padding : 5px;
 
-      div.tab-content
+         border : 1px solid #4e4e4e;
+         -webkit-box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+            -moz-box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+               box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+      }
+
+      #description {
+         height : 100px;
+      }
+
+      .edit {
+         background-color : #2f2F2F;
+         margin-bottom: 2px;
+         padding : 2px;
+
+      }
+
+      .edit > input {
+         height : 20px;
+         margin-bottom : 0;
+         width : 98%;
+         border : none;
+         color: #fff;
+      } 
+
+      .edit > textarea {
+         height : 25px;
+         margin-bottom : 0;
+         width : 98%;
+         border : none;
+         color: #fff;
+         background : transparent;
+      } 
+
+      #product-detail label {
+         background-color : #49afcd;
+         padding : 5px;
+         color : #eee;
+         text-shadow : 0 1px 1px rgba(0,0,0,0.8);
+         width : 50%;
+      }
+
+      .input-append input[class*="span"] {
+         color : red;
+      }
+
+      @media only screen and (min-width: 760px)  {
+         #product-detail label {
+            width : 100%;
+            background-color : #49afcd;
+            padding : 5px;
+            color : #eee;
+            text-align : right;
+            text-shadow : 0 1px 1px rgba(0,0,0,0.8);
+         }
+      }
+
+      .address {
+        background-color : blue;
+      }
+
+      .address span {
+        display : block;
+      }
+  #content 
+    header.page-header
+      a(href="/sales/customers")
+        img(src="/images/backbutton24x24.png", style="margin-left:1%;")
+      span.section-title   Infos Client : 
+   
+
+     div.tab-content
          div.tab-pane#step1.active
-            div
-               span Etape 1/3
-            a#li-step2(href="#step2", data-toggle="tab") Suivant
+            form#frmRegister1
+               div#product-detail.span8
+                  .row-fluid  
+                     div.span4
+                        label Que cherchez-vous ? :
+                     div.span8.edit
+                        .control-group.error 
+                           input(type="text", name="text", required, placeholder="Demande...")
+                  .row-fluid  
+                     div.span4
+                        label Région,ville,pays :
+                     div.span8.edit 
+                        textarea#location(type="text", name="text", rows="5", required, placeholder="Lieu...")
+                  .row-fluid  
+                    div.span4
+                        label Expliquez votre problème :
+                    div.span8.edit 
+                        textarea(type="text", name="text", required, placeholder="Description...")
+                  .row-fluid
+                    div Adresse
+                    div.address#address Hello
+                  .row-fluid
+                     div.win-commandlayout.win-ui-dark(style="margin-left:650px")
+                       a#nextBtn(href="#step2", data-toggle="tab").win-command.disabled
+                           span.win-commandicon.win-commandring.icon-arrow-right-8
+                           span.win-label Suiv.
+                           
          div.tab-pane#step2
-            div
-               span Etape 2/3
-            
-            div
-               a#li-step1(href="#step1", data-toggle="tab") Précédent
-            div
-               a#li-step3(href="#step3", data-toggle="tab") Suivant
+            form#frmRegister(action="/register", method="POST")
+               div#product-detail.span8
+                  .row-fluid  
+                     div.span4
+                        label Combien de temps? :
+                     div.span8.edit 
+                        input(type="text", name="text", required, placeholder="Temps...")
+                  .row-fluid  
+                     div.span4
+                        label Budget :
+                     div.span8.edit 
+                        input(type="text", name="text", required, placeholder="Budget...")
+                  .row-fluid  
+                     div.span4
+                        label De quelles compétences avez vous besoin? :
+                     div.span8.edit 
+                        textarea(type="text", name="text", required, placeholder="Compétences...")
+                  
+                  .row-fluid
+                        a#sendBtn.btn.pull-right.btn-success(href="#step3", data-toggle="tab")  Etape 3/3
+                        a#sendBtn.btn.pull-right.btn-success(href="#step1", data-toggle="tab")  Etape 1/3
+                  .row-fluid
+                     div.win-commandlayout.win-ui-dark(style="margin-left:650px")
+                        button#nextBtn.win-command.disabled
+                           span.win-commandicon.win-commandring.icon-arrow-left-9
+                           span.win-label Préc.
+                        button#nextBtn.win-command.disabled
+                           span.win-commandicon.win-commandring.icon-arrow-right-8
+                           span.win-label Suiv.
+                                    
+
+               
          div.tab-pane#step3
-            div
-               span Etape 3/3
-            a#li-step2(href="#step2", data-toggle="tab") Précédent
-    script.
+            form#frmRegister(action="/register", method="POST")
+               div#product-detail.span8
+                  .row-fluid  
+                     div.span4
+                        label Prénom :
+                     div.span8.edit 
+                        input(type="text", name="name.first", required, placeholder="Prénom...")
+                  .row-fluid  
+                     div.span4
+                        label Nom :
+                     div.span8.edit 
+                        input(type="text", name="name.last", required, placeholder="Nom...")
+                  .row-fluid  
+                     div.span4
+                        label Adresse email :
+                     div.span8.edit 
+                        input(type="email", name="email", required, placeholder="Email...")
+                  .row-fluid  
+                     div.span4
+                        label Mot de passe :
+                     div.span8.edit 
+                        input#password(type="password", name="password", required,  placeholder="Mot de passe...")
+                  .row-fluid  
+                     div.span4
+                        label Confirmer mot de passe:
+                     div.span8.edit
+                        input#password2(type="password", required, placeholder="Confirmation du Mot de Passe...")
+                  .row-fluid  
+                     div.span4
+                        label Adresse :
+                     div.span8.edit 
+                        input#address(type="text", name="address",  required, placeholder="Adresse...")
+                  .row-fluid  
+                     div.span4
+                        label Téléphone fixe :
+                     div.span8.edit 
+                        input(type="text", name="phone",  required, placeholder="Téléphone fixe...")
+                  .row-fluid  
+                     div.span4
+                        label Téléphone mobile:
+                     div.span8.edit 
+                        input(type="text", name="cellphone",  required, placeholder="Téléphone mobile...")
+                     
+                  .row-fluid
+                     a#sendBtn.btn.pull-right.btn-success(href="#step1", data-toggle="tab")  Etape 1/3
+                     .row-fluid
+                        div.win-commandlayout.win-ui-dark(style="margin-left:650px")
+                           button#nextBtn.win-command.disabled
+                              span.win-commandicon.win-commandring.icon-arrow-left-9
+                              span.win-label Préc.
+                           
+
+                     button#sendBtn.btn.pull-right.btn-success(type="button") Enregistrer
+
+                 
+
+
+           
+      
+      
+block script         
+  script
+
+   $(document).ready(function(){
+
+
+        var validInput = function(element){
+        var val = element.val();
+        console.log("input val ="+val);
+        if (val.length > 0){
+        element.parent().removeClass("error");
+        element.parent().addClass("success");
+        } else {
+        element.parent().removeClass("success");
+        element.parent().addClass("error");
+        }
+
+        }  
+
+        var input = document.getElementById("location");
+        var options = {
+        types: ['(regions)']
+        }
+        var autocomplete = new google.maps.places.Autocomplete(input);
+
+        google.maps.event.addListener(autocomplete, 'place_changed', function(){
+
+        var place = autocomplete.getPlace();
+        console.log("Hello : "+$("#address").html());
+        //console.log('Adresse :'+place["add"])
+        $("#address").html(place.adr_address);
+        console.log("place="+JSON.stringify(place));
+    });
+    });
         
-        
-        $(document).ready(function (){
-            //Show the right panel
-            $("#li-#{active}").trigger('click');
-         });

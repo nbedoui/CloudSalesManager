@@ -128,7 +128,7 @@
 		model: paramList,
 		el : $('#paramList-container'),
 		events : {
-			'click #addItem':'toggleInputPanel',
+			'click #addBtn':'toggleInputPanel',
 			'click #submit':'insertData',
 			'keypress #inputItem':'insertKeypressed',
 			'webkitspeechchange #inputItem':'insertData'

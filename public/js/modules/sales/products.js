@@ -35,16 +35,8 @@
 			e.preventDefault();
 			var _parent = $(e.currentTarget).parent();
 			var idproduct = _parent.attr('id');
-			$(".tile.wcard").removeClass('selected');
 			console.log(" idproduct:"+idproduct);
 			$("#"+idproduct).toggleClass("selected");
-		},
-		flip : function(e){
-			e.preventDefault();
-			var id = e.currentTarget.id;
-			var idproduct = id.split('-')[1];
-			console.log("id="+id+" idproduct:"+idproduct);
-			$("#card-"+idproduct).toggleClass("flipped");
 		},
 		initialize : function(){
 			this.template = _.template($('#product-template').html());
@@ -54,7 +46,7 @@
 			this.$el.append(this.template({model: data}));
 			this.$el.attr('id', data._id);
             //this.$el.addClass("list-large clearfix");
-            var index = Math.floor(Math.random()*24);
+            //var index = Math.floor(Math.random()*24);
             return this;
 		}
 	})
@@ -63,21 +55,22 @@
 		model: products,
 		el : $('#products-container'),
 		perPage : 10,
+		active : "1",
 		events : {
 			'click #search':'searchproduct',
 			'keypress #searchFieldValue':'searchproductEdit',
 			'click #homeBtn':'command',
 			'click #searchBtn':'command',
             'click #addBtn':'command',
-            'click #deleteBtn':'command',
             'click #prevBtn':'command',
-            'click #nextBtn':'command'
+            'click #nextBtn':'command',
+            'click .active':'toggleActive'
 
 		},
 		initialize : function(){
 			var self =this;
 			this.options.page=1;
-			this.fetch('');
+			this.fetch({'active':this.active});
 		},
 		fetch : function(params){
 			var self = this;
@@ -129,7 +122,6 @@
 		},
         command : function(e){
         	var idBtn = arguments[0].currentTarget.id;
-            var idproduct = $(".mediumListIconTextItem.selected").attr('id');
                     
             switch(idBtn) {
                 case "searchBtn" : {
@@ -140,11 +132,6 @@
                 case "addBtn" : {
                 	console.log("Ajouter un produit");
                 	window.location.href = '/sales/newProduct';
-                }
-                break;
-                case "deleteBtn" : {
-                    console.log("Delete product id="+idproduct);
-                    //window.location.hash = 'product/'+idproduct;
                 }
                 break;
                 case "prevBtn" : {
@@ -180,7 +167,7 @@
         	var searchParams = '';
             if (fieldValue){
                 console.log("fieldName="+fieldName+" = fieldValue="+fieldValue);
-                searchParams = {'fieldName':fieldName, 'fieldValue':fieldValue}
+                searchParams = {'fieldName':fieldName, 'fieldValue':fieldValue, 'active':this.active}
                 //this.fetch("/list/products/"+fieldName+"/"+fieldValue);
                 this.fetch(searchParams);
             } 
@@ -190,6 +177,13 @@
         		e.preventDefault();
         		this.searchproduct();
         	}
+        },
+        toggleActive : function(e){
+        	var val = arguments[0].currentTarget.id;
+        	this.active = val;
+        	this.fetch({'active':this.active});
+        	
+        	
         }
 	});
 	$(document).ready(function(){
