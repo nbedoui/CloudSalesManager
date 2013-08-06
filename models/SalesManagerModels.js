@@ -171,7 +171,6 @@ var BankSchema = new mongoose.Schema({
  */
 var CustomerSchema = new mongoose.Schema({
     account_id : {type: mongoose.Schema.ObjectId, ref:'Account'},
-    customer_owner : {type: mongoose.Schema.ObjectId, ref:'User'},
     customerName : {type : String, required : true, trim: true},
     logo        : {type : String,  trim: true},
     description  : {type : String,  trim: true},
@@ -549,11 +548,8 @@ module.exports.getCustomers= function(accountId, fieldName, fieldValue, callback
         var query = CustomerModel.where('account_id').equals(accountId);
     }
     
-    //query.where('customer_owner').equals(customer_owner);
-    
     query.sort('_id');
     query.select('-addresses -account_id');
-    query.populate('customer_owner', 'name');
     query.exec(function (err, docs) {
         // called when the `query.complete` or `query.error` are called
         // internally
@@ -725,7 +721,7 @@ module.exports.getCustomer = function(id, callback){
             return;
         }
         console.log(" ++++++ Customer ="+customer);
-        customer.populate('contacts').populate('customer_owner', 'name _id', function(err, customer){
+        customer.populate('contacts', function(err, customer){
             promise.complete(customer);
         })
         
@@ -756,8 +752,7 @@ module.exports.getCustomers2= function(accountId, fieldName, fieldValue, callbac
     }
     
     query.sort('customerName');
-    query.select('_id customerName website email phone mobile addresses logo customer_owner industry');
-    query.populate('customer_owner', 'name');
+    query.select('_id customerName website email phone mobile addresses logo industry');
     query.exec(function (err, docs) {
         if (err) { 
             callback(err, null)
@@ -892,8 +887,6 @@ var getQuotes= function(accountId, callback){
     var quotations = new Array();
     var query = model.Quotation.where('account_id').equals(accountId);
     
-    
-    //query.where('customer_owner').equals(customer_owner);
     
     query.sort('_id');
     query.select('_id number date reference total status customer_id');

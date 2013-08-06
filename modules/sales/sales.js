@@ -117,11 +117,13 @@ exports.customerInfos = function(req, res){
     }
 }
 
-exports.customerDetails= function(req, res){
+
+exports.updateCustomerView = function(req, res){
+    console.log("**************  updateCustomerView")
     if (req.session.loggedIn){
         var accountId = req.session.accountId;
         var id = req.params.id;
-        var active = req.params.active;
+       
         console.log("id : "+id);
         var getCustomer = function(callback){
             app.model.getCustomerInfos(id, function(err, customer){
@@ -146,6 +148,7 @@ exports.customerDetails= function(req, res){
             });
         }
 
+/*
         //Get the salers list
         var getManagerList = function(callback){
             console.log(".......... getManagerList...");
@@ -158,7 +161,6 @@ exports.customerDetails= function(req, res){
             });
         }
 
-/*
         var getPhoneType = function(callback){
             app.model.getReferenceList("PhoneType", accountId, function(err, doc){
              if (err){
@@ -193,7 +195,7 @@ exports.customerDetails= function(req, res){
 
         //var criteria = {customer:getCustomer, phoneType:getPhoneType, addressType:getAddressType, industryList:getIndustryList, statusList:getStatusList, managerList:getManagerList};
         console.log("===========Get customer criteria....");
-        var criteria = {customer:getCustomer, industryList:getIndustryList, managerList:getManagerList};
+        var criteria = {customer:getCustomer, industryList:getIndustryList};
         
         async.parallel(criteria, function(err, result){
             if (err){
@@ -202,7 +204,7 @@ exports.customerDetails= function(req, res){
             } else {
                 console.log("Finish : "+JSON.stringify(result));
                 //console.log("addressType : "+result.addressType);
-                res.render(__dirname+'/customers/customer.jade', {model:result, active:active});
+                res.render(__dirname+'/customers/customerUpdate.jade', {model:result});
             }
         })
     } else {
@@ -266,27 +268,57 @@ exports.insertCustomer = function(req, res){
     });
 }
 
-//Modifiy the customer data into the Database
-exports.updateCustomer = function(req, res){
-
-    var _id = req.params.id;
-    var data = req.body;
-    console.log("**********************************")
-    console.log("Update Customer _id:"+_id+" - data="+JSON.stringify(data));
-    data.account_id=req.session.accountId;
-    
-    data.customer_owner=req.session.userId;
-    
-    app.model.updateDocument("CustomerModel", _id, data, function(err, doc){
+var saveCustomerData = function(req, res, _id, data){
+     app.model.updateDocument("Customer", _id, data, function(err, doc){
         if(err){
             console.log("Erreur :"+err);
             res.send(500, {error:err});
             console.log("**********************************")
         } else {
-            res.redirect("/sales/customerDetails/"+doc._id+"/infos");
+            res.redirect("/sales/customerInfos/"+_id);
             console.log("**********************************")
         }
     });
+}
+//Modifiy the customer data into the Database
+exports.updateCustomer = function(req, res){
+
+    var filename = req.files.logo.name;
+    var tmp_path = req.files.logo.path;
+    var saveFile = false;
+    console.log("filename="+filename);
+    if (!filename){
+        filename="customer.png";
+         console.log("---> filename="+filename);
+
+    } else {
+         saveFile = true;
+    }
+    //var tmp_path = './public/images/tmp/';
+    var target_path = './public/images/logos/' + filename; 
+    console.log("tmp_path:"+tmp_path+" - target_path="+target_path);
+
+    var _id = req.body.customerId;
+    var data = req.body;
+    console.log("**********************************")
+    console.log("Update Customer _id:"+_id+" - data="+JSON.stringify(data));
+    data.account_id=req.session.accountId;
+    data.logo = '/images/logos/'+filename;
+    
+    if (saveFile) {
+        fs.rename(tmp_path, target_path, function(err){
+            if (err) {
+                console.log(err);
+                res.send(err);
+            } else {
+               saveCustomerData(req, res, _id, data);
+
+            }
+        });    
+    } else {
+         saveCustomerData(req, res, _id, data);
+    }
+    
 }
 
 //Delete a customer from the database

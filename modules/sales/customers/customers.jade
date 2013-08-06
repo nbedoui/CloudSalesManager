@@ -105,12 +105,13 @@ block script
 						|  : <%=model.mobile%>
 					<%}%>
 				br
-				<% if (model.email) { %>
-				span(title="Email")
-					|  <%=model.email%>
-				<%}%>
+				h5
+					<% if (model.email) { %>
+					span.fg-color-orange(title="Email")
+						|  <%=model.email%>
+					<%}%>
 				
-				h5.fg-color-orange Suivi par : <%=model.customer_owner.name.first%> <%=model.customer_owner.name.last%>
+				
 
 			
 			

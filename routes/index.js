@@ -29,10 +29,12 @@ module.exports = function(app){
 
 	//app.get('/sales/customerDetails/:id/:active', sales.customerDetails); 
 	app.get('/sales/customerInfos/:id', sales.customerInfos);
-	app.get('/sales/customerDetails/:id', sales.customerDetails);
+	//app.get('/sales/customerDetails/:id', sales.customerDetails);
 	app.get('/sales/newCustomer', sales.newCustomer);
 	app.post('/sales/insertCustomer', sales.insertCustomer);
-	app.post('/sales/updateCustomer/:id', sales.updateCustomer);
+
+	app.get('/sales/updateCustomerView/:id', sales.updateCustomerView);
+	app.post('/sales/updateCustomer', sales.updateCustomer);
 
 	//Api
 	app.post('/list/customers', sales.customersList)
