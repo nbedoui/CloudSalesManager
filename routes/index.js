@@ -4,6 +4,7 @@ var login = require('../modules/login/login');
 var common = require('../modules/common/models/common');
 var sales = require('../modules/sales/sales');
 var address = require('../modules/sales/customers/addresses');
+var contact = require('../modules/sales/contacts/contacts');
 var quote = require('../modules/sales/quotes/quotes')
 var invoice = require('../modules/sales/invoices/invoices')
 var products = require('../modules/sales/products/products')
@@ -43,7 +44,7 @@ module.exports = function(app){
 
 
 	//address
-	app.post('/api/address', address.getAddressByCustomerId)
+	//app.post('/api/address', address.getAddressByCustomerId)
 	app.post('/sales/insertAddress/:custId', address.insertAddress);
 	app.post('/sales/updateAddress/:custId/:id', address.updateAddress);
 	app.get('/sales/deleteAddress/:custId/:id', address.deleteAddress);
@@ -53,6 +54,11 @@ module.exports = function(app){
 	//app.post('/sales/maps', sales.maps);
 
 
+	//Contacts
+	//app.post('/api/contact', contact.getContactByCustomerId)
+	app.post('/sales/insertContact/:custId', contact.insertContact);
+	app.post('/sales/updateContact/:custId/:id', contact.updateContact);
+	app.get('/sales/deleteContact/:custId/:id', contact.deleteContact);
 	
 	//Quotes menu
 	app.get('/sales/quotes', quote.index);

@@ -204,7 +204,7 @@ exports.updateCustomerView = function(req, res){
             } else {
                 console.log("Finish : "+JSON.stringify(result));
                 //console.log("addressType : "+result.addressType);
-                res.render(__dirname+'/customers/customerUpdate.jade', {model:result});
+                res.render(__dirname+'/customers/customerUpdate.jade', {model:result, newCustomer:false});
             }
         })
     } else {
@@ -244,7 +244,7 @@ exports.newCustomer = function(req, res){
             } else {
                 console.log("Finish : "+JSON.stringify(result));
                 console.log("addressType : "+result.addressType);
-                res.render(__dirname+'/customers/customer1.jade', {model:result});
+                res.render(__dirname+'/customers/newCustomer.jade', {model:result});
             }
         })
     } else {
@@ -258,12 +258,12 @@ exports.insertCustomer = function(req, res){
     console.log("data="+JSON.stringify(data));
     data.account_id=req.session.accountId;
     data.customer_owner=req.session.userId;
-    app.model.insertDocument("CustomerModel", data, function(err, doc){
+    app.model.insertDocument("Customer", data, function(err, doc){
         if(err){
             console.log("Erreur :"+err);
             res.send(500, {error:err});
         } else {
-            res.redirect("/sales/customerDetails/"+doc._id+"/infos");
+            res.redirect("/sales/customerInfos/"+doc._id);
         }
     });
 }
@@ -286,6 +286,10 @@ exports.updateCustomer = function(req, res){
     var filename = req.files.logo.name;
     var tmp_path = req.files.logo.path;
     var saveFile = false;
+
+    var _id = req.body.customerId;
+    var data = req.body;
+    
     console.log("filename="+filename);
     if (!filename){
         filename="customer.png";
@@ -298,8 +302,7 @@ exports.updateCustomer = function(req, res){
     var target_path = './public/images/logos/' + filename; 
     console.log("tmp_path:"+tmp_path+" - target_path="+target_path);
 
-    var _id = req.body.customerId;
-    var data = req.body;
+    
     console.log("**********************************")
     console.log("Update Customer _id:"+_id+" - data="+JSON.stringify(data));
     data.account_id=req.session.accountId;
@@ -366,7 +369,7 @@ exports.maps = function(req, res){
         var custId = req.params.custId;
         var addressId = req.params.addressId;
         console.log("custId : "+custId+" - addressId : "+addressId);
-        app.model.getSubDocumentById('Customer', 'addresses', addressId, function(err, address){
+        app.model.getDocument('Address', addressId, function(err, address){
             if (err){
                 console.log("Erreur="+err);
                 res.send(500, err);

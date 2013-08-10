@@ -4,23 +4,22 @@ var async = require("async");
 // DB Access
 app.model = require('../../../models/SalesManagerModels');
 
-/*
-exports.getAddressByCustomerId = function(req, res){
+
+exports.getContactByCustomerId = function(req, res){
     if (req.session.loggedIn){
         var customerId = req.body.custId;
-        var addressType = req.body.addressType;
         console.log("**********************************")
-        console.log("Get address customerId:"+customerId+" - addressType="+addressType);
+        console.log("Get contact customerId:"+customerId);
 
         
-        app.model.getSubDocument("Customer", customerId, "addresses", "addressType", addressType, function(err, doc){
+        app.model.getSubDocument("Customer", customerId, "contacts", function(err, doc){
                                 
             if(err){
                 console.log("Erreur :"+err);
                 res.send(500, {error:err});
                 console.log("**********************************")
             } else {
-                console.log("address = "+ doc);
+                console.log("contact = "+ doc);
                 res.send(doc);
                 console.log("**********************************")
             }
@@ -31,14 +30,14 @@ exports.getAddressByCustomerId = function(req, res){
     }
 
 }
-*/
-exports.updateAddress = function(req, res){
+
+exports.updateContact = function(req, res){
     var _id = req.params.id;
     var customerId = req.params.custId;
     var data = req.body;
     console.log("**********************************")
-    console.log("Update Address _id:"+_id+"- data="+JSON.stringify(data));
-    app.model.updateDocument("Address", _id, data, function(err, doc){
+    console.log("Update Contact _id:"+_id+"- data="+JSON.stringify(data));
+    app.model.updateDocument("Contact", _id, data, function(err, doc){
         if(err){
             console.log("Erreur :"+err);
             res.send(500, {error:err});
@@ -51,19 +50,19 @@ exports.updateAddress = function(req, res){
 }
 
 
-exports.insertAddress = function(req, res){
+exports.insertContact = function(req, res){
 
     var customerId = req.params.custId;
     var data = req.body;
     console.log("**********************************")
-    console.log("Insert Address customer_id:"+customerId+" - data="+JSON.stringify(data));
+    console.log("Insert Contact customer_id:"+customerId+" - data="+JSON.stringify(data));
     //data.account_id=req.session.accountId;
-    app.model.insertDocument("Address", data, function(err, address){
+    app.model.insertDocument("Contact", data, function(err, contact){
         if(err){
             console.log("Erreur :"+err);
             res.send(500, {error:err});
         } else {
-            app.model.Customer.update({_id:customerId}, {"$push":{addresses:address._id}}, function(err, numberAffected, raw){
+            app.model.Customer.update({_id:customerId}, {"$push":{contacts:contact._id}}, function(err, numberAffected, raw){
                 if(err){
                     console.log("Erreur :"+err);
                     res.send(500, {error:err});
@@ -76,12 +75,12 @@ exports.insertAddress = function(req, res){
     
 }
 
-exports.deleteAddress = function(req, res){
+exports.deleteContact = function(req, res){
 
     var _id = req.params.id;
     var customerId = req.params.custId;
     console.log("**********************************")
-    console.log("Delete Address customer_id:"+customerId);
+    console.log("Delete Contact customer_id:"+customerId);
     
     app.model.Customer.findById(customerId, function(err, customer){
         if (err){
@@ -89,24 +88,24 @@ exports.deleteAddress = function(req, res){
             res.send(500, {error:err})
         } else 
         {
-            customer.addresses.pull(_id);
-            app.model.deleteDocument("Address", _id, function(err){
-                if (err){
-                    console.log("Erreur : "+err);
-                    res.send(500, {error:err})
-                } else 
-                {
-                    customer.save(function(err){
-                        if (err){
-                            console.log("Erreur : "+err);
-                            res.send(500, {error:err})
-                        } else {
-                            res.redirect("/sales/customerInfos/"+customerId);
-                        }
-                    })
-                }
-            });
-        }
+            customer.contacts.pull(_id);
+            app.model.deleteDocument("Contact", _id, function(err){
+            	if (err){
+		            console.log("Erreur : "+err);
+		            res.send(500, {error:err})
+		        } else 
+		        {
+			        customer.save(function(err){
+			            if (err){
+			                console.log("Erreur : "+err);
+			                res.send(500, {error:err})
+			            } else {
+			                res.redirect("/sales/customerInfos/"+customerId);
+			            }
+			        })
+			    }
+       		});
+		}
         
     });
 

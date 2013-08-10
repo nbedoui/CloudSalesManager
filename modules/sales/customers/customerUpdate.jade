@@ -5,16 +5,7 @@ block content
 	link(rel='stylesheet', href='/js/libs/bootstrap-fileupload.min.css')
 	script(src="/js/libs/bootstrap-fileupload.min.js")
 
-	mixin inputline(caption, fieldName, fieldValue, type, required)
-		.content-row
-			label(for="fieldName") #{caption}
-			.input-group
-				if (fieldValue)
-					input(id="#{fieldName}", type="#{type}", name="#{fieldName}", placeholder="#{caption}...", value="#{fieldValue}", required="#{required}")
-				else
-					input(id="#{fieldName}", type="#{type}", name="#{fieldName}", placeholder="#{caption}...", required="#{required}")
-
-				.xdelete
+	include ../../utils/utils
 
 		
 		
@@ -29,31 +20,30 @@ block content
 		.row-fluid
 			.container-content
 				.content-heading
+					+inputline(" Rechercher un client", "autocomplete", "", "text", false)
 				.content-body
 					form(method="POST", action="/sales/updateCustomer", enctype="multipart/form-data")
 						input#customerId(type="hidden", name="customerId", value="#{model.customer._id}")
-						h4.fg-color-green Logo
 						section
-							.content-row(style="height:115px")
-								.content-heading
-									.fileupload.fileupload-new(data-provides="fileupload").pull-left
-										.fileupload-new.thumbnail(style="width: 80px; height: 80px;")
-											if (model.customer.logo)
-												img(src="#{model.customer.logo}")
-											else
-												img(src="http://www.placehold.it/80x80/EFEFEF/AAAAAA&text=logo")
+							.content-row(style="height:85px")
+								.fileupload.fileupload-new(data-provides="fileupload").pull-left
+									.fileupload-new.thumbnail(style="width: 60px; height: 60px;")
+										if (model.customer.logo)
+											img(src="#{model.customer.logo}")
+										else
+											img(src="http://www.placehold.it/60x60/EFEFEF/AAAAAA&text=logo")
 
-										.fileupload-preview.fileupload-exists.thumbnail(style="width: 80px; height: 80px; line-height: 20px;")
-										div.upload
-											span.btn.btn-file
-												span.fileupload-new 
-													i.icon-camera-2
-												span.fileupload-exists 
-													i.icon-camera-2
-												input#logoname(type="file", name="logo", value="#{model.customer.logo}")
-											span.btn.btn-file
-												span.fileupload-exists(href="#", data-dismiss="fileupload", style="float:none") 
-													i.icon-trashcan-2
+									.fileupload-preview.fileupload-exists.thumbnail(style="width: 60px; height: 60px; line-height: 20px;")
+									div.upload
+										span.btn.btn-file
+											span.fileupload-new 
+												i.icon-camera-2
+											span.fileupload-exists 
+												i.icon-camera-2
+											input#logoname(type="file", name="logo", value="#{model.customer.logo}")
+										span.btn.btn-file
+											span.fileupload-exists(href="#", data-dismiss="fileupload", style="float:none") 
+												i.icon-trashcan-2
 						h4.fg-color-red Nom du client
 						section
 							+inputline("Nom du client", "customerName", model.customer.customerName, "text", true)
@@ -61,26 +51,26 @@ block content
 								label(for="customerName") Description
 								.input-group
 									textarea#description(type="text", name="description", placeholder="Nom du client...") #{model.customer.description}
-									
+									.xdelete
 
 						h4.fg-color-blue Coordonnées
 						section
-							+inputline(" Site web", "website", model.customer.website, "url", false)
-							+inputline(" Email", "email", model.customer.email, "email", true)
-							+inputline(" Téléphone", "phone", model.customer.phone, "text", true)
-							+inputline(" Mobile", "mobile", model.customer.mobile, "text", false)
+							+inputline("Site web", "website", model.customer.website, "url", false)
+							+inputline("Email", "email", model.customer.email, "email", true)
+							+inputline("Téléphone", "phone", model.customer.phone, "text", true)
+							+inputline("Mobile", "mobile", model.customer.mobile, "text", false)
 							.content-row
 								label(for="test") Secteur d'activité
 								select.btn.btn-mini#industryList(name="industry")
 									if (model.industryList)
 										- each industry in model.industryList
 											option(value="#{industry.industry}", selected=(industry.industry == model.customer.industry)) #{industry.industry}
-							+inputline(" Numéro de TVA", "gstNumber", model.customer.gstNumber, "text", false)
+							+inputline("Numéro de TVA", "gstNumber", model.customer.gstNumber, "text", false)
 						section
 							ul.inline.pull-right
 								li
 									a(href="/sales/customerInfos/#{model.customer._id}")
-										button.btn.btn-small Annuler
+										button.btn.btn-small(type="button") Annuler
 								li
 									button.btn.btn-small Enregistrer
 block script
@@ -92,6 +82,35 @@ block script
 				$(".xdelete").on('click', function(e){
 					console.log("xdelete ...");
 					$(this).parent().children("input").val("");
+					$(this).parent().children("textarea").text("");
 					
 				});
+
+				var formatCustomerInfos = function(place){
+					var customer = {};
+					for (index in place.address_components){
+						var type = place.address_components[index].types[0];
+						customer[type] = place.address_components[index].long_name;
+						
+					}
+					return customer;
+					
+				}
+				var input = document.getElementById("autocomplete");
+				var options = {
+					types: ['establishment']
+				};
+				var autocomplete = new google.maps.places.Autocomplete(input, options);
+				google.maps.event.addListener(autocomplete, 'place_changed', function(){
+					var place = autocomplete.getPlace();
+					console.log("Place = "+JSON.stringify(place));
+					var address = formatCustomerInfos(place);
+					//console.log(JSON.stringify(address));
+					console.log(place.formatted_address);
+					$('#customerName').val(place.name);
+					$('#website').val(place.website);
+					$('#phone').val(place.international_phone_number);
+					
+
+				})
 			});

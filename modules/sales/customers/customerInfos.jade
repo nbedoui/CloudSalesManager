@@ -2,38 +2,54 @@ extends ../../../views/index
 
 block content
 	link(rel='stylesheet', href='/css/forms.css')
-	
+	include ../../utils/utils
 	
 
-	mixin link(caption, href, fieldValue)
-		.content-row
-			ul.inline
-				li.caption  #{caption} : 
-					li.text
-						if (fieldValue)
-							a(href="#{href}", target="_blank") #{fieldValue} 
-						else
-							p.placeholder #{caption}
-							
-	mixin textline(caption, fieldValue)
-		.content-row
-			ul.inline
-				li.caption #{caption}
-					|  :   
-				li.text
-					if (fieldValue)
-						| #{fieldValue}
-					else
-						p.placeholder 
-							= caption 
+	//-Address modal box
+	.modal.hide.fade.active.address(id="address-modal", style="display:none", aria-hidden="true", data-backdrop="static")
+		.modal-header.bg-color-blueLight2.fg-color-white
+			button.close(type="button", data-dismiss="modal", aria-hidden="true")
+			h3 Adresse
+		form#addressForm(method="POST", action="")	
+			.modal-body
+				.content-row
+					label(for="location") Trouver une addresse a l'aide de google maps 
+					.input-group(style="width=300px")
+						input#location(type="text", placeholder="Rue...")
+						.xdelete
+					hr
+				
+				+inputline("Adresse", "street", "", "text", true)
+				+inputline("Code postal", "zipCode", "", "text", true)
+				+inputline("Ville", "city", "", "text", true)
+				+inputline("Pays", "country", "", "text", true)
+					
+			.modal-footer
+				button.btn.btn-small(type="button", data-dismiss="modal", aria-hidden="true") Annuler
+				button.btn.btn-small#submit(type="submit") Enregistrer
 
-	mixin address(address)
-		.content-row
+	//-Contact modal box
+	.modal.hide.fade.active.contact(id="contact-modal", style="display:none", aria-hidden="true", data-backdrop="static")
+		.modal-header.bg-color-redLight.fg-color-white
+			button.close(type="button", data-dismiss="modal", aria-hidden="true")
+			h3 Contact
+		form#contactForm(method="POST", action="")	
+			.modal-body
+				+inputline("Prénom", "firstName", "", "text", true)
+				+inputline("Nom", "lastName", "", "text", true)
+				+inputline("Email", "email", "", "email", true)
+				+inputline("Téléphone", "phone", "", "text", true)
+				+inputline("Mobile", "mobile", "", "text", true)
+					
+			.modal-footer
+				button.btn.btn-small(type="button", data-dismiss="modal", aria-hidden="true") Annuler
+				button.btn.btn-small#submit(type="submit") Enregistrer
+	
+	mixin address(address, index)
+		.content-row(style="height:80px")
 			ul.inline
 				li.span6
 					div
-						div 
-							strong Adresse de #{address.addressType} 
 						div.text 
 							address
 								| #{address.street}
@@ -46,55 +62,27 @@ block content
 						i.icon-location-2
 						|  Google maps
 				li
-					a(data-toggle="modal", href="#address-#{address._id}")
+					a.address-dialog(id="address-#{index}", data-toggle="modal", href="#address-modal")
 						i.icon-pencil-6
 						|  Modifier
 				li
-					a(href="#") 
+					a(href="/sales/deleteAddress/#{customer._id}/#{address._id}")
 						i.icon-minus-3
 						|  Supprimer
-		.modal.hide.fade(id="address-#{address._id}", style="display:none", aria-hidden="true")
-			.modal-header
-				button.close(type="button", data-dismiss="modal", aria-hidden="true")
-				h3 Adresse
-				
-			.modal-body
-				.content-row
-					label(for="street") Adresse 
-					.input-group
-						input#street(type="text", name="street", placeholder="Rue...", value="#{address.street}")
-						.xdelete
-				.content-row
-					label(for="zipCode") Code postal 
-					.input-group
-						input#zipCode(type="text", name="zipCode", placeholder="Code postal...", value="#{address.zipCode}")
-						.xdelete	
-				.content-row
-					label(for="street") Ville 
-					.input-group
-						input#city(type="text", name="city", placeholder="Ville...", value="#{address.city}")
-						.xdelete
-				.content-row
-					label(for="street") Pays 
-					.input-group
-						input#country(type="text", name="country", placeholder="Pays...", value="#{address.country}")
-						.xdelete
-				
-			.modal-footer
-				button.btn.btn-small Enregistrer
+		
 
-	mixin contact(contact)
-		.content-row
+	mixin contact(contact, index)
+		.content-row(style="height:80px")
 			ul.inline
 				li.span8
 					div
 						div 
 							strong 
 								i.icon-user-6
-								|   #{contact.name.first} #{contact.name.last}
+								|   #{contact.firstName} #{contact.lastName}
 						div.text 
 							address
-								a(href="mailto:titi@toto.com") #{contact.email}
+								a(href="mailto:#{contact.email}") #{contact.email}
 								br
 								i.icon-phone-2 :
 								|  #{contact.phone}
@@ -102,11 +90,11 @@ block content
 								i.icon-mobile-2 :
 								|  #{contact.mobile} 
 				li
-					a(href="#") 
+					a.contact-dialog(id="contact-#{index}", data-toggle="modal", href="#contact-modal")
 						i.icon-pencil-6
 						|  Modifier
 				li
-					a(href="#") 
+					a(href="/sales/deleteContact/#{customer._id}/#{contact._id}") 
 						i.icon-minus-3
 						|  Supprimer
 
@@ -152,25 +140,28 @@ block content
 						.content-row
 							span 
 								strong
-									a(href="#")
+									a.new-address(data-toggle="modal", href="#address-modal")
 										i.icon-plus-3 
 										| Ajouter
+					
 
 					h4.fg-color-pink Contacts
 					section
 						.content-row.clearfix
 							if (customer.contacts)
-								- each contact in customer.contacts
-									+contact(contact)
+								- each contact, i in customer.contacts
+									+contact(contact, i)
 						.content-row
 							span 
 								strong
-									a(href="#")
+									a.new-contact(data-toggle="modal", href="#contact-modal")
 										i.icon-plus-3 
 										| Ajouter
 block script
 	script.
 		$(document).ready(function (){
+			var addresses = !{JSON.stringify(customer.addresses)};
+			var contacts = !{JSON.stringify(customer.contacts)};
 			
 			//Localisation 
 			$(".maps").on('click', function(e){
@@ -179,5 +170,73 @@ block script
 				window.location.href="/sales/customer/address/maps/#{customer._id}/"+addressId;
 				
 			});
-		});
 
+			
+			var formatAddress = function(place){
+				var address = {};
+				for (index in place.address_components){
+					var type = place.address_components[index].types[0];
+					address[type] = place.address_components[index].long_name;
+					
+				}
+				return address;
+				
+			}
+
+			var input = document.getElementById("location");
+			var options = {
+				types: ['(regions)']
+			}
+			var autocomplete = new google.maps.places.Autocomplete(input);
+
+			google.maps.event.addListener(autocomplete, 'place_changed', function(){
+				var place = autocomplete.getPlace();
+				var address = formatAddress(place);
+				console.log(place.formatted_address);
+				$('#street').val(address.street_number+','+address.route);
+				$('#city').val(address.locality);
+				$('#zipCode').val(address.postal_code);
+				$('#region').val(address.administrative_area_level_1);
+				$('#region').val(address.country);
+
+			})
+
+			//New Address
+			$('.new-address').on('click', function(e){
+				
+				$("#addressForm").attr("action","/sales/insertAddress/#{customer._id}");
+				
+			})
+			//Update Address
+			$('.address-dialog').on('click', function(e){
+				var id = e.currentTarget.id;
+				var idAddress = id.split('-')[1];
+				console.log("id="+idAddress);
+
+				$("#addressForm").attr("action","/sales/updateAddress/#{customer._id}/"+addresses[idAddress]._id);
+				$('#street').val(addresses[idAddress].street);
+				$('#city').val(addresses[idAddress].city);
+				$('#zipCode').val(addresses[idAddress].zipCode);
+				$('#country').val(addresses[idAddress].country);
+
+			})
+
+			//New Contact
+			$('.new-contact').on('click', function(e){
+				$("#contactForm").attr("action","/sales/insertContact/#{customer._id}");
+			})
+			//Update Contact
+			$('.contact-dialog').on('click', function(e){
+				var id = e.currentTarget.id;
+				var idContact = id.split('-')[1];
+				console.log("Contact="+JSON.stringify(contacts[idContact]));
+
+				$("#contactForm").attr("action","/sales/updateContact/#{customer._id}/"+contacts[idContact]._id);
+				$('#firstName').val(contacts[idContact].firstName);
+				$('#lastName').val(contacts[idContact].lastName);
+				$('#email').val(contacts[idContact].email);
+				$('#phone').val(contacts[idContact].phone);
+				$('#mobile').val(contacts[idContact].mobile);
+
+			})
+		});

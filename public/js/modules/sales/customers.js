@@ -55,7 +55,7 @@
 	var CustomersView = Backbone.View.extend({
 		model: customers,
 		el : $('#customers-container'),
-		perPage : 10,
+		perPage : 12,
 		events : {
 			'click #search':'searchCustomer',
 			'keypress #searchFieldValue':'searchCustomerEdit',
@@ -63,7 +63,8 @@
 			'click #searchBtn':'command',
             'click #addBtn':'command',
             'click #prevBtn':'command',
-            'click #nextBtn':'command'
+            'click #nextBtn':'command',
+            'click #reloadBtn':'command'
 
 		},
 		initialize : function(){
@@ -133,6 +134,13 @@
                 	window.location.href = '/sales/newCustomer';
                 }
                 break;
+                case "reloadBtn" : {
+                	console.log("Rafraichir la liste");
+                	window.location.href = '/sales/customers';
+                	
+
+                }
+                break;
                 case "prevBtn" : {
                 	if (this.options.page > 1){
                 		this.options.page -=1;	
@@ -168,6 +176,7 @@
                 console.log("fieldName="+fieldName+" = fieldValue="+fieldValue);
                 searchParams = {'fieldName':fieldName, 'fieldValue':fieldValue}
                 //this.fetch("/list/Customers/"+fieldName+"/"+fieldValue);
+                this.options.page =1;
                 this.fetch(searchParams);
             } 
         },

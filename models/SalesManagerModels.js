@@ -1,7 +1,7 @@
 var mongoose = require('mongoose');
 var _ = require("underscore");
 //var Q = require('q');
-//mongoose.set('debug', true);
+mongoose.set('debug', true);
 var crypto = require('crypto');
 
 var conn = mongoose.connect('mongodb://localhost/SalesManagerDB', {server:{poolSize:3}}, function(err){
@@ -21,31 +21,11 @@ var CounterSchema = new mongoose.Schema({
 })
 
 var Counter = mongoose.model('Counter', CounterSchema);
-/**
- * PhoneType  ['Fixe', 'mobile', ...]
- */
-var PhoneTypeSchema = new mongoose.Schema({
-    account_id : {type: mongoose.Schema.ObjectId, ref:'Account'},
-    phoneType : {type : String, unique : true, trim: true}
-});
-
-var PhoneType = mongoose.model('PhoneType', PhoneTypeSchema);
-
-/*
-* AddressType
-*/
-var AddressTypeSchema = new mongoose.Schema({
-    account_id : {type: mongoose.Schema.ObjectId, ref:'Account'},
-    addressType : {type : String, unique : true, trim: true}
-});
-
-var AddressType = conn.model('AddressType', AddressTypeSchema);
 
 /*
 * Address
 */
 var AddressSchema = new mongoose.Schema({
-    addressType : {type : String, trim: true},
     street : {type : String, trim: true},
     zipCode : {type : String,  trim: true},
     city : {type : String,  trim: true},
@@ -145,10 +125,8 @@ var User = conn.model('User', UserSchema);
  * Contact
  */
 var ContactSchema = new mongoose.Schema({
-    name : {
-      first : {type : String, required : true},
-      last : {type : String, required : true}
-    },
+    firstName : {type : String, required : true, trim : true},
+    lastName : {type : String, required : true, trim : true},
     phone : {type:String, trim:true},
     mobile : {type:String, trim:true},
     
@@ -179,8 +157,8 @@ var CustomerSchema = new mongoose.Schema({
     phone        : {type : String,  trim: true},
     mobile       : {type : String,  trim: true},
     industry     : {type : String, trim:true},
-    gstNumber      : {type : String, trim:true},
-    addresses    : [AddressSchema],
+    gstNumber    : {type : String, trim:true},
+    addresses    : [{type : mongoose.Schema.ObjectId, ref:'Address'}],
     contacts     :[{type : mongoose.Schema.ObjectId, ref:'Contact'}]
 });
 
@@ -653,8 +631,8 @@ module.exports.updateSubDocument = function(entity, id, subdoc, idSub, data, cal
     var criteria = {};
     criteria["_id"] = id;
     criteria[subdoc] = idSub;
-    //console.log("criteria="+JSON.stringify(criteria));
-    //console.log("entity="+entity+"  id="+id+"  data="+JSON.stringify(data));
+    console.log("criteria="+JSON.stringify(criteria));
+    console.log("entity="+entity+"  id="+id+"  data="+JSON.stringify(data));
     var obj = eval(entity);
     //console.log("Entity : "+obj);
     obj.update(criteria, {$set:data}, function (err, doc) {
@@ -730,7 +708,8 @@ module.exports.getCustomer = function(id, callback){
 }
 
 module.exports.getCustomerInfos = function(id, callback){
-    Customer.findOne({_id:id}).populate('contacts').exec(function(err, customer){
+    //Customer.findOne({_id:id}).populate('contacts').populate('addresses', function(err, customer){
+    Customer.findOne({_id:id}).populate('contacts').populate('addresses').exec(function(err, customer){
         if (err) {
             callback(err, null);
         } else {
@@ -753,6 +732,7 @@ module.exports.getCustomers2= function(accountId, fieldName, fieldValue, callbac
     
     query.sort('customerName');
     query.select('_id customerName website email phone mobile addresses logo industry');
+    query.populate('addresses');
     query.exec(function (err, docs) {
         if (err) { 
             callback(err, null)
@@ -915,10 +895,6 @@ module.exports.getRowById = getRowById;
 module.exports.GST                  = GSTModel;
 module.exports.Status               = StatusModel;
 module.exports.Industry             = IndustryModel;
-*/
-module.exports.AddressType          = AddressType;
-module.exports.PhoneType            = PhoneType;
-/*
 module.exports.AddressAccount       = AddressAccount;
 module.exports.AddressCustomer      = AddressCustomerModel;
 

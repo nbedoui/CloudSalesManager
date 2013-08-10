@@ -1,0 +1,33 @@
+//-mixin a link 
+mixin link(caption, href, fieldValue)
+	.content-row
+		ul.inline
+			li.caption  #{caption} : 
+				li.text
+					if (fieldValue)
+						a(href="#{href}", target="_blank") #{fieldValue} 
+					else
+						p.placeholder #{caption}
+						
+mixin textline(caption, fieldValue)
+	.content-row
+		ul.inline
+			li.caption #{caption}
+				|  :   
+			li.text
+				if (fieldValue)
+					| #{fieldValue}
+				else
+					p.placeholder 
+						= caption 
+
+mixin inputline(caption, fieldName, fieldValue, type, required)
+	.content-row
+		label(for="fieldName") #{caption}
+		.input-group
+			if (required)
+				input(id="#{fieldName}", type="#{type}", name="#{fieldName}", placeholder="#{caption}...", value="#{fieldValue}", required)
+			else
+				input(id="#{fieldName}", type="#{type}", name="#{fieldName}", placeholder="#{caption}...", value="#{fieldValue}")
+
+			.xdelete

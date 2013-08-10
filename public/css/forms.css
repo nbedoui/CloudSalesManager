@@ -16,10 +16,11 @@
 			line-height: 20px;
 		}
 		.content-heading {
-			padding : 0 20px;
+			padding : 3px;
+			padding-left: 15px;
 			margin : 0;
 			color : #fff;
-			margin-bottom : 5px;
+			background-color: #647687;
 		}
 
 		.content-heading.image img {
@@ -39,41 +40,51 @@
 			vertical-align: top;
 		}
 
-		.content-heading .upload {
-			text-align : center;
-		}
-		.content-heading .upload .btn {
-			color: #ccc;
-			border: none;
-			background-color : transparent;
-			padding : 3px;
-
-		}
-		.content-heading .upload .btn:hover, 
-		.content-heading .upload a:hover {color: #2f2f2f;}
-		
-		.fileupload-preview  {
-			background-color : #fff;
-
-		}
 		.content-body {
 			color: #303030;
 			overflow: hidden;
 			padding: 10px 20px 17px;
 			background-color : #fff;
 		}
+		.content-body .upload {
+			text-align : center;
+		}
+		.content-body .upload .btn {
+			color: #ccc;
+			border: none;
+			background-color : transparent;
+			padding : 3px;
+
+		}
+		.content-body .upload .btn:hover, 
+		.content-body .upload a:hover {color: #2f2f2f;}
+		
+		.fileupload-preview  {
+			background-color : #fff;
+
+		}
+		
 
 		.content-body h4 {
-			margin-top : 15px;
+			margin-top : 5px;
 			margin-bottom : 5px;
 			border-bottom : 1px solid #dadada;
 		}
 
-		.content-row {
-			font-size : 12px;
-			margin-bottom : 5px;
+		.content-body section {
+			max-height : 220px;
+			overflow-y: scroll; 
 		}
 
+		.content-row {
+			font-size : 12px;
+			margin-bottom : 1px;
+			display: block;
+		}
+
+		.content-row ul {
+			margin-bottom: 2px;
+		}
 		.content-row a {
 			text-decoration : none;
 			color : #427fed;
@@ -117,7 +128,7 @@
 			background-color: #fff;
 			border: 1px solid #bbb;
 			margin: 1px 0;
-			width: 200px;
+			width: 90%;
 		} 
 
 		.input-group > input {
@@ -125,7 +136,7 @@
 			display: inline-block;
 			margin: 0;
 			vertical-align: middle;
-			width: 180px;
+			width: 95%;
 
 			font-size: 11px;
 			height: 20px;
@@ -143,11 +154,12 @@
 			display: inline-block;
 			margin: 0;
 			vertical-align: middle;
-			width: 200px;
+			width: 95%;
 
 			font-size: 11px;
 			outline: none;
 			padding: 4px;
+			min-height: 60px; 
 		}
 		
 
@@ -161,10 +173,37 @@
 			width: 10px;
 		}
 
-		
 
 		.content-body label {
 			font-size : 12px;
 			font-weight : bold;
 			margin-bottom : 0;
 		}
+
+		.pac-container {
+		    background-color: #FFF;
+		    z-index: 20;
+		    position: fixed;
+		    display: inline-block;
+		    float: left;
+		}
+		.modal{
+		    z-index: 20;
+
+		}
+		.modal-backdrop{
+		    z-index: 10;        
+		}
+
+		@media (max-width: 480px) {
+			.modal {
+				position: fixed; 
+			    top: 0px !important; 
+			    right: 3%; 
+			    left: 3%;
+			    width: auto; 
+			    margin: 0; 
+			    
+			}
+		}
+

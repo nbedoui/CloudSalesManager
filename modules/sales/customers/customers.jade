@@ -57,13 +57,13 @@ block content
 			.row-fluid#searchPanel(style="display:none")
 				form.well.form-inline
 					select#searchFieldName
-						option(value="productName") Nom
+						option(value="customerName") Nom
 						option(value="productCategory") Catégorie
 						option(value="item 3") Item 3
 					span 
 						| = 
 					.input-append
-						input#searchFieldValue.search-query(type="text", placeholder="Saisir le critère")
+						input#searchFieldValue.search-query.fg-color-white(type="text", placeholder="Saisir le critère")
 						button#search.btn(type="button")
 							i.icon-search
 
@@ -85,12 +85,13 @@ block script
 
 			div.address
 				H4.fg-color-greenLight <%=model.customerName%>
-				<% _.each(model.addresses, function(address)  { %>
-				span <%=address.street%>,  
-				span <%=address.zipCode%> <%=address.city%>
+				<% if (model.addresses)  { %>
+				<% if (model.addresses[0]) {%>
+				span <%=model.addresses[0].street%>,  
+				span <%=model.addresses[0].zipCode%> <%=model.addresses[0].city%>
 				br 
-				span <%=address.country%>
-				<% }); %>
+				span <%=model.addresses[0].country%>
+				<% }}%>
 				br
 				div.phones
 					<% if (model.phone) { %>
